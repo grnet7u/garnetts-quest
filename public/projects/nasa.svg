@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="NASA Health Companion">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="The Aegis — Cosmo Health">
   <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1D4ED8"/><stop offset="1" stop-color="#0B1B3A"/></linearGradient></defs>
   <rect width="640" height="360" fill="url(#g)"/>
   <g fill="none" stroke="#DBEAFE" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><circle cx="320" cy="150" r="70"/><ellipse cx="320" cy="150" rx="130" ry="34" transform="rotate(-18 320 150)"/><path d="M280 150h20l12-24 16 48 12-24h20"/><circle cx="110" cy="70" r="4" fill="#fff"/><circle cx="540" cy="100" r="5" fill="#fff"/><circle cx="500" cy="230" r="3" fill="#fff"/></g>
-  <text x="32" y="328" fill="#FFFFFF" font-family="Montserrat, sans-serif" font-weight="800" font-size="30">NASA Health Companion</text>
+  <text x="32" y="328" fill="#FFFFFF" font-family="Montserrat, sans-serif" font-weight="800" font-size="30">The Aegis — Cosmo Health</text>
 </svg>

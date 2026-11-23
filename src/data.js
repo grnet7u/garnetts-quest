@@ -115,12 +115,12 @@ export const skillGroups = {
 export const projects = [
   {
     id: "nasa",
-    title: { mn: "NASA Health Companion", en: "NASA Health Companion" },
+    title: { mn: "The Aegis — Cosmo Health", en: "The Aegis — Cosmo Health" },
     description: {
-      mn: "NASA Space Apps 2026-д зориулж хийсэн, сансрын нисэгчдийн эрүүл мэндийг дагадаг «NASA pet» хамтрагч. Дэлгэцийн дээр Electron overlay-ээр гарч, өгөгдлийг Supabase/Vercel dashboard-д харуулна.",
-      en: "A “NASA pet” health companion for astronauts, built for NASA Space Apps 2026. It runs as an Electron overlay and shows data on a Supabase/Vercel dashboard.",
+      mn: "NASA Space Apps 2026-д зориулж хийсэн, сансрын нисэгчдийн эрүүл мэндийг дагадаг AI-тай жижиг «pet». Electron дээр дэлгэцийн дээр overlay байдлаар амьдарч, өгөгдлийг Supabase/Vercel dashboard-д харуулна.",
+      en: "A small AI-powered “pet” that keeps an eye on astronauts' health, built for NASA Space Apps 2026. It lives on screen as an Electron overlay and shows data on a Supabase/Vercel dashboard.",
     },
-    tech: ["Electron", "Supabase", "Vercel"],
+    tech: ["Electron", "AI", "Supabase", "Vercel"],
     image: "/projects/nasa.svg",
     demoUrl: "", // TODO
     repoUrl: "", // TODO
