@@ -85,7 +85,7 @@ export const skills = [
   { id: "css", icon: "layout", name: "CSS", group: "frontend", status: "used" },
   { id: "js", icon: "braces", name: "JavaScript", group: "frontend", status: "used" },
   { id: "next", icon: "layers", name: "Next.js", group: "frontend", status: "using" },
-  { id: "rn", icon: "phone", name: "React Native", group: "frontend", status: "learning" },
+  { id: "rn", icon: "phone", name: "React Native", group: "frontend", status: "using" }, // Golden Road-д ашиглаж байгаа,
   { id: "php", icon: "server", name: "PHP (MVC)", group: "backend", status: "used" },
   { id: "laravel", icon: "server", name: "Laravel", group: "backend", status: "used" }, // Ajiltai BA-д ашигласан
   { id: "node", icon: "terminal", name: "JavaScript back-end", group: "backend", status: "using" },
@@ -167,8 +167,8 @@ export const projects = [
     id: "ajiltai-ba",
     title: { mn: "Ajiltai BA — бизнес шинжилгээний апп", en: "Ajiltai BA — business analysis app" },
     description: {
-      mn: "Ажилтай АЙ ХХК-д зориулж хийсэн бизнес шинжилгээний (BA) апп.", // TODO: хэрэглэгч дэлгэрүүлнэ
-      en: "A business analysis (BA) app built for Ajiltai AI LLC.",
+      mn: "Ажилтай АЙ ХХК-д зориулж хийсэн бизнес шинжилгээний (BA) апп. Back-end нь Laravel + Octane дээр хурдан ажиллаж, Redis cache-ээр өгөгдлийг түргэн гаргана; дэлгэц нь Next.js.",
+      en: "A business analysis (BA) app built for Ajiltai AI LLC. The back end runs fast on Laravel + Octane with a Redis cache for quick data, and the front end is Next.js.",
     },
     tech: ["Laravel", "Octane", "Next.js", "Redis cache"],
     image: "/projects/ajiltai-ba.jpg", // ajiltAI лого
@@ -179,10 +179,10 @@ export const projects = [
     id: "golden-road",
     title: { mn: "Golden Road — Сэргээлт", en: "Golden Road — Sergeelt" },
     description: {
-      mn: "Уул уурхайн хүнд даацын машинуудад замд гарсан эвдрэлийг засуулах платформ. Жолооч дуу, зургаар эвдрэлээ мэдэгдэхэд ойролцоох засварчид болон сэлбэг нийлүүлэгчид үнийн санал илгээж, AI туслах оношилгоо болон саналуудыг харьцуулахад тусална. Жолооч, компани, засварчин, нийлүүлэгч гэсэн 4 талын апп.",
-      en: "A roadside repair platform for heavy mining trucks. A driver reports a breakdown by voice and photo, nearby mechanics and parts suppliers send quotes, and an AI assistant helps with diagnosis and comparing offers. Four apps in one: driver, company, mechanic and supplier.",
+      mn: "Уул уурхайн хүнд даацын машинуудад замд гарсан эвдрэлийг засуулах утасны апп. Жолооч дуу, зургаар эвдрэлээ мэдэгдэхэд ойролцоох засварчид болон сэлбэг нийлүүлэгчид үнийн санал илгээж, AI туслах оношилгоо болон саналуудыг харьцуулахад тусална. Жолооч, компани, засварчин, нийлүүлэгч гэсэн 4 талын апп.",
+      en: "A roadside repair phone app for heavy mining trucks. A driver reports a breakdown by voice and photo, nearby mechanics and parts suppliers send quotes, and an AI assistant helps with diagnosis and comparing offers. Four apps in one: driver, company, mechanic and supplier.",
     },
-    tech: [], // TODO: хэрэглэгч өгнө
+    tech: ["React Native", "Node.js", "Modular monolith"],
     image: "/projects/golden-road.svg",
     demoUrl: "", // TODO
     repoUrl: "", // TODO
