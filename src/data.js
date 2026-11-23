@@ -1,0 +1,208 @@
+// Сайтын БҮХ агуулга энд байна. Текст бүр { mn, en } хоёр хэлтэй.
+// Агуулга өөрчлөх бол зөвхөн энэ файлыг засна (компонентуудыг оролдох хэрэггүй).
+
+export const profile = {
+  name: { mn: "Анарбаян (Garnett)", en: "Anarbayan (Garnett)" },
+  role: { mn: "Fullstack хөгжүүлэгч", en: "Fullstack developer" },
+  school: {
+    mn: "СЭЗИС (UFE) · Мэдээллийн систем, 5-р курс",
+    en: "UFE · Information Systems, 5th year",
+  },
+  tagline: {
+    mn: "Худалдагч байснаас хөгжүүлэгч болсон. Хүнтэй ажиллах туршлага болон кодыг хослуулж бодит асуудал шийддэг.",
+    en: "From salesperson to developer. I combine people skills with code to solve real problems.",
+  },
+};
+
+// Борлуулагч үеийн ажлын туршлага (Миний тухай)
+export const salesJobs = [
+  {
+    company: { mn: "Cool Kicks UB", en: "Cool Kicks UB" },
+    title: { mn: "Борлуулалтын менежер (спорт хувцасны дэлгүүр)", en: "Sales manager (sportswear store)" },
+    period: "2025-01 – 2025-05",
+    visible: true,
+  },
+  {
+    company: { mn: "ТЭСО Инвестмэнт ХХК", en: "TESO Investment LLC" },
+    title: { mn: "Борлуулалтын менежер", en: "Sales manager" },
+    period: "",
+    visible: true,
+  },
+  {
+    company: { mn: "CU", en: "CU" },
+    title: { mn: "Бэлтгэгч (касс)", en: "Store staff (cashier)" },
+    period: "2023-10 – 2023-11",
+    visible: true,
+  },
+  {
+    // Хэрэглэгч шийднэ: харуулах бол visible: true болго
+    company: { mn: "WAT хөтөлбөр, АНУ", en: "Work and Travel, USA" },
+    title: { mn: "3 сар ажилласан (англи хэлний орчин)", en: "Worked 3 months (English-speaking environment)" },
+    period: "2024",
+    visible: false,
+  },
+];
+
+export const salesSummary = {
+  mn: "Хүнтэй харилцах, харилцагчийн хэрэгцээг ойлгох чадвар маань код бичихэд их тусалдаг.",
+  en: "Talking with people and understanding what customers need helps me a lot when I write code.",
+};
+
+// Хөгжүүлэгч үеийн боловсрол, ажил
+export const devHistory = [
+  {
+    company: { mn: "СЭЗИС, Мэдээллийн систем", en: "UFE, Information Systems" },
+    title: { mn: "Бакалавр", en: "Bachelor's student" },
+    period: "2022 –",
+  },
+  {
+    company: { mn: "Robot soft", en: "Robot soft" },
+    title: { mn: "Fullstack дадлага · төслийн гүйцэтгэлд оролцсон", en: "Fullstack intern · worked on client projects" },
+    period: "2026-09-08 – 2026-11-01",
+  },
+  {
+    company: { mn: "Ажилтай АЙ ХХК", en: "Ajiltai AI LLC" },
+    title: { mn: "AI агент хөгжүүлэгч · бизнесийн автоматжуулалт", en: "AI agent developer · business automation" },
+    period: "2026-09-08 – 2026-10-15",
+  },
+  {
+    company: { mn: "Шинэ Үе сургууль", en: "Shine Uye School" },
+    title: { mn: "Ерөнхий боловсрол", en: "High school" },
+    period: "2018 – 2022",
+  },
+];
+
+// Ур чадварын төлөв: used = ашигласан, using = ашиглаж байгаа, learning = сурч байгаа
+export const statusLabels = {
+  used: { mn: "Ашигласан", en: "Used" },
+  using: { mn: "Ашиглаж байгаа", en: "Using" },
+  learning: { mn: "Сурч байгаа", en: "Learning" },
+};
+
+// Технологи бүр тоглоомд нэг «зоос» болно (id давхцахгүй байх ёстой)
+export const skills = [
+  { id: "html", name: "HTML", group: "frontend", status: "used" },
+  { id: "css", name: "CSS", group: "frontend", status: "used" },
+  { id: "js", name: "JavaScript", group: "frontend", status: "used" },
+  { id: "next", name: "Next.js", group: "frontend", status: "using" },
+  { id: "rn", name: "React Native", group: "frontend", status: "learning" },
+  { id: "php", name: "PHP (MVC)", group: "backend", status: "used" },
+  { id: "laravel", name: "Laravel", group: "backend", status: "learning" },
+  { id: "node", name: "JavaScript back-end", group: "backend", status: "using" },
+  { id: "pg", name: "PostgreSQL", group: "data", status: "using" },
+  { id: "supabase", name: "Supabase", group: "data", status: "using" },
+  { id: "git", name: "Git / GitHub", group: "tools", status: "using" },
+  { id: "vscode", name: "VS Code", group: "tools", status: "using" },
+  { id: "vercel", name: "Vercel", group: "tools", status: "using" },
+  { id: "electron", name: "Electron", group: "tools", status: "used" },
+  { id: "claude", name: "Claude Code", group: "ai", status: "using" },
+  { id: "groq", name: "Groq API", group: "ai", status: "using" },
+  { id: "agent", name: "AI agent", group: "ai", status: "using" },
+  { id: "monolith", name: "Modular monolith", group: "arch", status: "used" },
+];
+
+export const skillGroups = {
+  frontend: { mn: "Frontend", en: "Frontend" },
+  backend: { mn: "Backend", en: "Backend" },
+  data: { mn: "Өгөгдөл", en: "Data" },
+  tools: { mn: "Хэрэгсэл", en: "Tools" },
+  ai: { mn: "AI", en: "AI" },
+  arch: { mn: "Архитектур", en: "Architecture" },
+};
+
+// Бүтээлүүд. demoUrl/repoUrl хоосон бол холбоос харагдахгүй (TODO: хэрэглэгч өгнө)
+export const projects = [
+  {
+    id: "nasa",
+    title: { mn: "NASA Health Companion", en: "NASA Health Companion" },
+    description: {
+      mn: "NASA Space Apps 2026-д зориулж хийсэн, сансрын нисэгчдийн эрүүл мэндийг дагадаг «NASA pet» хамтрагч. Дэлгэцийн дээр Electron overlay-ээр гарч, өгөгдлийг Supabase/Vercel dashboard-д харуулна.",
+      en: "A “NASA pet” health companion for astronauts, built for NASA Space Apps 2026. It runs as an Electron overlay and shows data on a Supabase/Vercel dashboard.",
+    },
+    tech: ["Electron", "Supabase", "Vercel"],
+    image: "/projects/nasa.svg",
+    demoUrl: "", // TODO
+    repoUrl: "", // TODO
+  },
+  {
+    id: "invoice",
+    title: { mn: "Нэхэмжлэхийн апп", en: "Invoice app (Mongolia)" },
+    description: {
+      mn: "Монголын нэхэмжлэх бичих, хянах асуудлыг шийддэг апп. Modular monolith архитектураар модуль бүрийг тусад нь хөгжүүлдэг.",
+      en: "An app that solves invoicing problems for Mongolian businesses. Built as a modular monolith so each module grows on its own.",
+    },
+    tech: ["Next.js", "PostgreSQL", "Modular monolith"],
+    image: "/projects/invoice.svg",
+    demoUrl: "", // TODO
+    repoUrl: "", // TODO
+  },
+  {
+    id: "seats",
+    title: { mn: "СЭЗИС суудал захиалга", en: "UFE seat booking" },
+    description: {
+      mn: "СЭЗИС-ийн номын сангийн 100 суудал болон сул ангиудыг захиалах сайт. Оюутан хаана сул байгааг шууд харна.",
+      en: "A site for booking the 100 seats in the UFE library and free classrooms. Students see right away where there is space.",
+    },
+    tech: ["HTML", "CSS", "JavaScript"],
+    image: "/projects/seats.svg",
+    demoUrl: "", // TODO
+    repoUrl: "", // TODO
+  },
+  {
+    id: "ajiltai",
+    title: { mn: "Ажилтай.tech", en: "Ajiltai.tech" },
+    description: {
+      mn: "Бизнесийн ажлыг AI агентаар автоматжуулах платформ дээр ажилласан. (Хэрэглэгч өөр төслөөр сольж болно.)",
+      en: "Worked on a platform that automates business tasks with AI agents. (May be swapped for another project.)",
+    },
+    tech: ["AI agent", "Groq API", "Next.js"],
+    image: "/projects/ajiltai.svg",
+    demoUrl: "", // TODO
+    repoUrl: "", // TODO
+  },
+];
+
+export const awards = [
+  {
+    title: { mn: "NASA Space Apps Ulaanbaatar 2026", en: "NASA Space Apps Ulaanbaatar 2026" },
+    result: { mn: "Тусгай шагнал", en: "Special award" },
+  },
+  {
+    title: { mn: "UB Startup Town «Ideathon» 2026", en: "UB Startup Town “Ideathon” 2026" },
+    result: { mn: "Тусгай шагнал", en: "Special award" },
+  },
+  {
+    title: { mn: "СЭЗИС-ийн сагсан бөмбөгийн аварга шалгаруулах тэмцээн 2022", en: "UFE basketball championship 2022" },
+    result: { mn: "Оролцсон", en: "Participant" },
+  },
+];
+
+export const contact = {
+  email: "changaanz7@gmail.com",
+  facebook: "https://facebook.com/garnett1027",
+  github: "", // TODO: хэрэглэгч өгнө
+};
+
+// Товч, гарчиг зэрэг интерфейсийн текст
+export const ui = {
+  nav: {
+    about: { mn: "Миний тухай", en: "About" },
+    skills: { mn: "Ур чадвар", en: "Skills" },
+    projects: { mn: "Бүтээлүүд", en: "Projects" },
+    awards: { mn: "Шагнал", en: "Awards" },
+    contact: { mn: "Холбоо барих", en: "Contact" },
+  },
+  salesTitle: { mn: "Борлуулагч байсан үе", en: "My sales years" },
+  devTitle: { mn: "Хөгжүүлэгч болсон зам", en: "Becoming a developer" },
+  demo: { mn: "Демо", en: "Demo" },
+  repo: { mn: "Код", en: "Code" },
+  linkSoon: { mn: "Холбоос удахгүй", en: "Link coming soon" },
+  contactText: {
+    mn: "Хамтран ажиллах, асуух зүйл байвал бичээрэй.",
+    en: "Want to work together or have a question? Get in touch.",
+  },
+  langButton: { mn: "EN", en: "МН" },
+  langLabel: { mn: "Switch to English", en: "Монгол хэл рүү солих" },
+  themeLabel: { mn: "Өдөр/шөнийн горим солих", en: "Toggle light/dark mode" },
+  footer: { mn: "Бүх код, зургийг өөрөө хийсэн.", en: "All code and art made by me." },
+};
