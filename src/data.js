@@ -229,8 +229,28 @@ export const awards = [
     result: { mn: "Тусгай шагнал", en: "Special award" },
   },
   {
-    title: { mn: "СЭЗИС-ийн сагсан бөмбөгийн аварга шалгаруулах тэмцээн 2022", en: "UFE basketball championship 2022" },
-    result: { mn: "Оролцсон", en: "Participant" },
+    title: { mn: "СЭЗИС-ийн сагсан бөмбөгийн аварга шалгаруулах тэмцээн 2026", en: "UFE basketball championship 2026" },
+    result: { mn: "Мөнгөн медаль", en: "Silver medal" },
+  },
+  {
+    title: { mn: "СЭЗИС-ийн сагсан бөмбөгийн аварга шалгаруулах тэмцээн 2025", en: "UFE basketball championship 2025" },
+    result: { mn: "Алтан медаль", en: "Gold medal" },
+  },
+  {
+    title: { mn: "СЭЗИС-ийн сагсан бөмбөгийн аварга шалгаруулах тэмцээн 2024", en: "UFE basketball championship 2024" },
+    result: { mn: "Алтан медаль", en: "Gold medal" },
+  },
+  {
+    title: { mn: "СЭЗИС-ийн сагсан бөмбөгийн аварга шалгаруулах тэмцээн 2023", en: "UFE basketball championship 2023" },
+    result: { mn: "Алтан медаль", en: "Gold medal" },
+  },
+  {
+    title: { mn: "Шинэ Үе сургуулийн сагсан бөмбөгийн баг", en: "Shine Uye School basketball team" },
+    result: { mn: "Багийн ахлагч", en: "Team captain" },
+  },
+  {
+    title: { mn: "Сагсан бөмбөгийн спорт", en: "Basketball" },
+    result: { mn: "Спортын 1-р зэрэг", en: "1st sports rank" },
   },
 ];
 
