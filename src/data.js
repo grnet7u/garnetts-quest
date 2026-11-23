@@ -188,9 +188,21 @@ export const contact = {
 export const stations = [
   { id: "start", label: { mn: "Эхлэл", en: "Start" }, scale: 0.6 },
   { id: "sales", label: { mn: "Борлуулагч", en: "Sales" }, scale: 0.72 },
-  { id: "dev", label: { mn: "Хөгжүүлэгч", en: "Developer" }, scale: 0.85 },
-  { id: "projects", label: { mn: "Бүтээл", en: "Projects" }, scale: 0.98 },
-  { id: "awards", label: { mn: "Шагнал", en: "Awards" }, scale: 1.12 },
+  {
+    id: "dev", label: { mn: "Хөгжүүлэгч", en: "Developer" }, scale: 0.85,
+    lead: {
+      mn: "Мэдээллийн систем сурч, дадлага болон AI агентын ажлаар дамжуулан fullstack хөгжүүлэгч болсон.",
+      en: "I studied Information Systems and grew into a fullstack developer through an internship and AI agent work.",
+    },
+  },
+  {
+    id: "projects", label: { mn: "Бүтээл", en: "Projects" }, scale: 0.98,
+    lead: { mn: "Бодит асуудал шийдэх гэж хийсэн төслүүд маань.", en: "Projects I built to solve real problems." },
+  },
+  {
+    id: "awards", label: { mn: "Шагнал", en: "Awards" }, scale: 1.12,
+    lead: { mn: "Хакатон, тэмцээнд авсан амжилтууд.", en: "Results from hackathons and competitions." },
+  },
   { id: "contact", label: { mn: "Холбоо", en: "Contact" }, scale: 1.25 },
   { id: "next", label: { mn: "TO BE CONTINUED…", en: "TO BE CONTINUED…" }, scale: 1.25, built: false },
 ];
@@ -219,6 +231,8 @@ export const ui = {
   footer: { mn: "Бүх код, зургийг өөрөө хийсэн.", en: "All code and art made by me." },
   start: { mn: "Эхлэх ▶", en: "Start ▶" },
   close: { mn: "Хаах", en: "Close" },
+  continueTo: { mn: "Үргэлжлүүлэх", en: "Continue" },
+  panelKeys: { mn: "Esc: хаах · Enter: дараагийн станц", en: "Esc: close · Enter: next station" },
   workflow: { mn: "Миний замын workflow", en: "My journey workflow" },
   startHint: {
     mn: "Баруун тийш алхаж станц бүрт хүр. Дээрх workflow-ийн зангилаа дээр дарвал шууд очно.",

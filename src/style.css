@@ -305,32 +305,82 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
   font-family: ui-monospace, monospace;
 }
 
-/* ===== Станцын панел ===== */
+/* ===== Станцын панел: баруун талд карт ===== */
 .panel {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(44rem, calc(100% - 2rem));
-  max-height: 70svh;
+  top: 6.5rem;
+  right: 2rem;
+  width: min(39rem, calc(100% - 4rem));
+  max-height: calc(100svh - 8.5rem);
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
+  gap: 1.1rem;
   background: var(--bg);
-  border: 0.15rem solid var(--accent);
-  border-radius: 1rem;
-  box-shadow: 0 1rem 3rem rgba(11, 27, 58, 0.35);
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  box-shadow: 0 1.5rem 3.75rem rgba(11, 27, 58, 0.28);
   z-index: 5;
 }
-.panel-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 1rem;
-  border-bottom: 0.1rem solid var(--line);
+.panel-head { display: flex; justify-content: space-between; align-items: center; }
+.panel-head button { min-width: 2.75rem; min-height: 2.75rem; } /* ≥44px */
+.panel-pill {
+  padding: 0.35rem 0.75rem;
+  border-radius: 99rem;
+  background: var(--accent);
+  color: var(--bg);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
 }
-.panel-head h2 { margin: 0; font-size: 1.3rem; }
-.panel-body { padding: 1rem; overflow-y: auto; }
-.big { font-size: 1.6rem; font-weight: 800; margin: 0; }
+.panel h2 { margin: 0; font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.05; }
+.panel h3 { margin: 0.25rem 0 0; }
+.lead { margin: 0; font-size: 1.05rem; font-weight: 500; color: var(--muted); }
+.continue {
+  align-self: flex-start;
+  min-height: 3.25rem;
+  padding: 0 1.5rem;
+  border: none;
+  border-radius: 0.75rem;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 800;
+}
+.panel-keys { font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+
+/* Түүхэн жагсаалт: босоо шугам + цэнхэр цэг */
+.history { list-style: none; margin: 0; padding: 0; }
+.history li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0 0 1.25rem 2rem;
+}
+.history li::before { /* цэг */
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.3rem;
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.history li::after { /* шугам */
+  content: "";
+  position: absolute;
+  left: 0.375rem;
+  top: 1.3rem;
+  bottom: 0.1rem;
+  width: 2px;
+  background: var(--line);
+}
+.history li:last-child::after { display: none; }
+.history strong { font-size: 1.1rem; }
+.history .muted { font-size: 0.95rem; font-weight: 600; }
 .panel:focus { outline: none; }
 
 /* ===== Утасны товч: зөвхөн хулганагүй (мэдрэгчтэй) төхөөрөмж дээр ===== */
@@ -395,8 +445,9 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
     top: auto;
     bottom: 0;
     left: 0;
-    transform: none;
+    right: 0;
     width: 100%;
+    padding: 1.25rem 1rem 1.5rem;
     max-height: 85svh;
     border-radius: 1rem 1rem 0 0;
     border-width: 0.15rem 0 0;
@@ -548,6 +599,7 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
   white-space: nowrap;
 }
 .can-shoot .prompt { display: block; }
+.game:has(.panel) .prompt { display: none; } /* панел нээлттэй үед шошго нуух */
 .face-left .prompt { transform: translateX(-50%); }
 
 /* Нисэж буй бөмбөг: байрлалыг JS (Bézier) өгнө, голоор нь төвлөрүүлнэ */

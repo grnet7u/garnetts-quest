@@ -1,54 +1,69 @@
 import { useEffect, useRef } from "react";
 import { profile, salesJobs, salesSummary, devHistory, skills, projects, awards, stations, ui } from "../data.js";
-import { Timeline, SkillChip, ProjectCard, ContactLinks } from "../SimpleMode.jsx";
+import { SkillChip, ProjectCard, ContactLinks } from "../SimpleMode.jsx";
 
-// Станц дээр нээгддэг панел. index = станцын дугаар (0–5).
+// Станц нээгдсэний дараах карт (компьютерт баруун талд, утсанд доороос гарах bottom sheet).
+// Бүтэц: LV · XP шошго, ✕, гарчиг, 1–2 өгүүлбэр, түүхэн жагсаалт, «Үргэлжлүүлэх →» товч.
 // Агуулга нь энгийн горимын компонентуудыг дахин ашигладаг (давхардал байхгүй).
-export default function Panel({ index, collected, onClose, t }) {
+export default function Panel({ index, xp, collected, onClose, onContinue, t }) {
   const panelRef = useRef(null);
 
   // Нээгдэхэд панел өөрөө focus авна: Tab дарвал доторх товч руу орно, Esc хаана.
   // (✕ товч дээр focus тавивал үсэрч байсан тоглогчийн Space панелийг шууд хаачихна.)
   useEffect(() => panelRef.current.focus(), [index]);
 
+  // Enter = дараагийн станц (холбоос/товч дээр focus байвал тэдний Enter ажиллана)
+  function onKeyDown(event) {
+    if (event.key === "Enter" && event.target === event.currentTarget) {
+      // Тоглоомын window listener энэ Enter-ийг «станц нээх» гэж дахин уншихгүй байх ёстой
+      event.stopPropagation();
+      onContinue();
+    }
+  }
+
   const station = stations[index];
+  const next = stations[index + 1];
   return (
-    <div className="panel" role="dialog" aria-labelledby="panel-title" tabIndex={-1} ref={panelRef}>
+    <section className="panel" aria-labelledby="panel-title" tabIndex={-1} ref={panelRef} onKeyDown={onKeyDown}>
       <div className="panel-head">
-        <h2 id="panel-title">{index + 1}. {t(station.label)}</h2>
+        <span className="panel-pill">LV {index + 1} · {xp}/18 XP</span>
         <button onClick={onClose} aria-label={t(ui.close)}>✕</button>
       </div>
-      <div className="panel-body">
-        <PanelContent id={station.id} collected={collected} onClose={onClose} t={t} />
-      </div>
-    </div>
+      <h2 id="panel-title">{index === 0 ? t(profile.name) : t(station.label)}</h2>
+      <PanelContent id={station.id} collected={collected} t={t} />
+      {next && (
+        <button className="continue" onClick={onContinue}>
+          {t(ui.continueTo)}: {t(next.label)} →
+        </button>
+      )}
+      <span className="panel-keys">{t(ui.panelKeys)}</span>
+    </section>
   );
 }
 
-function PanelContent({ id, collected, onClose, t }) {
+function PanelContent({ id, collected, t }) {
   if (id === "start") {
     return (
       <>
-        <p className="big">{t(profile.name)}</p>
-        <p className="role">{t(profile.role)} · {t(profile.school)}</p>
-        <p>{t(profile.tagline)}</p>
+        <p className="lead">{t(profile.role)} · {t(profile.school)}</p>
+        <p className="lead">{t(profile.tagline)}</p>
         <p className="muted">{t(ui.startHint)}</p>
-        <button onClick={onClose}>{t(ui.start)}</button>
       </>
     );
   }
   if (id === "sales") {
     return (
       <>
-        <Timeline items={salesJobs.filter((job) => job.visible)} t={t} />
-        <p>{t(salesSummary)}</p>
+        <p className="lead">{t(salesSummary)}</p>
+        <History items={salesJobs.filter((job) => job.visible).map((j) => ({ title: t(j.title), meta: [t(j.company), j.period] }))} />
       </>
     );
   }
   if (id === "dev") {
     return (
       <>
-        <Timeline items={devHistory} t={t} />
+        <p className="lead">{t(stations[2].lead)}</p>
+        <History items={devHistory.map((j) => ({ title: t(j.company), meta: [t(j.title), j.period] }))} />
         <h3>{t(ui.nav.skills)} · {collected.size}/{skills.length}</h3>
         <ul className="chips">
           {skills.map((s) => (
@@ -59,21 +74,39 @@ function PanelContent({ id, collected, onClose, t }) {
     );
   }
   if (id === "projects") {
-    return <div className="cards">{projects.map((p) => <ProjectCard key={p.id} project={p} t={t} />)}</div>;
+    return (
+      <>
+        <p className="lead">{t(stations[3].lead)}</p>
+        <div className="cards">{projects.map((p) => <ProjectCard key={p.id} project={p} t={t} />)}</div>
+      </>
+    );
   }
   if (id === "awards") {
     return (
-      <ul className="list">
-        {awards.map((a) => (
-          <li key={a.title.en}><strong>{t(a.title)}</strong> — {t(a.result)}</li>
-        ))}
-      </ul>
+      <>
+        <p className="lead">{t(stations[4].lead)}</p>
+        <History items={awards.map((a) => ({ title: t(a.title), meta: [t(a.result)] }))} />
+      </>
     );
   }
   return (
     <>
-      <p>{t(ui.contactText)}</p>
+      <p className="lead">{t(ui.contactText)}</p>
       <ContactLinks />
     </>
+  );
+}
+
+// Түүхэн жагсаалт: зүүн талд босоо шугам + цэнхэр цэг, баруун талд гарчиг ба тайлбар
+function History({ items }) {
+  return (
+    <ul className="history">
+      {items.map((item, i) => (
+        <li key={i}>
+          <strong>{item.title}</strong>
+          <span className="muted">{item.meta.filter(Boolean).join(" · ")}</span>
+        </li>
+      ))}
+    </ul>
   );
 }

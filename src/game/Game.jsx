@@ -347,7 +347,11 @@ export default function Game({ t }) {
         </div>
       )}
       {toast && <div key={toast.key} className="toast" role="status">{toast.text}</div>}
-      {panel !== -1 && <Panel index={panel} collected={collected} onClose={() => setPanel(-1)} t={t} />}
+      {panel !== -1 && (
+        <Panel index={panel} xp={xp} collected={collected} t={t}
+          onClose={() => setPanel(-1)}
+          onContinue={() => { setPanel(-1); travel(panel + 1); }} />
+      )}
       <p className="hint">{t(ui.hint)}</p>
       <TouchControls input={input} canShoot={current !== -1 && stations[current].built !== false} t={t} />
     </div>
