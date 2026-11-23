@@ -33,6 +33,7 @@ const paths = {
   arrowLeft: "M15 5l-7 7 7 7",
   arrowRight: "M9 5l7 7-7 7",
   arrowUp: "M12 19V5M5 12l7-7 7 7",
+  download: "M12 4v11M7 10l5 5 5-5M5 20h14",
   external: "M14 4h6v6M20 4l-9 9M18 14v6H4V6h6",
   user: "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 4-6 8-6s8 2 8 6",
 };

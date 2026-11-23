@@ -24,6 +24,10 @@ export default function SimpleMode({ t, toolbar }) {
           <div className="hero-actions">
             <a className="btn primary" href="#projects">{t(ui.seeProjects)}</a>
             <a className="btn" href="#contact">{t(ui.nav.contact)}</a>
+            {/* PDF: хөтчийн хэвлэх цонх нээгдэнэ → «Save as PDF». Нэмэлт сан хэрэггүй */}
+            <button className="btn" onClick={() => window.print()}>
+              <Icon name="download" size="1.1rem" /> {t(ui.downloadPdf)}
+            </button>
           </div>
           <SocialLinks />
         </section>

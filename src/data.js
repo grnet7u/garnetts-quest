@@ -123,7 +123,7 @@ export const projects = [
       en: "A small AI-powered “pet” that keeps an eye on astronauts' health, built for NASA Space Apps 2026. It lives on screen as an Electron overlay and shows data on a Supabase/Vercel dashboard.",
     },
     tech: ["Electron", "AI", "Supabase", "Vercel"],
-    image: "/projects/nasa.svg",
+    image: "/projects/aegis.jpg", // cosmo-nine-phi.vercel.app-ийн дэлгэцийн зураг
     demoUrl: "https://cosmo-nine-phi.vercel.app/",
     repoUrl: "", // TODO
   },
@@ -159,7 +159,7 @@ export const projects = [
       en: "A platform for Mongolian businesses that automates customer chats, bookings, payments and reports in one system with AI agents. I worked on it as an AI agent developer.",
     },
     tech: ["AI agent", "Groq API", "Next.js"],
-    image: "/projects/ajiltai.svg",
+    image: "/projects/ajiltai.jpg", // ajiltai.tech-ийн дэлгэцийн зураг
     demoUrl: "https://ajiltai.tech/",
     repoUrl: "", // TODO
   },
@@ -171,7 +171,7 @@ export const projects = [
       en: "A business analysis (BA) app built for Ajiltai AI LLC.",
     },
     tech: ["Laravel", "Octane", "Next.js", "Redis cache"],
-    image: "/projects/ajiltai-ba.svg",
+    image: "/projects/ajiltai-ba.jpg", // ajiltAI лого
     demoUrl: "", // TODO
     repoUrl: "", // TODO
   },
@@ -258,6 +258,7 @@ export const ui = {
   footer: { mn: "Бүх код, зургийг өөрөө хийсэн.", en: "All code and art made by me." },
   start: { mn: "Эхлэх ▶", en: "Start ▶" },
   seeProjects: { mn: "Бүтээлүүд харах", en: "See my projects" },
+  downloadPdf: { mn: "PDF татах", en: "Download PDF" },
   menu: { mn: "Үндсэн цэс", en: "Main menu" },
   footerMenu: { mn: "Доод цэс", en: "Footer menu" },
   backToTop: { mn: "Дээш буцах", en: "Back to top" },

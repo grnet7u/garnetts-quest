@@ -839,3 +839,29 @@ h3 { font-size: 1.1rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
 .icon { display: inline-block; vertical-align: -0.15em; flex: none; }
 button .icon { vertical-align: middle; }
 .coin .icon { width: 1.3rem; height: 1.3rem; }
+
+/* PDF товч header-ийн btn-тэй ижил харагдана */
+button.btn { background: var(--bg); color: var(--accent); gap: 0.4rem; }
+
+/* ===== Хэвлэх / PDF загвар: зөвхөн агуулга, цагаан дэвсгэр ===== */
+@media print {
+  :root, :root[data-theme="dark"] {
+    --bg: #ffffff; --ink: #0b1b3a; --muted: #33466b; --accent: #1d4ed8; --accent-2: #dbeafe; --line: #c7d7f5;
+  }
+  body { background: #ffffff; }
+  .site-header, .hero-actions, .carousel-controls, .site-footer nav, .footer-bottom a { display: none !important; }
+  .simple { max-width: none; padding: 0; }
+  .hero { padding-top: 0; }
+  section { padding-top: 1.25rem; break-inside: auto; }
+  h2, h3 { break-after: avoid; }
+  /* Carousel: бүх бүтээл дараалан */
+  .carousel-track { display: block; overflow: visible; }
+  .carousel-slide { margin-bottom: 1rem; break-inside: avoid; }
+  .simple .card { display: grid; grid-template-columns: 14rem 1fr; gap: 1rem; }
+  /* Icon-той холбоосын хаягийг текстээр бичнэ (цаасан дээр дарах боломжгүй) */
+  .social { flex-direction: column; gap: 0.25rem; }
+  .social a { width: auto; height: auto; border: none; background: none; display: flex; gap: 0.5rem; }
+  .social a::after { content: attr(aria-label); font-weight: 600; }
+  .card .links a::after { content: " " attr(href); font-weight: 400; color: var(--muted); }
+  .chip.used { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
