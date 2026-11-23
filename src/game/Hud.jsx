@@ -8,6 +8,15 @@ export default function Hud({ current, visited, collected, packet, log, onTravel
     <div className="hud">
       <ol className="flow" aria-label={t(ui.workflow)}>
         {stations.map((st, i) => {
+          // Бэлэн биш станц: HUD-ийн төгсгөлд цэгэн хүрээтэй «…» зангилаа
+          if (st.built === false) {
+            return (
+              <li key={st.id} className="flow-item">
+                <span className="wire" aria-hidden="true" />
+                <button className="node" data-state="soon" onClick={() => onTravel(i)} aria-label={t(st.label)}>…</button>
+              </li>
+            );
+          }
           const state = i === current ? "active" : visited.has(i) ? "done" : "locked";
           return (
             <li key={st.id} className="flow-item">

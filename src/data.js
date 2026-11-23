@@ -183,14 +183,16 @@ export const contact = {
   github: "", // TODO: хэрэглэгч өгнө
 };
 
-// Тоглоомын 6 станц (дарааллаар). HUD болон ертөнцөд нэрийг нь харуулна
+// Тоглоомын станцууд (дарааллаар). scale = станцын хэмжээ: мэдлэг өсөх тусам цагираг томорно.
+// built: false = хараахан бэлэн биш «To be continued» станц (хожим жинхэнэ станц болгоно).
 export const stations = [
-  { id: "start", label: { mn: "Эхлэл", en: "Start" } },
-  { id: "sales", label: { mn: "Борлуулагч", en: "Sales" } },
-  { id: "dev", label: { mn: "Хөгжүүлэгч", en: "Developer" } },
-  { id: "projects", label: { mn: "Бүтээл", en: "Projects" } },
-  { id: "awards", label: { mn: "Шагнал", en: "Awards" } },
-  { id: "contact", label: { mn: "Холбоо", en: "Contact" } },
+  { id: "start", label: { mn: "Эхлэл", en: "Start" }, scale: 0.6 },
+  { id: "sales", label: { mn: "Борлуулагч", en: "Sales" }, scale: 0.72 },
+  { id: "dev", label: { mn: "Хөгжүүлэгч", en: "Developer" }, scale: 0.85 },
+  { id: "projects", label: { mn: "Бүтээл", en: "Projects" }, scale: 0.98 },
+  { id: "awards", label: { mn: "Шагнал", en: "Awards" }, scale: 1.12 },
+  { id: "contact", label: { mn: "Холбоо", en: "Contact" }, scale: 1.25 },
+  { id: "next", label: { mn: "TO BE CONTINUED…", en: "TO BE CONTINUED…" }, scale: 1.25, built: false },
 ];
 
 // Товч, гарчиг зэрэг интерфейсийн текст
@@ -231,6 +233,8 @@ export const ui = {
     mn: "🏀 Нууц: панелийг хаагаад цагирагийн дэргэд Space (утсанд ⤒) дараарай.",
     en: "🏀 Secret: close this panel and press Space (⤒ on phones) near the hoop.",
   },
+  moreSoon: { mn: "Үргэлжлэл бий…", en: "More coming…" },
+  soon: { mn: "Удахгүй…", en: "Coming soon…" },
   toSimple: { mn: "Энгийн харах", en: "Simple view" },
   toGame: { mn: "Тоглох", en: "Play" },
   hint: {

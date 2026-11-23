@@ -14,6 +14,14 @@
   --city-mid: #93b4ee;
   --ground: #1e3a8a;
   --track: #ffffff;
+  /* станц (шилэн самбар) */
+  --pole: #0b1b3a;
+  --glass: linear-gradient(160deg, rgba(255, 255, 255, 0.82), rgba(219, 234, 254, 0.55));
+  --glass-edge: #7fa3e8;
+  --shine: rgba(255, 255, 255, 0.75);
+  --shine-2: rgba(255, 255, 255, 0.35);
+  --net-shadow: rgba(11, 27, 58, 0.45);
+  --glow: rgba(29, 78, 216, 0.16);
 }
 :root[data-theme="dark"] {
   --bg: #0a1228;
@@ -29,6 +37,13 @@
   --city-mid: #1e3a8a;
   --ground: #0b1b3a;
   --track: #60a5fa;
+  --pole: #5f85d9;
+  --glass: linear-gradient(160deg, rgba(168, 190, 240, 0.3), rgba(96, 165, 250, 0.1));
+  --glass-edge: #9db8f5;
+  --shine: rgba(255, 255, 255, 0.16);
+  --shine-2: rgba(255, 255, 255, 0.07);
+  --net-shadow: rgba(0, 0, 0, 0.35);
+  --glow: rgba(96, 165, 250, 0.22);
 }
 
 /* ===== Суурь ===== */
@@ -163,43 +178,12 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
   opacity: 0.8;
 }
 
-/* Станцын «node» хаалга */
-.gate {
-  position: absolute;
-  bottom: var(--ground-h);
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
-  gap: 0.5rem;
-}
-.ring {
-  width: 7rem;
-  height: 7rem;
-  border: 0.5rem solid var(--accent);
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--accent);
-  background: color-mix(in srgb, var(--bg) 60%, transparent);
-}
-.sign {
-  background: var(--bg);
-  border: 0.1rem solid var(--accent);
-  border-radius: 0.5rem;
-  padding: 0.2rem 0.7rem;
-  font-weight: 800;
-  white-space: nowrap;
-}
-
 /* Дүр: x байрлалыг JS transform-оор өгнө, голоор нь төвлөрүүлэхийн тулд margin-left хасна */
 .player {
   position: absolute;
   left: 0;
   bottom: var(--ground-h);
-  --size: clamp(4.5rem, 14svh, 7.5rem); /* өндөр дэлгэц дээр том */
+  --size: clamp(4.5rem, 14.5svh, 8.5rem); /* дүрийн өндөр ≈ Борлуулагч станцын ¾ (дизайны дагуу) */
   width: var(--size);
   margin-left: calc(var(--size) / -2);
   will-change: transform;
@@ -406,39 +390,18 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
 }
 
 /* ===== Easter egg: сагсны цагираг ба шидсэн бөмбөг ===== */
-.hoop { position: absolute; bottom: var(--ground-h); width: 0; }
-.pole { position: absolute; bottom: 0; left: 1.2rem; width: 0.5rem; height: calc(var(--rim) + 4rem); background: var(--accent); }
-.board {
-  position: absolute;
-  bottom: calc(var(--rim) - 1rem);
-  left: 0.4rem;
-  width: 0.6rem;
-  height: 6rem;
-  background: var(--bg);
-  border: 0.2rem solid var(--accent);
-}
-.rim {
-  position: absolute;
-  bottom: var(--rim);
-  left: -3rem;
-  width: 3.4rem;
-  height: 0.4rem;
-  border-radius: 0.2rem;
-  background: var(--accent);
-}
 .swish {
   position: absolute;
-  bottom: calc(var(--rim) + 3rem);
-  left: -5rem;
+  transform: translateX(-50%);
   font-weight: 800;
   font-size: 1.4rem;
   color: var(--accent);
   animation: pop 1.2s ease-out forwards;
 }
 @keyframes pop {
-  from { transform: scale(0.4); opacity: 0; }
-  20% { transform: scale(1.15); opacity: 1; }
-  to { transform: translateY(-1.5rem); opacity: 0; }
+  from { transform: translateX(-50%) scale(0.4); opacity: 0; }
+  20% { transform: translateX(-50%) scale(1.15); opacity: 1; }
+  to { transform: translateX(-50%) translateY(-1.5rem); opacity: 0; }
 }
 
 /* Бөмбөгний нумэн нислэг: гадна элемент хэвтээ (жигд), дотор нь босоо (дээш удааширч, доош хурдасна).
@@ -454,8 +417,8 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
   width: 1.4rem;
   height: 1.4rem;
   border-radius: 50%;
-  background: #1d4ed8;
-  border: 0.15rem solid #0b1b3a;
+  background: #f97316; /* улбар шар зөвхөн цагираг ба бөмбөгөнд */
+  border: 0.15rem solid #7c2d12;
   animation: shot-y 0.85s forwards;
 }
 @keyframes shot-y {
@@ -465,3 +428,118 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
   100% { transform: translateY(calc((var(--rim) - 120px) * -1)); opacity: 0; }
 }
 .throwing .held-ball { visibility: hidden; }
+
+/* ===== Станц = сагсны цагираг. Бүх хэмжээ --k-аас (k=1 үед самбар 180px) ===== */
+.station {
+  position: absolute;
+  bottom: var(--ground-h);
+  width: calc(180px * var(--k));
+  height: calc(404px * var(--k));
+  transform: translateX(-50%);
+}
+.pole {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: max(6px, calc(12px * var(--k)));
+  height: calc(323px * var(--k));
+  transform: translateX(-50%);
+  background: var(--pole);
+}
+.base {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: calc(34px * var(--k));
+  height: calc(64px * var(--k));
+  transform: translateX(-50%);
+  border-top: max(3px, calc(4px * var(--k))) solid var(--accent);
+  border-radius: 4px 4px 0 0;
+  background: var(--pole);
+}
+.arm {
+  position: absolute;
+  left: calc(24px * var(--k));
+  right: calc(24px * var(--k));
+  top: calc(81px * var(--k));
+  height: max(3px, calc(6px * var(--k)));
+  background: var(--pole);
+}
+.board {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: calc(104px * var(--k));
+  box-sizing: border-box;
+  border: max(2px, calc(4px * var(--k))) solid var(--glass-edge);
+  border-radius: calc(8px * var(--k));
+  background: var(--glass);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: calc(9px * var(--k));
+  gap: calc(2px * var(--k));
+  transition: box-shadow 0.3s;
+}
+/* Диагональ гялбаа */
+.board::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, var(--shine) 0 16%, transparent 16% 24%, var(--shine-2) 24% 30%, transparent 30%);
+}
+.lv, .board-name { position: relative; text-align: center; line-height: 1.2; }
+.lv { font-size: max(11px, calc(12px * var(--k))); font-weight: 600; letter-spacing: 0.14em; color: var(--muted); }
+.board-name { font-size: max(16px, calc(26px * var(--k))); font-weight: 800; line-height: 1.1; color: var(--ink); }
+.square {
+  position: absolute;
+  left: calc(59px * var(--k));
+  top: calc(54px * var(--k));
+  width: calc(62px * var(--k));
+  height: calc(42px * var(--k));
+  border: max(2px, calc(3px * var(--k))) solid var(--accent);
+}
+.rim {
+  position: absolute;
+  left: calc(-68px * var(--k));
+  top: calc(90px * var(--k));
+  width: calc(78px * var(--k));
+  height: calc(70px * var(--k));
+}
+/* Гол орсон станц гэрэлтэнэ */
+.station.scored .board { border-color: var(--accent); box-shadow: 0 0 0 calc(8px * var(--k)) var(--glow); }
+
+/* «To be continued»: тасархай самбар, цагираггүй, газар дээр барьцаалгын тууз */
+.unbuilt { opacity: 0.9; }
+.unbuilt .board { border-style: dashed; padding-top: calc(14px * var(--k)); }
+.unbuilt .board-name { font-size: max(16px, calc(20px * var(--k))); }
+.unbuilt::after {
+  content: "";
+  position: absolute;
+  left: 60%;
+  bottom: -2.4rem;
+  width: 15rem;
+  height: 1.6rem;
+  border: 3px solid var(--accent);
+  border-radius: 6px;
+  background: repeating-linear-gradient(135deg, var(--accent) 0 1rem, var(--bg) 1rem 2rem);
+}
+.node[data-state="soon"] { border-style: dotted; opacity: 0.7; padding: 0 0.8rem; }
+
+/* Жижиг мэдэгдэл («Удахгүй…») */
+.toast {
+  position: absolute;
+  left: 50%;
+  bottom: 40%;
+  transform: translateX(-50%);
+  padding: 0.5rem 1rem;
+  border-radius: 99rem;
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 800;
+  animation: toast 1.8s ease-out forwards;
+}
+@keyframes toast {
+  0%, 80% { opacity: 1; }
+  100% { opacity: 0; }
+}

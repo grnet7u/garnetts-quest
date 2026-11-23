@@ -33,8 +33,8 @@ export default function Character() {
       <g className="ball-arm">
         <rect x="40" y="36" width="7" height="18" rx="3.5" fill="#DBEAFE" transform="rotate(-25 43 36)" />
         <g className="held-ball">
-          <circle cx="51" cy="54" r="9" fill="#1D4ED8" stroke="#0B1B3A" strokeWidth="1.5" />
-          <path d="M42 54h18M51 45v18M45 48q4 6 0 12M57 48q-4 6 0 12" fill="none" stroke="#0B1B3A" strokeWidth="1.2" />
+          <circle cx="51" cy="54" r="9" fill="#F97316" stroke="#7C2D12" strokeWidth="1.5" />
+          <path d="M42 54h18M51 45v18M45 48q4 6 0 12M57 48q-4 6 0 12" fill="none" stroke="#7C2D12" strokeWidth="1.2" />
         </g>
       </g>
     </svg>

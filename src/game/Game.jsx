@@ -4,6 +4,7 @@ import { step, cameraFor, nearStation, stationX, coinX, coinY, touchesCoin, WORL
 import Character from "./Character.jsx";
 import Panel from "./Panel.jsx";
 import Hud from "./Hud.jsx";
+import Station from "./Station.jsx";
 import TouchControls from "./TouchControls.jsx";
 import { beep } from "./sound.js";
 
@@ -30,6 +31,7 @@ export default function Game({ t }) {
   const [log, setLog] = useState([{ id: 0, text: "▶ run: Start" }]);
   const [shot, setShot] = useState(null); // нисэж буй бөмбөг { key, x, dx }
   const [swishes, setSwishes] = useState(0); // хэдэн удаа цагирагт оруулсан
+  const [toast, setToast] = useState(null); // жижиг мэдэгдэл { key, text }
 
   // Game loop нь нэг л удаа эхэлдэг тул хамгийн сүүлийн утгыг ref-ээр уншина
   const live = useRef({});
@@ -39,8 +41,14 @@ export default function Game({ t }) {
     setLog((lines) => [...lines, { id: Date.now() + Math.random(), text }]);
   }
 
+  function showToast(text) {
+    setToast((old) => ({ key: (old?.key ?? 0) + 1, text }));
+  }
+
   // Станц нээх: панел гаргаж, workflow-д «run → success» бичиж, packet гүйлгэнэ
   function openStation(i) {
+    // Бэлэн биш станц: панел биш, «Удахгүй…» мэдэгдэл
+    if (stations[i].built === false) return showToast(live.current.t(ui.soon));
     setPanel(i);
     setCurrent(i);
     if (live.current.visited.has(i)) return;
@@ -193,10 +201,7 @@ export default function Game({ t }) {
           <div className="track" />
         </div>
         {stations.map((st, i) => (
-          <div key={st.id} className="gate" style={{ left: stationX(i) + "px" }}>
-            <div className="ring">{visited.has(i) ? "✓" : i + 1}</div>
-            <div className="sign">{t(st.label)}</div>
-          </div>
+          <Station key={st.id} station={st} index={i} scored={visited.has(i)} t={t} />
         ))}
         {skills.map((skill, i) =>
           collected.has(skill.id) ? null : (
@@ -206,12 +211,11 @@ export default function Game({ t }) {
             </div>
           )
         )}
-        <div className="hoop" style={{ left: HOOP_X + "px", "--rim": RIM_H + "px" }} aria-hidden="true">
-          <div className="board" />
-          <div className="rim" />
-          <div className="pole" />
-          {swishes > 0 && <div key={swishes} className="swish">SWISH!</div>}
-        </div>
+        {swishes > 0 && (
+          <div key={swishes} className="swish" style={{ left: HOOP_X + "px", bottom: `calc(var(--ground-h) + ${RIM_H + 60}px)` }}>
+            SWISH!
+          </div>
+        )}
         {shot && (
           <div key={shot.key} className="shot" style={{ left: shot.x + "px", "--dx": shot.dx + "px", "--rim": RIM_H + "px" }}>
             <div className="shot-ball" />
@@ -223,6 +227,7 @@ export default function Game({ t }) {
       </div>
 
       <Hud current={current} visited={visited} collected={collected} packet={packet} log={log} onTravel={travel} t={t} />
+      {toast && <div key={toast.key} className="toast" role="status">{toast.text}</div>}
       {panel !== -1 && <Panel index={panel} collected={collected} onClose={() => setPanel(-1)} t={t} />}
       <p className="hint">{t(ui.hint)}</p>
       <TouchControls input={input} t={t} />

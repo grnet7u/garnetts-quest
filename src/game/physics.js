@@ -1,7 +1,7 @@
 // Тоглоомын физик: жижиг, цэвэр (pure) функцууд. DOM, React хамаагүй тул тест бичихэд амар.
 // Нэгж: пиксел (px), секунд (s). y = газраас дээш өндөр (0 = газар дээр).
 
-export const WORLD_W = 6400; // ертөнцийн нийт өргөн
+export const WORLD_W = 7500; // ертөнцийн нийт өргөн (7 станц)
 export const SPEED = 340; // алхах хурд, px/s
 export const JUMP = 820; // үсрэлтийн эхний хурд, px/s
 export const GRAVITY = 2300; // таталцал, px/s²
@@ -61,8 +61,13 @@ export function touchesCoin(p, i) {
   return Math.abs(p.x - coinX(i)) < 30 && Math.abs(p.y - coinY(i)) < 50;
 }
 
-// Easter egg: сагсны цагираг Холбоо барих станцын баруун талд.
-// Энэ бүсэд Space дарвал үсрэхийн оронд бөмбөг шиднэ.
-export const HOOP_X = stationX(5) + 300;
-export const RIM_H = 230; // цагирагийн өндөр (газраас), px
+// Станц бүрийн цагирагийн голын байрлал. Бүх хэмжээ станцын k (scale)-аас хамаарна:
+// самбар 180k өргөн, станц 404k өндөр, цагираг самбарын зүүн доод талд унжина.
+export function rimCenter(i, k) {
+  return { x: stationX(i) - 120 * k, y: 308 * k };
+}
+
+// Easter egg (түр): Холбоо барих станцын цагираг руу Space-ээр шидэх
+export const HOOP_X = rimCenter(5, 1.25).x;
+export const RIM_H = rimCenter(5, 1.25).y;
 export const inHoopZone = (x) => x > stationX(5) - STATION_RADIUS;
