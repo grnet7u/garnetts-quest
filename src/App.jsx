@@ -3,6 +3,7 @@ import { load, save, defaultLang, defaultTheme } from "./settings.js";
 import { ui } from "./data.js";
 import SimpleMode from "./SimpleMode.jsx";
 import Game from "./game/Game.jsx";
+import { setSoundEnabled } from "./game/sound.js";
 
 // Хөдөлгөөн багасгахыг хүссэн хэрэглэгчид (prefers-reduced-motion) энгийн горимоор эхэлнэ
 const prefersCalm = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -11,6 +12,12 @@ export default function App() {
   const [lang, setLang] = useState(() => load("lang", defaultLang));
   const [theme, setTheme] = useState(() => load("theme", defaultTheme));
   const [mode, setMode] = useState(prefersCalm ? "simple" : "game");
+  const [sound, setSound] = useState(false); // анхны утга OFF
+
+  function toggleSound() {
+    setSoundEnabled(!sound);
+    setSound(!sound);
+  }
 
   // Хэл солигдох бүрт <html lang> болон хадгалсан утгыг шинэчилнэ
   useEffect(() => {
@@ -34,6 +41,11 @@ export default function App() {
         <button onClick={() => setMode(mode === "game" ? "simple" : "game")}>
           {mode === "game" ? t(ui.toSimple) : t(ui.toGame)}
         </button>
+        {mode === "game" && (
+          <button onClick={toggleSound} aria-label={t(sound ? ui.soundOff : ui.soundOn)}>
+            {sound ? "🔊" : "🔇"}
+          </button>
+        )}
         <button onClick={() => setLang(lang === "mn" ? "en" : "mn")} aria-label={t(ui.langLabel)}>
           {t(ui.langButton)}
         </button>

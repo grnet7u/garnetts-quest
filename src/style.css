@@ -348,3 +348,59 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
 .panel-body { padding: 1rem; overflow-y: auto; }
 .big { font-size: 1.6rem; font-weight: 800; margin: 0; }
 .panel:focus { outline: none; }
+
+/* ===== Утасны товч: зөвхөн хулганагүй (мэдрэгчтэй) төхөөрөмж дээр ===== */
+.touch { display: none; }
+@media (hover: none) and (pointer: coarse) {
+  .hint { display: none; }
+  .touch {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    display: flex;
+    justify-content: space-between;
+    touch-action: none; /* хуудас томрох/гүйлгэхээс сэргийлнэ */
+    pointer-events: none; /* товчнуудын хоорондох зай тоглоомд саад болохгүй */
+  }
+  .touch-move { display: flex; gap: 0.75rem; }
+  .touch button {
+    pointer-events: auto;
+    width: 4.5rem;
+    height: 4.5rem; /* ≥48px */
+    border-radius: 50%;
+    font-size: 1.6rem;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+}
+
+/* ===== Жижиг дэлгэц: HUD-ийг toolbar-ын доор, панелийг доороос гарах «bottom sheet» болгоно ===== */
+@media (max-width: 48rem) {
+  .hud { top: 4.25rem; right: 0.75rem; }
+  .flow { flex-basis: 100%; }
+  .node { padding: 0; min-width: 2.75rem; justify-content: center; }
+  .node-label { display: none; } /* зөвхөн дугаар/✓ (нэр нь панелийн гарчигт байна) */
+  .wire { min-width: 0.3rem; }
+  .log li:not(:last-child) { display: none; } /* зөвхөн сүүлийн мөр */
+  .panel {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    max-height: 85svh;
+    border-radius: 1rem 1rem 0 0;
+    border-width: 0.15rem 0 0;
+  }
+}
+
+/* ===== Хөдөлгөөн багасгах тохиргоо ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

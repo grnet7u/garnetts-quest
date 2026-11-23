@@ -4,6 +4,8 @@ import { step, cameraFor, nearStation, stationX, coinX, coinY, touchesCoin, WORL
 import Character from "./Character.jsx";
 import Panel from "./Panel.jsx";
 import Hud from "./Hud.jsx";
+import TouchControls from "./TouchControls.jsx";
+import { beep } from "./sound.js";
 
 // Тоглоомын горим. Хоёр хэсэгтэй:
 //  1) React — ертөнц, HUD, панелийг зурна. Зөвхөн «үйл явдал» (станцад хүрэх, зоос авах) болоход шинэчлэгдэнэ.
@@ -42,6 +44,7 @@ export default function Game({ t }) {
     if (live.current.visited.has(i)) return;
     setVisited((old) => new Set(old).add(i));
     setPacket((old) => ({ to: i, key: old.key + 1 }));
+    beep(660, 160);
     addLog("▶ run: " + live.current.t(stations[i].label));
     setTimeout(() => addLog("✔ success"), 700);
   }
@@ -50,6 +53,7 @@ export default function Game({ t }) {
     const skill = skills[index];
     setCollected((old) => new Set(old).add(skill.id));
     addLog("✔ " + skill.name + " collected");
+    beep(880);
   }
 
   // Fast travel: HUD-ийн зангилаа дээр дарахад тэр станц руу шууд очно
@@ -97,7 +101,9 @@ export default function Game({ t }) {
 
       // Панел нээлттэй үед дүр зогсоно
       if (live.current.panel === -1) {
+        const wasOnGround = player.onGround;
         step(player, input, dt);
+        if (wasOnGround && !player.onGround) beep(520); // үсэрсэн
         checkStations();
         checkCoins();
       }
@@ -178,6 +184,7 @@ export default function Game({ t }) {
       <Hud current={current} visited={visited} collected={collected} packet={packet} log={log} onTravel={travel} t={t} />
       {panel !== -1 && <Panel index={panel} collected={collected} onClose={() => setPanel(-1)} t={t} />}
       <p className="hint">{t(ui.hint)}</p>
+      <TouchControls input={input} t={t} />
     </div>
   );
 }

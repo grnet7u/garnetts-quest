@@ -222,6 +222,11 @@ export const ui = {
     mn: "Баруун тийш алхаж станц бүрт хүр. Дээрх workflow-ийн зангилаа дээр дарвал шууд очно.",
     en: "Walk right and reach each station. Click a node in the workflow above to jump there.",
   },
+  left: { mn: "Зүүн тийш", en: "Move left" },
+  right: { mn: "Баруун тийш", en: "Move right" },
+  jump: { mn: "Үсрэх", en: "Jump" },
+  soundOn: { mn: "Дуу асаах", en: "Turn sound on" },
+  soundOff: { mn: "Дуу унтраах", en: "Turn sound off" },
   toSimple: { mn: "Энгийн харах", en: "Simple view" },
   toGame: { mn: "Тоглох", en: "Play" },
   hint: {
