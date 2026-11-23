@@ -7,6 +7,13 @@
   --accent: #1d4ed8;
   --accent-2: #dbeafe;
   --line: #c7d7f5;
+  /* тоглоомын ертөнц (өдөр) */
+  --sky-top: #dbeafe;
+  --sky-bottom: #ffffff;
+  --city-far: #c7d7f5;
+  --city-mid: #93b4ee;
+  --ground: #1e3a8a;
+  --track: #ffffff;
 }
 :root[data-theme="dark"] {
   --bg: #0a1228;
@@ -15,6 +22,13 @@
   --accent: #60a5fa;
   --accent-2: #16264f;
   --line: #1e3a8a;
+  /* тоглоомын ертөнц (шөнө) */
+  --sky-top: #0a1228;
+  --sky-bottom: #16264f;
+  --city-far: #16264f;
+  --city-mid: #1e3a8a;
+  --ground: #0b1b3a;
+  --track: #60a5fa;
 }
 
 /* ===== Суурь ===== */
@@ -105,3 +119,115 @@ h3 { font-size: 1.1rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
 .contact-links a { overflow-wrap: anywhere; }
 
 footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1rem; color: var(--muted); font-size: 0.9rem; }
+
+/* ===== Тоглоомын горим ===== */
+.game {
+  --ground-h: 28svh; /* газрын өндөр */
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  user-select: none;
+}
+.sky { position: absolute; inset: 0; background: linear-gradient(var(--sky-top), var(--sky-bottom)); }
+
+/* Parallax: --cam (camera-ийн байрлал)-ийг JS тохируулна. Хол давхарга удаан, ойр нь хурдан хөдөлнө */
+.layer {
+  position: absolute;
+  left: 0;
+  bottom: var(--ground-h);
+  display: flex;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+.layer span { flex: none; border-radius: 0.3rem 0.3rem 0 0; }
+.far { transform: translate3d(calc(var(--cam, 0) * -0.2px), 0, 0); }
+.far span { background: var(--city-far); }
+.mid { transform: translate3d(calc(var(--cam, 0) * -0.5px), 0, 0); gap: 1.2rem; }
+.mid span { background: var(--city-mid); }
+
+/* Ертөнц: camera-аар бүхэлдээ хөдөлнө (хурд = 1) */
+.world { position: absolute; top: 0; bottom: 0; left: 0; will-change: transform; }
+.ground {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--ground-h);
+  background: var(--ground);
+}
+/* Газар дээрх workflow шугам шиг тасархай зам */
+.track {
+  margin-top: 1.2rem;
+  height: 0.35rem;
+  background: repeating-linear-gradient(90deg, var(--track) 0 2rem, transparent 2rem 3.2rem);
+  opacity: 0.8;
+}
+
+/* Станцын «node» хаалга */
+.gate {
+  position: absolute;
+  bottom: var(--ground-h);
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 0.5rem;
+}
+.ring {
+  width: 7rem;
+  height: 7rem;
+  border: 0.5rem solid var(--accent);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--bg) 60%, transparent);
+}
+.sign {
+  background: var(--bg);
+  border: 0.1rem solid var(--accent);
+  border-radius: 0.5rem;
+  padding: 0.2rem 0.7rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* Дүр: x байрлалыг JS transform-оор өгнө, голоор нь төвлөрүүлэхийн тулд margin-left хасна */
+.player {
+  position: absolute;
+  left: 0;
+  bottom: var(--ground-h);
+  --size: clamp(4.5rem, 14svh, 7.5rem); /* өндөр дэлгэц дээр том */
+  width: var(--size);
+  margin-left: calc(var(--size) / -2);
+  will-change: transform;
+}
+.character { display: block; width: 100%; height: auto; overflow: visible; }
+:root[data-theme="dark"] .character { filter: drop-shadow(0 0 0.15rem rgba(255, 255, 255, 0.7)); }
+.face-left .character { transform: scaleX(-1); }
+
+/* Алхах: 2 хүрээтэй (steps) хөлний хөдөлгөөн */
+.leg { transform-box: fill-box; transform-origin: 50% 0; }
+.walking .leg-front { animation: stride 0.36s steps(2, jump-none) infinite; }
+.walking .leg-back { animation: stride 0.36s steps(2, jump-none) infinite reverse; }
+@keyframes stride {
+  from { transform: rotate(22deg); }
+  to { transform: rotate(-22deg); }
+}
+/* Үсрэх: хөлөө нугална */
+.jumping .leg-front { transform: rotate(-30deg); }
+.jumping .leg-back { transform: rotate(25deg); }
+
+.hint {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  margin: 0;
+  text-align: center;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 600;
+}

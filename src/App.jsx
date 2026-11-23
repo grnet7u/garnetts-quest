@@ -1,11 +1,16 @@
-import { useEffect, useState } from "react";
+import { Component, useEffect, useState } from "react";
 import { load, save, defaultLang, defaultTheme } from "./settings.js";
 import { ui } from "./data.js";
 import SimpleMode from "./SimpleMode.jsx";
+import Game from "./game/Game.jsx";
+
+// Хөдөлгөөн багасгахыг хүссэн хэрэглэгчид (prefers-reduced-motion) энгийн горимоор эхэлнэ
+const prefersCalm = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 export default function App() {
   const [lang, setLang] = useState(() => load("lang", defaultLang));
   const [theme, setTheme] = useState(() => load("theme", defaultTheme));
+  const [mode, setMode] = useState(prefersCalm ? "simple" : "game");
 
   // Хэл солигдох бүрт <html lang> болон хадгалсан утгыг шинэчилнэ
   useEffect(() => {
@@ -21,10 +26,14 @@ export default function App() {
 
   // t(): { mn, en } объектоос одоогийн хэлний текстийг авна
   const t = (text) => text[lang];
+  const simple = <SimpleMode t={t} />;
 
   return (
     <>
       <div className="toolbar">
+        <button onClick={() => setMode(mode === "game" ? "simple" : "game")}>
+          {mode === "game" ? t(ui.toSimple) : t(ui.toGame)}
+        </button>
         <button onClick={() => setLang(lang === "mn" ? "en" : "mn")} aria-label={t(ui.langLabel)}>
           {t(ui.langButton)}
         </button>
@@ -32,7 +41,25 @@ export default function App() {
           {theme === "light" ? "🌙" : "☀"}
         </button>
       </div>
-      <SimpleMode t={t} />
+      {mode === "game" ? (
+        <FallbackToSimple fallback={simple}>
+          <Game t={t} />
+        </FallbackToSimple>
+      ) : (
+        simple
+      )}
     </>
   );
+}
+
+// Тоглоомд алдаа гарвал хуудас хоосон үлдэхгүй, энгийн горим автоматаар гарна.
+// (React-д алдаа барих нь зөвхөн class компонентоор боломжтой.)
+class FallbackToSimple extends Component {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  render() {
+    return this.state.failed ? this.props.fallback : this.props.children;
+  }
 }

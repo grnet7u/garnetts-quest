@@ -183,6 +183,16 @@ export const contact = {
   github: "", // TODO: хэрэглэгч өгнө
 };
 
+// Тоглоомын 6 станц (дарааллаар). HUD болон ертөнцөд нэрийг нь харуулна
+export const stations = [
+  { id: "start", label: { mn: "Эхлэл", en: "Start" } },
+  { id: "sales", label: { mn: "Борлуулагч", en: "Sales" } },
+  { id: "dev", label: { mn: "Хөгжүүлэгч", en: "Developer" } },
+  { id: "projects", label: { mn: "Бүтээл", en: "Projects" } },
+  { id: "awards", label: { mn: "Шагнал", en: "Awards" } },
+  { id: "contact", label: { mn: "Холбоо", en: "Contact" } },
+];
+
 // Товч, гарчиг зэрэг интерфейсийн текст
 export const ui = {
   nav: {
@@ -205,4 +215,10 @@ export const ui = {
   langLabel: { mn: "Switch to English", en: "Монгол хэл рүү солих" },
   themeLabel: { mn: "Өдөр/шөнийн горим солих", en: "Toggle light/dark mode" },
   footer: { mn: "Бүх код, зургийг өөрөө хийсэн.", en: "All code and art made by me." },
+  toSimple: { mn: "Энгийн харах", en: "Simple view" },
+  toGame: { mn: "Тоглох", en: "Play" },
+  hint: {
+    mn: "← → эсвэл A/D: алхах · Space: үсрэх · Enter: станцад орох",
+    en: "← → or A/D: walk · Space: jump · Enter: open station",
+  },
 };
