@@ -98,7 +98,7 @@ export const skills = [
   { id: "electron", icon: "atom", name: "Electron", group: "tools", status: "used" },
   { id: "claude", icon: "spark", name: "Claude Code", group: "ai", status: "using" },
   { id: "codex", icon: "chat", name: "ChatGPT Codex", group: "ai", status: "using" },
-  { id: "groq", icon: "bolt", name: "Groq API", group: "ai", status: "using" },
+  { id: "gemini", icon: "bolt", name: "Gemini API", group: "ai", status: "using" },
   { id: "agent", icon: "robot", name: "AI agent", group: "ai", status: "using" },
   { id: "monolith", icon: "blocks", name: "Modular monolith", group: "arch", status: "used" },
   { id: "mvc", icon: "mvc", name: "MVC", group: "arch", status: "used" },
@@ -158,7 +158,7 @@ export const projects = [
       mn: "Монголын бизнесүүдэд зориулсан платформ: харилцагчийн чат, цаг захиалга, төлбөр, тайланг нэг систем дотор AI агентаар автоматжуулна. Би энд AI агент хөгжүүлэгчээр ажилласан.",
       en: "A platform for Mongolian businesses that automates customer chats, bookings, payments and reports in one system with AI agents. I worked on it as an AI agent developer.",
     },
-    tech: ["AI agent", "Groq API", "Next.js"],
+    tech: ["AI agent", "Gemini API", "Next.js"],
     image: "/projects/ajiltai.jpg", // ajiltai.tech-ийн дэлгэцийн зураг
     demoUrl: "https://ajiltai.tech/",
     repoUrl: "", // TODO

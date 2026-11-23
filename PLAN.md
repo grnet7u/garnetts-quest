@@ -65,7 +65,7 @@
 | Өгөгдөл | PostgreSQL, Supabase | Ашиглаж байгаа |
 | Хэрэгсэл | Git, GitHub, VS Code, Vercel | Ашиглаж байгаа |
 | Хэрэгсэл | Electron | NASA төсөлд |
-| AI | Claude Code, Groq API, AI агент | Ашиглаж байгаа |
+| AI | Claude Code, Gemini API, AI агент | Ашиглаж байгаа |
 | Архитектур | Modular monolith | Нэхэмжлэхийн апп |
 
   (Төлөв нь 3 утгатай: `used` / `using` / `learning`. Сайтад өөр өнгө/шошготой харуулна. Бодит бус зүйл «ашигласан» гэж бичихгүй. Хэрэглэгч шалгаж засна.)
