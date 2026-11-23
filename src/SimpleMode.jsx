@@ -133,7 +133,6 @@ export function SkillChip({ skill, t }) {
     <li className={"chip " + skill.status} title={t(statusLabels[skill.status])}>
       <span aria-hidden="true">{statusIcon[skill.status]}</span> <Icon name={skill.icon} /> {skill.name}
       <span className="sr-only"> ({t(statusLabels[skill.status])})</span>
-      <span className="bar" aria-hidden="true"><span style={{ width: level + "%" }} /></span>
       <span className="pct">{level}%</span>
     </li>
   );
