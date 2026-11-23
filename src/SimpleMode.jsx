@@ -70,7 +70,7 @@ export default function SimpleMode({ t }) {
 }
 
 // Ажлын түүх: компани, албан тушаал, хугацаа
-function Timeline({ items, t }) {
+export function Timeline({ items, t }) {
   return (
     <ul className="list">
       {items.map((item) => (

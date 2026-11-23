@@ -51,3 +51,12 @@ export function nearStation(x, count) {
   }
   return -1;
 }
+
+// «Зоос» (технологи бүр нэг зоос): Хөгжүүлэгч ба Бүтээл станцын хооронд эгнэнэ.
+// Сондгой зоос дээгүүр (110 px) байрладаг тул авахын тулд үсрэх хэрэгтэй.
+export const coinX = (i) => stationX(2) + 170 + i * 48;
+export const coinY = (i) => (i % 2) * 110;
+
+export function touchesCoin(p, i) {
+  return Math.abs(p.x - coinX(i)) < 30 && Math.abs(p.y - coinY(i)) < 50;
+}

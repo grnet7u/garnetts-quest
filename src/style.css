@@ -231,3 +231,120 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
   font-size: 0.85rem;
   font-weight: 600;
 }
+
+/* ===== Зоос (технологи) ===== */
+.coin {
+  position: absolute;
+  bottom: calc(var(--ground-h) + 1.5rem + var(--lift));
+  transform: translateX(-50%);
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  border: 0.2rem solid var(--accent);
+  background: var(--bg);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+
+/* ===== Workflow HUD ===== */
+.hud {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  right: 15rem; /* баруун дээд буланд toolbar байна */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: flex-start;
+}
+.flow { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; flex: 1 1 28rem; }
+.flow-item { display: flex; align-items: center; flex: 1; }
+.flow-item:first-child { flex: none; }
+.node {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0 0.6rem;
+  border-radius: 0.6rem;
+  border: 0.15rem solid var(--accent);
+  background: var(--bg);
+}
+.node-mark { font-weight: 800; }
+.node[data-state="locked"] { opacity: 0.55; border-style: dashed; }
+.node[data-state="done"] { background: var(--accent); color: var(--bg); }
+.node[data-state="active"] { animation: pulse 1.2s ease-in-out infinite; }
+@keyframes pulse {
+  50% { box-shadow: 0 0 0 0.4rem color-mix(in srgb, var(--accent) 35%, transparent); }
+}
+/* Утас: тасархай шугам. .live үед dashoffset хөдөлж «урсана» */
+.wire {
+  position: relative;
+  flex: 1;
+  height: 0.25rem;
+  min-width: 0.75rem;
+  background: repeating-linear-gradient(90deg, var(--line) 0 0.5rem, transparent 0.5rem 0.9rem);
+}
+.wire.live {
+  background: repeating-linear-gradient(90deg, var(--accent) 0 0.5rem, transparent 0.5rem 0.9rem);
+  background-size: 0.9rem 100%;
+  animation: flow 0.6s linear infinite;
+}
+@keyframes flow { to { background-position: 0.9rem 0; } }
+/* Packet: шинэ станцад ороход утсаар нэг удаа гүйдэг цэг */
+.packet {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin: -0.4rem 0 0 -0.4rem;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0.2rem var(--bg);
+  animation: packet 0.7s ease-in forwards;
+}
+@keyframes packet { to { left: 100%; opacity: 0; } }
+
+.side { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; }
+.xp { font-weight: 800; }
+.log {
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem 0.6rem;
+  min-width: 12rem;
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  border: 0.1rem solid var(--line);
+  font-family: ui-monospace, monospace;
+}
+
+/* ===== Станцын панел ===== */
+.panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(44rem, calc(100% - 2rem));
+  max-height: 70svh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border: 0.15rem solid var(--accent);
+  border-radius: 1rem;
+  box-shadow: 0 1rem 3rem rgba(11, 27, 58, 0.35);
+  z-index: 5;
+}
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 0.1rem solid var(--line);
+}
+.panel-head h2 { margin: 0; font-size: 1.3rem; }
+.panel-body { padding: 1rem; overflow-y: auto; }
+.big { font-size: 1.6rem; font-weight: 800; margin: 0; }
+.panel:focus { outline: none; }

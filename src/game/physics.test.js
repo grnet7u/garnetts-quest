@@ -39,3 +39,11 @@ test("станцад ойртвол түүний дугаар буцна", () =>
   assert.equal(nearStation(stationX(2) + 50, 6), 2);
   assert.equal(nearStation(stationX(2) + 500, 6), -1);
 });
+
+test("доод зоосыг алхаж, дээд зоосыг үсэрч авна", async () => {
+  const { coinX, touchesCoin } = await import("./physics.js");
+  const walking = { x: coinX(0), y: 0 };
+  assert.equal(touchesCoin(walking, 0), true);
+  assert.equal(touchesCoin({ x: coinX(1), y: 0 }, 1), false);
+  assert.equal(touchesCoin({ x: coinX(1), y: 100 }, 1), true);
+});

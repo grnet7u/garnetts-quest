@@ -215,6 +215,13 @@ export const ui = {
   langLabel: { mn: "Switch to English", en: "Монгол хэл рүү солих" },
   themeLabel: { mn: "Өдөр/шөнийн горим солих", en: "Toggle light/dark mode" },
   footer: { mn: "Бүх код, зургийг өөрөө хийсэн.", en: "All code and art made by me." },
+  start: { mn: "Эхлэх ▶", en: "Start ▶" },
+  close: { mn: "Хаах", en: "Close" },
+  workflow: { mn: "Миний замын workflow", en: "My journey workflow" },
+  startHint: {
+    mn: "Баруун тийш алхаж станц бүрт хүр. Дээрх workflow-ийн зангилаа дээр дарвал шууд очно.",
+    en: "Walk right and reach each station. Click a node in the workflow above to jump there.",
+  },
   toSimple: { mn: "Энгийн харах", en: "Simple view" },
   toGame: { mn: "Тоглох", en: "Play" },
   hint: {
