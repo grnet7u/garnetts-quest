@@ -72,14 +72,22 @@ export function rimCenter(i, k) {
 }
 
 // ===== Шидэлт =====
-// POWER хэмжигч: тэмдэг 0→1→0 гэж 1.4 секундэд нэг удаа явж ирнэ (гурвалжин долгион)
-export function meterPos(seconds) {
-  const p = (seconds / 1.4) % 1;
-  return p < 0.5 ? p * 2 : 2 - p * 2;
+// Shot meter: Space-г дарж барих хугацаанд хэмжигч 0→1 дүүрнэ (FILL_MS-д), суллах агшинд шиднэ.
+// 1-ээс хэтэрвэл «оройтсон», MAX_FILL-д хүрвэл автоматаар шиднэ.
+export const FILL_MS = 900;
+export const MAX_FILL = 1.3;
+export const meterFill = (ms) => ms / FILL_MS;
+export const PERFECT = 0.05; // ±5% = төгс (ногоон release)
+// Гол орох бүсийн хагас өргөн: ердийн үед ±12%, 2 удаа алдсаны дараа 2 дахин өргөн
+export const goodWindow = (misses) => (misses >= 2 ? 0.24 : 0.12);
+
+// Суллах агшны дүүргэлтээс шидэлтийн үр дүнг гаргана
+export function judgeRelease(fill, misses) {
+  const d = fill - 1;
+  if (Math.abs(d) <= PERFECT) return "perfect";
+  if (Math.abs(d) <= goodWindow(misses)) return "good";
+  return d < 0 ? "early" : "late";
 }
-// Тод бүсийн хагас өргөн: ердийн үед 0.125 (нийтдээ 25%), 2 удаа алдсаны дараа 2 дахин өргөн
-export const zoneHalf = (misses) => (misses >= 2 ? 0.25 : 0.125);
-export const isHit = (pos, misses) => Math.abs(pos - 0.5) <= zoneHalf(misses);
 
 // Quadratic Bézier: эхлэл p0, хяналтын цэг p1 (нумын орой татагч), төгсгөл p2, t = 0…1
 export function bezier(p0, p1, p2, t) {

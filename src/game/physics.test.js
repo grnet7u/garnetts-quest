@@ -1,7 +1,7 @@
 // Физикийн жижиг тест. Ажиллуулах: npm test
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { step, cameraFor, shootZone, stationX, WORLD_W, SPEED, meterPos, isHit, bezier, rimCenter } from "./physics.js";
+import { step, cameraFor, shootZone, stationX, WORLD_W, SPEED, meterFill, judgeRelease, bezier, rimCenter } from "./physics.js";
 
 const newPlayer = () => ({ x: 100, y: 0, vx: 0, vy: 0, facing: 1, onGround: true });
 
@@ -41,16 +41,17 @@ test("цагирагийн өмнө зогсвол шидэх бүс, шон д�
   assert.equal(shootZone(stationX(2) - 700, 7), -1);
 });
 
-test("POWER хэмжигч 0→1→0 явна", () => {
-  assert.equal(meterPos(0), 0);
-  assert.equal(meterPos(0.7), 1);
-  assert.ok(Math.abs(meterPos(1.05) - 0.5) < 1e-9);
+test("shot meter: 900мс барихад яг дүүрнэ", () => {
+  assert.equal(meterFill(900), 1);
+  assert.equal(meterFill(450), 0.5);
 });
 
-test("тод бүс: голд орно, захад алдана, 2 алдсаны дараа өргөснө", () => {
-  assert.equal(isHit(0.5, 0), true);
-  assert.equal(isHit(0.7, 0), false);
-  assert.equal(isHit(0.7, 2), true);
+test("суллах агшин: төгс, сайн, эрт, оройтсон; 2 алдсаны дараа бүс өргөснө", () => {
+  assert.equal(judgeRelease(1.0, 0), "perfect");
+  assert.equal(judgeRelease(0.92, 0), "good");
+  assert.equal(judgeRelease(0.7, 0), "early");
+  assert.equal(judgeRelease(1.2, 0), "late");
+  assert.equal(judgeRelease(0.8, 2), "good");
 });
 
 test("Bézier эхлэл ба төгсгөлд таарна, цагирагийн гол k-аар томорно", () => {

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { stations, skills, ui } from "../data.js";
 import {
   step, cameraFor, stationX, coinX, coinY, touchesCoin, WORLD_W,
-  shootZone, shootSpot, rimCenter, meterPos, isHit, zoneHalf, bezier, arcControl,
+  shootZone, shootSpot, rimCenter, meterFill, MAX_FILL, PERFECT, goodWindow, judgeRelease, bezier, arcControl,
 } from "./physics.js";
 import Character from "./Character.jsx";
 import Panel from "./Panel.jsx";
@@ -21,7 +21,7 @@ export default function Game({ t }) {
   const worldRef = useRef(null);
   const playerRef = useRef(null);
   const ballRef = useRef(null);
-  const markerRef = useRef(null);
+  const fillRef = useRef(null); // shot meter-ийн дүүргэлт
 
   // Дүрийн төлөв (game loop өөрчилнө). Эхлээд Start станцын өмнө зогсоно
   const player = useRef({ x: shootSpot(0), y: 0, vx: 0, vy: 0, facing: 1, onGround: true }).current;
@@ -39,7 +39,8 @@ export default function Game({ t }) {
   const [collected, setCollected] = useState(() => new Set());
   const [packet, setPacket] = useState({ to: -1, key: 0 });
   const [log, setLog] = useState([{ id: 0, text: "✔ success: Start" }]);
-  const [aiming, setAiming] = useState(null); // POWER хэмжигч харагдах эсэх { half } эсвэл null
+  const [aiming, setAiming] = useState(null); // shot meter: { good, result } эсвэл null
+  const [release, setRelease] = useState(null); // «ТӨГС!» гэх мэт шошго { key, kind }
   const [goal, setGoal] = useState(null); // «Гол! +3 XP» шошго { key, i }
   const [toast, setToast] = useState(null); // жижиг мэдэгдэл { key, text }
 
@@ -111,6 +112,7 @@ export default function Game({ t }) {
       if (event.key === "Escape") {
         shot.aim = null; // онилж байсныг цуцална
         setAiming(null);
+        playerRef.current?.classList.remove("rising");
         return setPanel(-1);
       }
       // Панел нээлттэй, эсвэл товч/холбоос дээр focus байвал дарсан товчийг тэдэнд үлдээнэ.
@@ -163,7 +165,7 @@ export default function Game({ t }) {
       if (live.current.panel === -1) {
         const zone = shootZone(player.x, stations.length);
         if (shot.flight) updateFlight(now);
-        else if (shot.aim) updateAim(now, pressed);
+        else if (shot.aim) updateAim(now);
         else {
           if (pressed && zone !== -1 && player.onGround) startAim(zone, now);
           // Шидэх бүсэд Space үсрүүлэхгүй
@@ -187,6 +189,7 @@ export default function Game({ t }) {
         if (zone !== -1) {
           shot.aim = null;
           setAiming(null);
+          playerRef.current.classList.remove("rising");
           openStation(zone);
         }
       }
@@ -194,27 +197,34 @@ export default function Game({ t }) {
       playerRef.current.classList.toggle("can-shoot", canShoot);
     }
 
+    // Space/Шидэх товч дарсан: дүр үсрэх шидэлтэд бэлдэж өргөгдөнө, хэмжигч дүүрч эхэлнэ
     function startAim(i, now) {
       if (stations[i].built === false) return showToast(live.current.t(ui.soon));
       shot.aim = { i, start: now };
-      setAiming({ half: zoneHalf(shot.misses) });
+      setAiming({ good: goodWindow(shot.misses), result: null });
+      playerRef.current.classList.add("rising");
       addLog("▶ run: " + live.current.t(stations[i].label));
     }
 
-    // POWER тэмдэг хөдөлнө. Дахин дарахад тэр байрлалаар шиднэ
-    function updateAim(now, pressed) {
-      const pos = meterPos((now - shot.aim.start) / 1000);
-      if (markerRef.current) markerRef.current.style.left = pos * 100 + "%";
-      if (!pressed) return;
+    // Барьж байх хугацаанд хэмжигч дүүрнэ. Суллах (эсвэл хэт удаан барих) агшинд шиднэ
+    function updateAim(now) {
+      const fill = meterFill(now - shot.aim.start);
+      if (fillRef.current) fillRef.current.style.height = (Math.min(fill, MAX_FILL) / MAX_FILL) * 100 + "%";
+      if (input.jump && fill < MAX_FILL) return; // барьсаар байна
       const { i } = shot.aim;
+      const kind = judgeRelease(fill, shot.misses); // perfect | good | early | late
       shot.aim = null;
-      setAiming(null);
-      launch(i, isHit(pos, shot.misses), pos < 0.5, now);
+      setAiming((a) => (a ? { ...a, result: kind } : a)); // хэмжигч үр дүнгийн өнгөөр (төгс = ногоон) гэрэлтэнэ
+      setTimeout(() => setAiming(null), 700);
+      setRelease((old) => ({ key: (old?.key ?? 0) + 1, kind }));
+      setTimeout(() => playerRef.current?.classList.remove("rising"), 350);
+      if (kind === "perfect") addLog("🟢 perfect release");
+      launch(i, kind === "perfect" || kind === "good", kind === "early", now, kind === "perfect");
     }
 
     // Бөмбөгний замыг тооцно: гараас (p0) цагираг руу (p2). Алдвал цагирагийн урд ирмэг
     // (сул шидсэн) эсвэл самбар (хүчтэй шидсэн) руу очоод буцаж үсэрнэ.
-    function launch(i, hit, short, now) {
+    function launch(i, hit, short, now, perfect) {
       const k = stations[i].scale * view.ws; // CSS-тэй ижил масштаб, эс бөгөөс бөмбөг цагирагт хүрэхгүй
       const rim = rimCenter(i, k);
       // Бөмбөг дүрийн баруун дээд талд (SVG-д 100,22 / 120×230) байдаг
@@ -224,7 +234,8 @@ export default function Game({ t }) {
       shot.flight = { i, hit, p0, p1: arcControl(p0, p2, 200), p2, t0: now, dur: 800, bounce: false };
       player.facing = 1;
       playerRef.current.classList.add("throwing");
-      beep(440);
+      ballRef.current.classList.toggle("green", perfect); // төгс шидэлт: бөмбөг ногоон туяатай нисэнэ
+      beep(perfect ? 660 : 440);
     }
 
     // Бөмбөгийг Bézier-ийн t (0→1)-ээр хөдөлгөнө
@@ -333,22 +344,21 @@ export default function Game({ t }) {
         )}
         <div className="player" ref={playerRef}>
           <span className="prompt">{t(ui.shootPrompt)}</span>
+          {aiming && (
+            // Shot meter: доороос дээш дүүрнэ. Цэнхэр = гол орох бүс, цагаан шугам = төгс агшин
+            <div className={"meter" + (aiming.result ? " " + aiming.result : "")} aria-hidden="true">
+              <div className="meter-good" style={{ bottom: pct(1 - aiming.good), height: pct(2 * aiming.good) }} />
+              <div className="meter-fill" ref={fillRef} />
+              <div className="meter-perfect" style={{ bottom: pct(1 - PERFECT), height: pct(2 * PERFECT) }} />
+            </div>
+          )}
+          {release && <span key={release.key} className={"release-label " + release.kind}>{t(ui.release[release.kind])}</span>}
           <Character />
         </div>
         <div className="ball" ref={ballRef} aria-hidden="true" />
       </div>
 
       <Hud current={current} visited={visited} xp={xp} packet={packet} log={log} onTravel={travel} t={t} />
-      {aiming && (
-        <div className="power">
-          <span className="power-title">{t(ui.powerTitle)}</span>
-          <div className="power-bar">
-            <div className="sweet" style={{ left: (0.5 - aiming.half) * 100 + "%", width: aiming.half * 200 + "%" }} />
-            <div className="marker" ref={markerRef} />
-          </div>
-          <span className="power-note">{t(ui.powerNote)}</span>
-        </div>
-      )}
       {toast && <div key={toast.key} className="toast" role="status">{toast.text}</div>}
       {panel !== -1 && (
         <Panel index={panel} xp={xp} t={t}
@@ -360,6 +370,9 @@ export default function Game({ t }) {
     </div>
   );
 }
+
+// Хэмжигчийн утгыг (0…MAX_FILL) өндрийн хувь болгоно
+const pct = (v) => (v / MAX_FILL) * 100 + "%";
 
 // Хотын siluet: тэгш өнцөгт байшингууд. Өндрийг санамсаргүй биш, томъёогоор гаргадаг
 // тул дахин ачаалахад ижил харагдана. Давхарга бүр --cam-аас өөр хурдтай хөдөлнө (parallax).

@@ -557,14 +557,7 @@ h3 { font-size: 1.1rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
     font-weight: 800;
     letter-spacing: 0.04em;
   }
-  /* POWER хэмжигч товчнуудын яг дээр */
-  .power {
-    left: 1rem;
-    right: 1rem;
-    width: auto;
-    transform: none;
-    bottom: calc(max(1.5rem, env(safe-area-inset-bottom)) + 5.5rem);
-  }
+
 }
 
 /* ===== Жижиг дэлгэц: HUD-ийг toolbar-ын доор, панелийг доороос гарах «bottom sheet» болгоно ===== */
@@ -767,32 +760,66 @@ h3 { font-size: 1.1rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
   will-change: transform;
 }
 
-/* POWER хэмжигч */
-.power {
+/* Shot meter: дүрийн баруун талд босоо. Дүүргэлт доороос дээш өснө */
+.meter {
+  position: absolute;
+  left: 95%;
+  bottom: 22%;
+  width: 0.8rem;
+  height: 55%;
+  border-radius: 0.4rem;
+  border: 2px solid #ffffff;
+  background: rgba(11, 27, 58, 0.55);
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(11, 27, 58, 0.4);
+}
+.meter-good { position: absolute; left: 0; right: 0; background: #60a5fa; }
+.meter-fill { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: rgba(255, 255, 255, 0.55); }
+.meter-perfect { position: absolute; left: 0; right: 0; background: #ffffff; }
+/* Төгс release: хэмжигч бүхэлдээ ногоон болж гэрэлтэнэ (ногоон зөвхөн энд ба бөмбөгний туяанд) */
+.meter.perfect { border-color: #22c55e; box-shadow: 0 0 0.75rem 0.2rem rgba(34, 197, 94, 0.8); }
+.meter.perfect .meter-fill,
+.meter.perfect .meter-good,
+.meter.perfect .meter-perfect { background: #22c55e; }
+.meter.good .meter-fill { background: #60a5fa; }
+.meter.early .meter-fill,
+.meter.late .meter-fill { background: rgba(255, 255, 255, 0.3); }
+
+/* Үсрэх шидэлт: барьж байхад дүр дээш өргөгдөнө */
+.character { transition: transform 0.3s ease-out; }
+.rising .character { transform: translateY(-8%); }
+
+/* Суллах агшны шошго (ТӨГС! / Сайн / Эрт / Оройтсон) */
+.release-label {
   position: absolute;
   left: 50%;
-  bottom: calc(var(--ground-h) - 9rem);
+  bottom: 112%;
   transform: translateX(-50%);
-  width: min(25rem, calc(100% - 2rem));
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 99rem;
+  font-weight: 800;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  background: var(--ink);
+  color: var(--bg);
+  animation: toast 1.4s ease-out forwards;
+}
+.release-label.good { background: var(--accent); color: #ffffff; }
+.release-label.perfect {
+  background: #16a34a;
   color: #ffffff;
+  font-size: 1.1rem;
+  box-shadow: 0 0 1rem rgba(34, 197, 94, 0.8);
+  animation: perfect-pop 1.4s ease-out forwards;
 }
-.power-title { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.1em; }
-.power-note { font-size: 0.75rem; font-weight: 600; color: #c7d7f5; }
-.power-bar { position: relative; height: 1.25rem; border-radius: 0.6rem; background: rgba(255, 255, 255, 0.22); }
-.sweet { position: absolute; top: 0; bottom: 0; border-radius: 0.6rem; background: #60a5fa; }
-.marker {
-  position: absolute;
-  top: -0.4rem;
-  width: 0.5rem;
-  height: 2rem;
-  margin-left: -0.25rem;
-  border-radius: 0.25rem;
-  background: #ffffff;
-  border: 2px solid #0b1b3a;
+@keyframes perfect-pop {
+  0% { transform: translateX(-50%) scale(0.5); opacity: 0; }
+  15% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+  30%, 80% { transform: translateX(-50%) scale(1); opacity: 1; }
+  100% { transform: translateX(-50%) translateY(-1rem); opacity: 0; }
 }
+/* Төгс шидэлтийн бөмбөг ногоон туяатай */
+.ball.green { box-shadow: 0 0 0 0.25rem rgba(34, 197, 94, 0.6), 0 0 1.25rem 0.4rem rgba(34, 197, 94, 0.75); }
 
 /* «Гол! +3 XP» шошго самбарын дээр */
 .goal-pill {
