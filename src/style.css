@@ -177,7 +177,8 @@ h3 { font-size: 1.1rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
 .skill-list .bar { display: block; flex: 1; min-width: 4rem; margin-left: 0.5rem; height: 0.45rem; border-radius: 99rem; background: var(--accent-2); overflow: hidden; }
 .skill-list .bar span { display: block; height: 100%; background: #22c55e; } /* хэрэглэгчийн хүсэлтээр ногоон */
 .skill-list .pct { display: inline; min-width: 2.6rem; text-align: right; color: var(--accent); font-weight: 800; }
-.learn-topic h4 { margin: 0.75rem 0 0.35rem; }
+.learn-topic h4 { margin: 0.75rem 0 0.25rem; }
+.learn-topic p { margin: 0; color: var(--muted); }
 .chips.small .chip { font-size: 0.8rem; border-width: 0.08rem; }
 
 /* Бүтээлийн картууд */

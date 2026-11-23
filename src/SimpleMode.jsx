@@ -140,7 +140,7 @@ export function SkillChip({ skill, t }) {
   );
 }
 
-// «Сурах хүсэлтэй»: сэдэв бүр (AWS, …) доор нь задалсан дэд сэдвүүд тасархай chip-ээр
+// «Сурах хүсэлтэй»: сэдэв бүр (AWS, …) нэр + 1–3 өгүүлбэр тайлбар
 export function WantToLearn({ t }) {
   return (
     <div className="skill-group">
@@ -148,11 +148,7 @@ export function WantToLearn({ t }) {
       {wantToLearn.map((topic) => (
         <div key={topic.name} className="learn-topic">
           <h4>◌ {topic.name}</h4>
-          <ul className="chips small">
-            {topic.items.map((item) => (
-              <li key={item.en} className="chip learning">{t(item)}</li>
-            ))}
-          </ul>
+          <p>{t(topic.about)}</p>
         </div>
       ))}
     </div>

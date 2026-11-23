@@ -104,40 +104,28 @@ export const skills = [
   { id: "mvc", icon: "mvc", name: "MVC", group: "arch", status: "used" },
 ];
 
-// Сурах хүсэлтэй (одоохондоо ашиглаагүй — зоос биш, хувь байхгүй). items = задалсан дэд сэдвүүд
+// Сурах хүсэлтэй (одоохондоо ашиглаагүй — зоос биш, хувь байхгүй). about = 1–3 өгүүлбэр тайлбар
 export const wantToLearn = [
   {
     name: "AWS",
-    items: [
-      { mn: "EC2 — виртуал сервер", en: "EC2 — virtual servers" },
-      { mn: "S3 — файл хадгалах", en: "S3 — file storage" },
-      { mn: "Lambda — serverless функц", en: "Lambda — serverless functions" },
-      { mn: "RDS — өгөгдлийн сан", en: "RDS — managed databases" },
-      { mn: "IAM — эрхийн удирдлага", en: "IAM — access control" },
-      { mn: "CloudFront — CDN", en: "CloudFront — CDN" },
-    ],
+    about: {
+      mn: "Amazon-ы cloud платформ: сервер (EC2), файл хадгалах (S3), serverless функц (Lambda), өгөгдлийн сан (RDS) зэрэг үйлчилгээг нэг дор өгдөг. Одоо Vercel, Supabase дээр байршуулдаг тул дараагийн алхам нь системээ өөрөө cloud дээр бүрэн удирдаж сурах.",
+      en: "Amazon's cloud platform: servers (EC2), file storage (S3), serverless functions (Lambda), databases (RDS) and more in one place. I deploy on Vercel and Supabase today, so the next step is learning to run a whole system on the cloud myself.",
+    },
   },
   {
     name: "Cloudflare",
-    items: [
-      { mn: "DNS ба домэйн", en: "DNS and domains" },
-      { mn: "CDN ба cache", en: "CDN and caching" },
-      { mn: "Workers — edge дээрх код", en: "Workers — code at the edge" },
-      { mn: "Pages — static сайт байршуулах", en: "Pages — static site hosting" },
-      { mn: "R2 — файл хадгалах", en: "R2 — object storage" },
-      { mn: "WAF ба DDoS хамгаалалт", en: "WAF and DDoS protection" },
-    ],
+    about: {
+      mn: "Сайтыг хэрэглэгчид ойрхон серверээс хурдан хүргэж (CDN, cache), DNS болон халдлагаас (DDoS, WAF) хамгаалдаг сүлжээ. Workers-ээр кодыг edge дээр, хэрэглэгчийн ойролцоо ажиллуулж болдгийг сурахыг хүсэж байна.",
+      en: "A network that serves sites fast from servers close to users (CDN, caching), handles DNS and protects against attacks (DDoS, WAF). I want to learn Workers, which run code at the edge, near the user.",
+    },
   },
   {
     name: "Microservices",
-    items: [
-      { mn: "Системийг сервис болгон хуваах", en: "Splitting a system into services" },
-      { mn: "API Gateway", en: "API Gateway" },
-      { mn: "Message queue (RabbitMQ, Kafka)", en: "Message queues (RabbitMQ, Kafka)" },
-      { mn: "Docker ба Kubernetes", en: "Docker and Kubernetes" },
-      { mn: "Сервис хоорондын холбоо (REST, gRPC)", en: "Service-to-service calls (REST, gRPC)" },
-      { mn: "Log, monitoring, tracing", en: "Logging, monitoring and tracing" },
-    ],
+    about: {
+      mn: "Том системийг жижиг, бие даан байршуулдаг сервисүүдэд хувааж, тэдгээрийг API эсвэл message queue-ээр холбодог архитектур. Би одоо modular monolith ашигладаг; апп томрох үед модулиа тусдаа сервис болгон салгаж сурах нь дараагийн алхам.",
+      en: "An architecture that splits a big system into small services deployed on their own, talking over APIs or message queues. I use a modular monolith today; learning to split modules into separate services as an app grows is my next step.",
+    },
   },
 ];
 
