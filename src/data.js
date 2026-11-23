@@ -87,7 +87,7 @@ export const skills = [
   { id: "next", icon: "layers", name: "Next.js", group: "frontend", status: "using" },
   { id: "rn", icon: "phone", name: "React Native", group: "frontend", status: "learning" },
   { id: "php", icon: "server", name: "PHP (MVC)", group: "backend", status: "used" },
-  { id: "laravel", icon: "server", name: "Laravel", group: "backend", status: "learning" },
+  { id: "laravel", icon: "server", name: "Laravel", group: "backend", status: "used" }, // Ajiltai BA-д ашигласан
   { id: "node", icon: "terminal", name: "JavaScript back-end", group: "backend", status: "using" },
   { id: "pg", icon: "database", name: "PostgreSQL", group: "data", status: "using" },
   { id: "supabase", icon: "database", name: "Supabase", group: "data", status: "using" },
@@ -168,7 +168,7 @@ export const projects = [
       mn: "Ажилтай АЙ ХХК-д зориулж хийсэн бизнес шинжилгээний (BA) апп.", // TODO: хэрэглэгч дэлгэрүүлнэ
       en: "A business analysis (BA) app built for Ajiltai AI LLC.",
     },
-    tech: [], // TODO: хэрэглэгч өгнө
+    tech: ["Laravel", "Octane", "Next.js", "Redis cache"],
     image: "/projects/ajiltai-ba.svg",
     demoUrl: "", // TODO
     repoUrl: "", // TODO
