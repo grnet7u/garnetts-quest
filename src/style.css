@@ -946,4 +946,5 @@ button.btn { background: var(--bg); color: var(--accent); gap: 0.4rem; }
   .skill-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.2rem 1.5rem; }
   .simple .skill-list .chip { border: 0; padding: 0.1rem 0; font-size: 0.8rem; break-inside: avoid; }
   .learn-topic { break-inside: avoid; }
+  a { text-decoration: none; } /* цаасан дээр доогуур зураас хэрэггүй */
 }
