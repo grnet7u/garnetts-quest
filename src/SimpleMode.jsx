@@ -149,9 +149,11 @@ export function ProjectCard({ project, t }) {
       <div className="card-text">
         <h3>{t(project.title)}</h3>
         <p>{t(project.description)}</p>
-        <ul className="chips small">
-          {project.tech.map((name) => <li key={name} className="chip">{name}</li>)}
-        </ul>
+        {project.tech.length > 0 && (
+          <ul className="chips small">
+            {project.tech.map((name) => <li key={name} className="chip">{name}</li>)}
+          </ul>
+        )}
         <p className="links">
           {project.demoUrl && <a href={project.demoUrl} target="_blank" rel="noreferrer">{t(ui.demo)} <Icon name="external" /></a>}
           {project.repoUrl && <a href={project.repoUrl} target="_blank" rel="noreferrer">{t(ui.repo)} <Icon name="external" /></a>}

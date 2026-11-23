@@ -251,6 +251,7 @@ h3 { font-size: 1.1rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
 @media (max-width: 30rem) {
   .counter { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); min-width: 0; }
   .carousel-controls { gap: 0.25rem; }
+  .dots { gap: 0; } /* 5 цэг + 2 сум 360px-д багтана */
 }
 
 /* Өргөн дэлгэц: картад зураг зүүн, текст баруун */

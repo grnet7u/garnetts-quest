@@ -161,6 +161,18 @@ export const projects = [
     demoUrl: "", // TODO
     repoUrl: "", // TODO
   },
+  {
+    id: "ajiltai-ba",
+    title: { mn: "Ajiltai BA — бизнес шинжилгээний апп", en: "Ajiltai BA — business analysis app" },
+    description: {
+      mn: "Ажилтай АЙ ХХК-д зориулж хийсэн бизнес шинжилгээний (BA) апп.", // TODO: хэрэглэгч дэлгэрүүлнэ
+      en: "A business analysis (BA) app built for Ajiltai AI LLC.",
+    },
+    tech: [], // TODO: хэрэглэгч өгнө
+    image: "/projects/ajiltai-ba.svg",
+    demoUrl: "", // TODO
+    repoUrl: "", // TODO
+  },
 ];
 
 export const awards = [
