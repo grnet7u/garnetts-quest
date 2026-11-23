@@ -67,9 +67,11 @@ export default function Game({ t }) {
   useEffect(() => {
     function onKey(event, isDown) {
       if (event.key === "Escape") return setPanel(-1);
-      // Панел нээлттэй, эсвэл товч/холбоос дээр focus байвал товчийг тэдэнд үлдээнэ
+      // Панел нээлттэй, эсвэл товч/холбоос дээр focus байвал дарсан товчийг тэдэнд үлдээнэ.
+      // Харин товч суллах (keyup)-ыг үргэлж бүртгэнэ, эс бөгөөс дүр «гацаж» өөрөө алхсаар байна.
       // (window дээр шууд үүссэн event-д closest байхгүй тул ?. ашиглана)
-      if (live.current.panel !== -1 || event.target.closest?.("button, a")) return;
+      const busy = live.current.panel !== -1 || event.target.closest?.("button, a");
+      if (isDown && busy) return;
       const key = event.key.toLowerCase();
       if (key === "arrowleft" || key === "a") input.left = isDown;
       else if (key === "arrowright" || key === "d") input.right = isDown;
