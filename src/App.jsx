@@ -6,13 +6,10 @@ import Game from "./game/Game.jsx";
 import Icon from "./Icon.jsx";
 import { setSoundEnabled } from "./game/sound.js";
 
-// Хөдөлгөөн багасгахыг хүссэн хэрэглэгчид (prefers-reduced-motion) энгийн горимоор эхэлнэ
-const prefersCalm = matchMedia("(prefers-reduced-motion: reduce)").matches;
-
 export default function App() {
   const [lang, setLang] = useState(() => load("lang", defaultLang));
   const [theme, setTheme] = useState(() => load("theme", defaultTheme));
-  const [mode, setMode] = useState(prefersCalm ? "simple" : "game");
+  const [mode, setMode] = useState("simple"); // эхэндээ CV (энгийн горим), тоглоом нь товчоор
   const [sound, setSound] = useState(false); // анхны утга OFF
 
   function toggleSound() {
