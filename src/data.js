@@ -175,6 +175,18 @@ export const projects = [
     demoUrl: "", // TODO
     repoUrl: "", // TODO
   },
+  {
+    id: "golden-road",
+    title: { mn: "Golden Road — Сэргээлт", en: "Golden Road — Sergeelt" },
+    description: {
+      mn: "Уул уурхайн хүнд даацын машинуудад замд гарсан эвдрэлийг засуулах платформ. Жолооч дуу, зургаар эвдрэлээ мэдэгдэхэд ойролцоох засварчид болон сэлбэг нийлүүлэгчид үнийн санал илгээж, AI туслах оношилгоо болон саналуудыг харьцуулахад тусална. Жолооч, компани, засварчин, нийлүүлэгч гэсэн 4 талын апп.",
+      en: "A roadside repair platform for heavy mining trucks. A driver reports a breakdown by voice and photo, nearby mechanics and parts suppliers send quotes, and an AI assistant helps with diagnosis and comparing offers. Four apps in one: driver, company, mechanic and supplier.",
+    },
+    tech: [], // TODO: хэрэглэгч өгнө
+    image: "/projects/golden-road.svg",
+    demoUrl: "", // TODO
+    repoUrl: "", // TODO
+  },
 ];
 
 export const awards = [

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Golden Road — Sergeelt">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1D4ED8"/><stop offset="1" stop-color="#0B1B3A"/></linearGradient></defs>
+  <rect width="640" height="360" fill="url(#g)"/>
+  <g fill="none" stroke="#DBEAFE" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M60 250h520" stroke-dasharray="26 18"/>
+    <rect x="150" y="120" width="190" height="100" rx="10"/>
+    <path d="M340 150h70l45 40v30H340"/>
+    <circle cx="200" cy="228" r="22"/><circle cx="400" cy="228" r="22"/>
+    <path d="M470 80a34 34 0 0 0-44 44l-46 46 18 18 46-46a34 34 0 0 0 44-44l-18 18-14-4-4-14z"/>
+  </g>
+  <text x="32" y="328" fill="#FFFFFF" font-family="Montserrat, sans-serif" font-weight="800" font-size="30">Golden Road — Сэргээлт</text>
+</svg>

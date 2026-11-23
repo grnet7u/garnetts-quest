@@ -247,11 +247,10 @@ h3 { font-size: 1.1rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
 }
 .dot[aria-current="true"]::after { background: var(--accent); width: 1.6rem; border-radius: 99rem; }
 .counter { font-weight: 800; font-size: 0.9rem; color: var(--muted); min-width: 3rem; text-align: center; }
-/* Нарийн утас: тоолуурыг зөвхөн дэлгэц уншигчид үлдээнэ (цэгүүд ижил мэдээлэл өгнө), эс бөгөөс мөр багтахгүй */
+/* Нарийн утас: цэгүүд (6 × 44px) мөрөнд багтахгүй тул оронд нь «3 / 6» тоолуур харуулна */
 @media (max-width: 30rem) {
-  .counter { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); min-width: 0; }
-  .carousel-controls { gap: 0.25rem; }
-  .dots { gap: 0; } /* 5 цэг + 2 сум 360px-д багтана */
+  .dots { display: none; }
+  .carousel-controls { justify-content: space-between; }
 }
 
 /* Өргөн дэлгэц: картад зураг зүүн, текст баруун */
