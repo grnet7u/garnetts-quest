@@ -60,3 +60,9 @@ export const coinY = (i) => (i % 2) * 110;
 export function touchesCoin(p, i) {
   return Math.abs(p.x - coinX(i)) < 30 && Math.abs(p.y - coinY(i)) < 50;
 }
+
+// Easter egg: сагсны цагираг Холбоо барих станцын баруун талд.
+// Энэ бүсэд Space дарвал үсрэхийн оронд бөмбөг шиднэ.
+export const HOOP_X = stationX(5) + 300;
+export const RIM_H = 230; // цагирагийн өндөр (газраас), px
+export const inHoopZone = (x) => x > stationX(5) - STATION_RADIUS;

@@ -74,6 +74,7 @@ function PanelContent({ id, collected, onClose, t }) {
     <>
       <p>{t(ui.contactText)}</p>
       <ContactLinks />
+      <p className="muted">{t(ui.hoopHint)}</p>
     </>
   );
 }

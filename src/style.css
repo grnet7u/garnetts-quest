@@ -404,3 +404,64 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
     scroll-behavior: auto !important;
   }
 }
+
+/* ===== Easter egg: сагсны цагираг ба шидсэн бөмбөг ===== */
+.hoop { position: absolute; bottom: var(--ground-h); width: 0; }
+.pole { position: absolute; bottom: 0; left: 1.2rem; width: 0.5rem; height: calc(var(--rim) + 4rem); background: var(--accent); }
+.board {
+  position: absolute;
+  bottom: calc(var(--rim) - 1rem);
+  left: 0.4rem;
+  width: 0.6rem;
+  height: 6rem;
+  background: var(--bg);
+  border: 0.2rem solid var(--accent);
+}
+.rim {
+  position: absolute;
+  bottom: var(--rim);
+  left: -3rem;
+  width: 3.4rem;
+  height: 0.4rem;
+  border-radius: 0.2rem;
+  background: var(--accent);
+}
+.swish {
+  position: absolute;
+  bottom: calc(var(--rim) + 3rem);
+  left: -5rem;
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--accent);
+  animation: pop 1.2s ease-out forwards;
+}
+@keyframes pop {
+  from { transform: scale(0.4); opacity: 0; }
+  20% { transform: scale(1.15); opacity: 1; }
+  to { transform: translateY(-1.5rem); opacity: 0; }
+}
+
+/* Бөмбөгний нумэн нислэг: гадна элемент хэвтээ (жигд), дотор нь босоо (дээш удааширч, доош хурдасна).
+   Хоёр хөдөлгөөн нийлээд парабол үүсгэнэ. Цагирагийн голд --dx-ээр хүрнэ. */
+.shot {
+  position: absolute;
+  bottom: calc(var(--ground-h) + 64px);
+  margin-left: -2rem; /* бөмбөгний гол цагирагийн голд таарна */
+  animation: shot-x 0.85s linear forwards;
+}
+@keyframes shot-x { to { transform: translateX(var(--dx)); } }
+.shot-ball {
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: #1d4ed8;
+  border: 0.15rem solid #0b1b3a;
+  animation: shot-y 0.85s forwards;
+}
+@keyframes shot-y {
+  0% { transform: translateY(0); animation-timing-function: ease-out; }
+  60% { transform: translateY(calc((var(--rim) - 64px + 110px) * -1)); animation-timing-function: ease-in; }
+  85% { transform: translateY(calc((var(--rim) - 64px) * -1)); opacity: 1; }
+  100% { transform: translateY(calc((var(--rim) - 120px) * -1)); opacity: 0; }
+}
+.throwing .held-ball { visibility: hidden; }

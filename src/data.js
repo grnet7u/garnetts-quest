@@ -227,6 +227,10 @@ export const ui = {
   jump: { mn: "Үсрэх", en: "Jump" },
   soundOn: { mn: "Дуу асаах", en: "Turn sound on" },
   soundOff: { mn: "Дуу унтраах", en: "Turn sound off" },
+  hoopHint: {
+    mn: "🏀 Нууц: панелийг хаагаад цагирагийн дэргэд Space (утсанд ⤒) дараарай.",
+    en: "🏀 Secret: close this panel and press Space (⤒ on phones) near the hoop.",
+  },
   toSimple: { mn: "Энгийн харах", en: "Simple view" },
   toGame: { mn: "Тоглох", en: "Play" },
   hint: {

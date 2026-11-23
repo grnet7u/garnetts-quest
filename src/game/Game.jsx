@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { stations, skills, ui } from "../data.js";
-import { step, cameraFor, nearStation, stationX, coinX, coinY, touchesCoin, WORLD_W } from "./physics.js";
+import { step, cameraFor, nearStation, stationX, coinX, coinY, touchesCoin, WORLD_W, HOOP_X, RIM_H, inHoopZone } from "./physics.js";
 import Character from "./Character.jsx";
 import Panel from "./Panel.jsx";
 import Hud from "./Hud.jsx";
@@ -28,6 +28,8 @@ export default function Game({ t }) {
   const [collected, setCollected] = useState(() => new Set());
   const [packet, setPacket] = useState({ to: -1, key: 0 });
   const [log, setLog] = useState([{ id: 0, text: "▶ run: Start" }]);
+  const [shot, setShot] = useState(null); // нисэж буй бөмбөг { key, x, dx }
+  const [swishes, setSwishes] = useState(0); // хэдэн удаа цагирагт оруулсан
 
   // Game loop нь нэг л удаа эхэлдэг тул хамгийн сүүлийн утгыг ref-ээр уншина
   const live = useRef({});
@@ -54,6 +56,23 @@ export default function Game({ t }) {
     setCollected((old) => new Set(old).add(skill.id));
     addLog("✔ " + skill.name + " collected");
     beep(880);
+  }
+
+  // Easter egg: бөмбөг шидэх. Бөмбөгний нислэгийг CSS анимэйшн хийнэ (доорх .shot),
+  // энд зөвхөн хаанаас, хэр хол шидэхийг тооцоод 0.85 секундийн дараа «Swish!» бичнэ.
+  function shoot() {
+    const dx = HOOP_X - player.x;
+    player.facing = dx >= 0 ? 1 : -1;
+    setShot((old) => ({ key: (old?.key ?? 0) + 1, x: player.x, dx }));
+    playerRef.current.classList.add("throwing"); // гартаа барьсан бөмбөгийг нуух
+    beep(440);
+    setTimeout(() => {
+      playerRef.current?.classList.remove("throwing");
+      setSwishes((n) => n + 1);
+      addLog("🏀 Swish!");
+      beep(988);
+      setTimeout(() => beep(1319, 150), 110);
+    }, 850);
   }
 
   // Fast travel: HUD-ийн зангилаа дээр дарахад тэр станц руу шууд очно
@@ -95,6 +114,7 @@ export default function Game({ t }) {
     let last = performance.now();
     let frameId;
     let lastNear = 0;
+    let lastShot = 0;
 
     function frame(now) {
       // dt = өмнөх frame-ээс хойш өнгөрсөн секунд (таб нуугдсан үед хэт том болохгүй байлгана)
@@ -103,6 +123,14 @@ export default function Game({ t }) {
 
       // Панел нээлттэй үед дүр зогсоно
       if (live.current.panel === -1) {
+        // Цагирагийн бүсэд Space = шидэх (үсрэхгүй). Секундэд нэгээс олон шидэхгүй
+        if (input.jump && player.onGround && inHoopZone(player.x)) {
+          input.jump = false;
+          if (now - lastShot > 1000) {
+            lastShot = now;
+            shoot();
+          }
+        }
         const wasOnGround = player.onGround;
         step(player, input, dt);
         if (wasOnGround && !player.onGround) beep(520); // үсэрсэн
@@ -177,6 +205,17 @@ export default function Game({ t }) {
               {skill.name.slice(0, 2)}
             </div>
           )
+        )}
+        <div className="hoop" style={{ left: HOOP_X + "px", "--rim": RIM_H + "px" }} aria-hidden="true">
+          <div className="board" />
+          <div className="rim" />
+          <div className="pole" />
+          {swishes > 0 && <div key={swishes} className="swish">SWISH!</div>}
+        </div>
+        {shot && (
+          <div key={shot.key} className="shot" style={{ left: shot.x + "px", "--dx": shot.dx + "px", "--rim": RIM_H + "px" }}>
+            <div className="shot-ball" />
+          </div>
         )}
         <div className="player" ref={playerRef}>
           <Character />

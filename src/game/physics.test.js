@@ -47,3 +47,9 @@ test("доод зоосыг алхаж, дээд зоосыг үсэрч авн�
   assert.equal(touchesCoin({ x: coinX(1), y: 0 }, 1), false);
   assert.equal(touchesCoin({ x: coinX(1), y: 100 }, 1), true);
 });
+
+test("цагирагийн бүс зөвхөн Холбоо барих станцаас баруун тийш", async () => {
+  const { inHoopZone } = await import("./physics.js");
+  assert.equal(inHoopZone(stationX(5)), true);
+  assert.equal(inHoopZone(stationX(4)), false);
+});
