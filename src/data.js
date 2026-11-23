@@ -91,6 +91,7 @@ export const skills = [
   { id: "node", icon: "terminal", name: "JavaScript back-end", group: "backend", status: "using" },
   { id: "pg", icon: "database", name: "PostgreSQL", group: "data", status: "using" },
   { id: "supabase", icon: "database", name: "Supabase", group: "data", status: "using" },
+  { id: "redis", icon: "cache", name: "Redis (cache)", group: "data", status: "used" }, // Ajiltai BA-д ашигласан
   { id: "git", icon: "branch", name: "Git / GitHub", group: "tools", status: "using" },
   { id: "vscode", icon: "editor", name: "VS Code", group: "tools", status: "using" },
   { id: "vercel", icon: "cloud", name: "Vercel", group: "tools", status: "using" },
