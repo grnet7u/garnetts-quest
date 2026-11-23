@@ -43,7 +43,7 @@ export const salesJobs = [
   {
     company: { mn: "Цэргийн алба", en: "Military service" },
     title: { mn: "Цэргийн жинхэнэ алба хаасан", en: "Completed mandatory military service" },
-    period: "", // TODO: хэрэглэгч он-сараа өгнө
+    period: "2023",
     visible: true,
   },
 ];
