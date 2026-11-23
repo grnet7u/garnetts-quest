@@ -29,17 +29,22 @@ export const salesJobs = [
     visible: true,
   },
   {
+    company: { mn: "WAT хөтөлбөр, АНУ", en: "Work and Travel, USA" },
+    title: { mn: "3 сар ажилласан (англи хэлний орчин)", en: "Worked 3 months (English-speaking environment)" },
+    period: "2024",
+    visible: true,
+  },
+  {
     company: { mn: "CU", en: "CU" },
     title: { mn: "Бэлтгэгч (касс)", en: "Store staff (cashier)" },
     period: "2023-10 – 2023-11",
     visible: true,
   },
   {
-    // Хэрэглэгч шийднэ: харуулах бол visible: true болго
-    company: { mn: "WAT хөтөлбөр, АНУ", en: "Work and Travel, USA" },
-    title: { mn: "3 сар ажилласан (англи хэлний орчин)", en: "Worked 3 months (English-speaking environment)" },
-    period: "2024",
-    visible: false,
+    company: { mn: "Цэргийн алба", en: "Military service" },
+    title: { mn: "Цэргийн жинхэнэ алба хаасан", en: "Completed mandatory military service" },
+    period: "", // TODO: хэрэглэгч он-сараа өгнө
+    visible: true,
   },
 ];
 
