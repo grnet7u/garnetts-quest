@@ -236,6 +236,8 @@ export const awards = [
 
 export const contact = {
   email: "changaanz7@gmail.com",
+  phone: "+976 8088 6373",
+  instagram: "https://instagram.com/grnet7u",
   facebook: "https://facebook.com/garnett1027",
   github: "https://github.com/grnet7u", // энэ төслийн repo байрлах бүртгэл
 };

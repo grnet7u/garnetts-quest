@@ -198,15 +198,17 @@ export function ContactLinks() {
 export function SocialLinks({ big = false }) {
   const links = [
     { name: "mail", label: "Email: " + contact.email, href: "mailto:" + contact.email },
+    { name: "phone", label: "Утас / Phone: " + contact.phone, href: "tel:" + contact.phone.replaceAll(" ", "") },
     { name: "facebook", label: "Facebook: garnett1027", href: contact.facebook },
     { name: "github", label: "GitHub: grnet7u", href: contact.github },
+    { name: "instagram", label: "Instagram: @grnet7u", href: contact.instagram },
   ].filter((link) => link.href);
   return (
     <ul className={"social" + (big ? " big" : "")}>
       {links.map((link) => (
         <li key={link.name}>
           <a href={link.href} aria-label={link.label} title={link.label}
-            {...(link.name === "mail" ? {} : { target: "_blank", rel: "noreferrer" })}>
+            {...(link.href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}>
             <Icon name={link.name} size={big ? "1.75rem" : "1.25rem"} />
           </a>
         </li>
