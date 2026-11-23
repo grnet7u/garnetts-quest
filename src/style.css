@@ -183,7 +183,7 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
   position: absolute;
   left: 0;
   bottom: var(--ground-h);
-  --size: clamp(4.5rem, 14.5svh, 8.5rem); /* дүрийн өндөр ≈ Борлуулагч станцын ¾ (дизайны дагуу) */
+  --size: clamp(4rem, 12svh, 7.5rem); /* өргөн; SVG 120×230 тул өндөр ≈ 23svh (дизайны дагуу) */
   width: var(--size);
   margin-left: calc(var(--size) / -2);
   will-change: transform;
@@ -238,7 +238,7 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
   position: absolute;
   top: 0.75rem;
   left: 0.75rem;
-  right: 15rem; /* баруун дээд буланд toolbar байна */
+  right: 21rem; /* баруун дээд буланд toolbar (4 товч) байна */
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1rem;

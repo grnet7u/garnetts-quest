@@ -216,8 +216,9 @@ export default function Game({ t }) {
     function launch(i, hit, short, now) {
       const k = stations[i].scale * view.ws; // CSS-тэй ижил масштаб, эс бөгөөс бөмбөг цагирагт хүрэхгүй
       const rim = rimCenter(i, k);
-      const hand = playerRef.current.offsetHeight * 0.85;
-      const p0 = { x: player.x + 20, y: player.y + hand };
+      // Бөмбөг дүрийн баруун дээд талд (SVG-д 100,22 / 120×230) байдаг
+      const el = playerRef.current;
+      const p0 = { x: player.x + el.offsetWidth * 0.33, y: player.y + el.offsetHeight * 0.9 };
       const p2 = hit ? { x: rim.x, y: rim.y + 8 } : short ? { x: rim.x - 40 * k, y: rim.y } : { x: rim.x + 60 * k, y: rim.y + 50 * k };
       shot.flight = { i, hit, p0, p1: arcControl(p0, p2, 200), p2, t0: now, dur: 800, bounce: false };
       player.facing = 1;
@@ -275,7 +276,8 @@ export default function Game({ t }) {
     function draw(dt) {
       // Шидэх бүсэд camera дүр ба цагирагийн дундуур харна (утсан дээр цагираг дэлгэцнээс гарахгүй)
       const zone = lastZone;
-      const focusX = zone !== -1 ? (player.x + stationX(zone)) / 2 : player.x;
+      const boardRight = zone !== -1 ? stationX(zone) + 90 * stations[zone].scale * view.ws + 10 : 0;
+      const focusX = zone !== -1 ? (player.x - 50 + boardRight) / 2 : player.x;
       const target = cameraFor(focusX, stageRef.current.clientWidth);
       camX = view.snap ? target : camX + (target - camX) * Math.min(1, dt * 6); // зөөлөн дагах (lerp)
       view.snap = false;
