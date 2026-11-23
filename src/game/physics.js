@@ -58,7 +58,7 @@ export const shootSpot = (i) => stationX(i) - 260;
 
 // «Зоос» (технологи бүр нэг зоос): Хөгжүүлэгч станцын ард, Бүтээлийн шидэх бүсээс өмнө эгнэнэ.
 // Сондгой зоос дээгүүр (110 px) байрладаг тул авахын тулд үсрэх хэрэгтэй.
-export const coinX = (i) => stationX(2) + 50 + i * 32;
+export const coinX = (i) => stationX(2) + 50 + i * 31;
 export const coinY = (i) => (i % 2) * 110;
 
 export function touchesCoin(p, i) {

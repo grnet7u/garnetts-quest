@@ -17,6 +17,7 @@ const paths = {
   spark: "M12 3v6M12 15v6M3 12h6M15 12h6M6 6l3 3M15 15l3 3M18 6l-3 3M9 15l-3 3",
   bolt: "M13 2 4 14h7l-1 8 9-12h-7l1-8z",
   cache: "M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3v12c0 1.7-3.6 3-8 3s-8-1.3-8-3zM4 6c0 1.7 3.6 3 8 3s8-1.3 8-3M13 11l-3 4h4l-3 4", // өгөгдлийн сан + аянга = хурдан cache
+  chat: "M4 4h16v12H9l-5 4zM10 8l-2 2 2 2M14 8l2 2-2 2", // чатын бөмбөлөг + </> (код бичдэг AI)
   robot: "M5 8h14v11H5zM12 4v4M9 13h.01M15 13h.01M9 16h6M2 12v3M22 12v3",
   blocks: "M3 3h8v8H3zM13 3h8v8h-8zM3 13h8v8H3zM13 13h8v8h-8z",
   mvc: "M3 4h7v6H3zM14 4h7v6h-7zM8.5 15h7v6h-7zM6.5 10v2.5h11V10M12 12.5V15", // Model, View, Controller гурван хайрцаг

@@ -97,6 +97,7 @@ export const skills = [
   { id: "vercel", icon: "cloud", name: "Vercel", group: "tools", status: "using" },
   { id: "electron", icon: "atom", name: "Electron", group: "tools", status: "used" },
   { id: "claude", icon: "spark", name: "Claude Code", group: "ai", status: "using" },
+  { id: "codex", icon: "chat", name: "ChatGPT Codex", group: "ai", status: "using" },
   { id: "groq", icon: "bolt", name: "Groq API", group: "ai", status: "using" },
   { id: "agent", icon: "robot", name: "AI agent", group: "ai", status: "using" },
   { id: "monolith", icon: "blocks", name: "Modular monolith", group: "arch", status: "used" },
