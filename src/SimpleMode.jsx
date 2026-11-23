@@ -1,6 +1,6 @@
 import Icon from "./Icon.jsx";
 import ProjectCarousel from "./ProjectCarousel.jsx";
-import { profile, salesJobs, salesSummary, devHistory, skills, skillGroups, statusLabels, awards, contact, ui } from "./data.js";
+import { profile, salesJobs, salesSummary, devHistory, skills, skillGroups, statusLabels, wantToLearn, awards, contact, ui } from "./data.js";
 
 // «Энгийн горим»: data.js-ийн өгөгдлөөс үүссэн ердийн, семантик хуудас.
 // Тоглоом ажиллахгүй үед ч 5 заавал байх хэсэг бүгд энд харагдана.
@@ -54,6 +54,7 @@ export default function SimpleMode({ t, toolbar }) {
               </ul>
             </div>
           ))}
+          <WantToLearn t={t} />
         </section>
 
         <section id="projects">
@@ -136,6 +137,25 @@ export function SkillChip({ skill, t }) {
       <span className="bar" aria-hidden="true"><span style={{ width: level + "%" }} /></span>
       <span className="pct">{level}%</span>
     </li>
+  );
+}
+
+// «Сурах хүсэлтэй»: сэдэв бүр (AWS, …) доор нь задалсан дэд сэдвүүд тасархай chip-ээр
+export function WantToLearn({ t }) {
+  return (
+    <div className="skill-group">
+      <h3>{t(ui.wantToLearn)}</h3>
+      {wantToLearn.map((topic) => (
+        <div key={topic.name} className="learn-topic">
+          <h4>◌ {topic.name}</h4>
+          <ul className="chips small">
+            {topic.items.map((item) => (
+              <li key={item.en} className="chip learning">{t(item)}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
   );
 }
 

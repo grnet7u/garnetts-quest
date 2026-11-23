@@ -104,6 +104,43 @@ export const skills = [
   { id: "mvc", icon: "mvc", name: "MVC", group: "arch", status: "used" },
 ];
 
+// Сурах хүсэлтэй (одоохондоо ашиглаагүй — зоос биш, хувь байхгүй). items = задалсан дэд сэдвүүд
+export const wantToLearn = [
+  {
+    name: "AWS",
+    items: [
+      { mn: "EC2 — виртуал сервер", en: "EC2 — virtual servers" },
+      { mn: "S3 — файл хадгалах", en: "S3 — file storage" },
+      { mn: "Lambda — serverless функц", en: "Lambda — serverless functions" },
+      { mn: "RDS — өгөгдлийн сан", en: "RDS — managed databases" },
+      { mn: "IAM — эрхийн удирдлага", en: "IAM — access control" },
+      { mn: "CloudFront — CDN", en: "CloudFront — CDN" },
+    ],
+  },
+  {
+    name: "Cloudflare",
+    items: [
+      { mn: "DNS ба домэйн", en: "DNS and domains" },
+      { mn: "CDN ба cache", en: "CDN and caching" },
+      { mn: "Workers — edge дээрх код", en: "Workers — code at the edge" },
+      { mn: "Pages — static сайт байршуулах", en: "Pages — static site hosting" },
+      { mn: "R2 — файл хадгалах", en: "R2 — object storage" },
+      { mn: "WAF ба DDoS хамгаалалт", en: "WAF and DDoS protection" },
+    ],
+  },
+  {
+    name: "Microservices",
+    items: [
+      { mn: "Системийг сервис болгон хуваах", en: "Splitting a system into services" },
+      { mn: "API Gateway", en: "API Gateway" },
+      { mn: "Message queue (RabbitMQ, Kafka)", en: "Message queues (RabbitMQ, Kafka)" },
+      { mn: "Docker ба Kubernetes", en: "Docker and Kubernetes" },
+      { mn: "Сервис хоорондын холбоо (REST, gRPC)", en: "Service-to-service calls (REST, gRPC)" },
+      { mn: "Log, monitoring, tracing", en: "Logging, monitoring and tracing" },
+    ],
+  },
+];
+
 export const skillGroups = {
   frontend: { mn: "Frontend", en: "Frontend" },
   backend: { mn: "Backend", en: "Backend" },
@@ -245,6 +282,7 @@ export const ui = {
   },
   salesTitle: { mn: "Борлуулагч байсан үе", en: "My sales years" },
   devTitle: { mn: "Хөгжүүлэгч болсон зам", en: "Becoming a developer" },
+  wantToLearn: { mn: "Сурах хүсэлтэй", en: "Want to learn" },
   demo: { mn: "Демо", en: "Demo" },
   repo: { mn: "Код", en: "Code" },
   linkSoon: { mn: "Холбоос удахгүй", en: "Link coming soon" },
