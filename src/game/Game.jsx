@@ -28,6 +28,8 @@ export default function Game({ t }) {
   const input = useRef({ left: false, right: false, jump: false, enter: false }).current;
   // Шидэлтийн төлөв: aim = POWER хэмжигч ажиллаж байна, flight = бөмбөг нисэж байна
   const shot = useRef({ aim: null, flight: null, misses: 0 }).current;
+  // Дэлгэцийн масштаб (ws): намхан дэлгэц дээр (утас) станцууд HUD-тай давхцахгүйн тулд жижгэрнэ
+  const view = useRef({ ws: 1, snap: true }).current; // snap = camera-г шууд байрлуулах
 
   // React state: дэлгэц дээр харагдах зүйлс
   const [panel, setPanel] = useState(0); // нээлттэй панелийн станц (-1 = хаалттай). Эхлэхэд Start нээлттэй
@@ -97,6 +99,7 @@ export default function Game({ t }) {
     setAiming(null);
     player.x = shootSpot(i);
     player.y = 0;
+    view.snap = true; // fast travel: camera удаан гүйлгүй шууд очно
     setCurrent(i);
     if (stations[i].built === false) showToast(live.current.t(ui.soon));
   }
@@ -145,6 +148,7 @@ export default function Game({ t }) {
     let frameId;
     let lastZone = 0;
     let prevJump = false;
+    let camX = 0; // camera-ийн одоогийн байрлал (зорилт руугаа зөөлөн гүйнэ)
 
     function frame(now) {
       // dt = өмнөх frame-ээс хойш өнгөрсөн секунд (таб нуугдсан үед хэт том болохгүй байлгана)
@@ -167,7 +171,7 @@ export default function Game({ t }) {
         checkZone(zone);
         checkCoins();
       }
-      draw();
+      draw(dt);
       frameId = requestAnimationFrame(frame);
     }
 
@@ -210,7 +214,7 @@ export default function Game({ t }) {
     // Бөмбөгний замыг тооцно: гараас (p0) цагираг руу (p2). Алдвал цагирагийн урд ирмэг
     // (сул шидсэн) эсвэл самбар (хүчтэй шидсэн) руу очоод буцаж үсэрнэ.
     function launch(i, hit, short, now) {
-      const k = stations[i].scale;
+      const k = stations[i].scale * view.ws; // CSS-тэй ижил масштаб, эс бөгөөс бөмбөг цагирагт хүрэхгүй
       const rim = rimCenter(i, k);
       const hand = playerRef.current.offsetHeight * 0.85;
       const p0 = { x: player.x + 20, y: player.y + hand };
@@ -256,10 +260,27 @@ export default function Game({ t }) {
       });
     }
 
-    function draw() {
-      const cam = cameraFor(player.x, stageRef.current.clientWidth);
-      worldRef.current.style.transform = `translate3d(${-cam}px, 0, 0)`;
-      stageRef.current.style.setProperty("--cam", cam); // parallax давхаргууд үүнийг ашиглана
+    // Хамгийн том станц (k=1.25, 505px) газар ба HUD-ын хооронд багтах масштаб
+    function updateScale() {
+      const stage = stageRef.current;
+      const groundTop = stage.clientHeight - stage.querySelector(".ground").offsetHeight;
+      const hudBottom = stage.querySelector(".hud").getBoundingClientRect().bottom;
+      const room = groundTop - hudBottom - 24; // HUD-ын доод ирмэгээс газар хүртэлх зай
+      view.ws = Math.min(1, Math.max(0.45, room / 520));
+      stage.style.setProperty("--ws", view.ws);
+    }
+    updateScale();
+    window.addEventListener("resize", updateScale);
+
+    function draw(dt) {
+      // Шидэх бүсэд camera дүр ба цагирагийн дундуур харна (утсан дээр цагираг дэлгэцнээс гарахгүй)
+      const zone = lastZone;
+      const focusX = zone !== -1 ? (player.x + stationX(zone)) / 2 : player.x;
+      const target = cameraFor(focusX, stageRef.current.clientWidth);
+      camX = view.snap ? target : camX + (target - camX) * Math.min(1, dt * 6); // зөөлөн дагах (lerp)
+      view.snap = false;
+      worldRef.current.style.transform = `translate3d(${-camX}px, 0, 0)`;
+      stageRef.current.style.setProperty("--cam", camX); // parallax давхаргууд үүнийг ашиглана
 
       const el = playerRef.current;
       el.style.transform = `translate3d(${player.x}px, ${-player.y}px, 0)`;
@@ -269,7 +290,10 @@ export default function Game({ t }) {
     }
 
     frameId = requestAnimationFrame(frame);
-    return () => cancelAnimationFrame(frameId);
+    return () => {
+      cancelAnimationFrame(frameId);
+      window.removeEventListener("resize", updateScale);
+    };
     // score/miss/collect нь зөвхөн setState дууддаг тул loop-ийг дахин эхлүүлэх шаардлагагүй
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -325,7 +349,7 @@ export default function Game({ t }) {
       {toast && <div key={toast.key} className="toast" role="status">{toast.text}</div>}
       {panel !== -1 && <Panel index={panel} collected={collected} onClose={() => setPanel(-1)} t={t} />}
       <p className="hint">{t(ui.hint)}</p>
-      <TouchControls input={input} t={t} />
+      <TouchControls input={input} canShoot={current !== -1 && stations[current].built !== false} t={t} />
     </div>
   );
 }

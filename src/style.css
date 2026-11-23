@@ -336,27 +336,50 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
 /* ===== Утасны товч: зөвхөн хулганагүй (мэдрэгчтэй) төхөөрөмж дээр ===== */
 .touch { display: none; }
 @media (hover: none) and (pointer: coarse) {
-  .hint { display: none; }
+  .game { --ground-h: 36svh; } /* доор товч ба POWER хэмжигч багтана */
+  .hint, .prompt { display: none !important; } /* Space байхгүй: Shoot товч л хангалттай */
   .touch {
     position: absolute;
     left: 1rem;
     right: 1rem;
-    bottom: max(1rem, env(safe-area-inset-bottom));
+    bottom: max(1.5rem, env(safe-area-inset-bottom));
     display: flex;
-    justify-content: space-between;
+    gap: 0.75rem;
     touch-action: none; /* хуудас томрох/гүйлгэхээс сэргийлнэ */
-    pointer-events: none; /* товчнуудын хоорондох зай тоглоомд саад болохгүй */
   }
-  .touch-move { display: flex; gap: 0.75rem; }
   .touch button {
-    pointer-events: auto;
+    flex: none;
     width: 4.5rem;
-    height: 4.5rem; /* ≥48px */
+    height: 4.5rem; /* 72px */
     border-radius: 50%;
-    font-size: 1.6rem;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.14);
+    color: #ffffff;
+    font-size: 1.5rem;
     touch-action: none;
     -webkit-user-select: none;
     user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .touch button:active { filter: brightness(0.9); }
+  .touch .shoot {
+    flex: 1;
+    width: auto;
+    border-radius: 2.25rem;
+    border: none;
+    background: #ffffff;
+    color: #1e3a8a;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+  /* POWER хэмжигч товчнуудын яг дээр */
+  .power {
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+    transform: none;
+    bottom: calc(max(1.5rem, env(safe-area-inset-bottom)) + 5.5rem);
   }
 }
 
@@ -395,16 +418,17 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
 .station {
   position: absolute;
   bottom: var(--ground-h);
-  width: calc(180px * var(--k));
-  height: calc(404px * var(--k));
+  width: calc(180px * var(--s));
+  height: calc(404px * var(--s));
   transform: translateX(-50%);
+  --s: calc(var(--k) * var(--ws, 1)); /* k × дэлгэцийн өндрөөс хамаарах масштаб */
 }
 .pole {
   position: absolute;
   bottom: 0;
   left: 50%;
-  width: max(6px, calc(12px * var(--k)));
-  height: calc(323px * var(--k));
+  width: max(6px, calc(12px * var(--s)));
+  height: calc(323px * var(--s));
   transform: translateX(-50%);
   background: var(--pole);
 }
@@ -412,35 +436,35 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
   position: absolute;
   bottom: 0;
   left: 50%;
-  width: calc(34px * var(--k));
-  height: calc(64px * var(--k));
+  width: calc(34px * var(--s));
+  height: calc(64px * var(--s));
   transform: translateX(-50%);
-  border-top: max(3px, calc(4px * var(--k))) solid var(--accent);
+  border-top: max(3px, calc(4px * var(--s))) solid var(--accent);
   border-radius: 4px 4px 0 0;
   background: var(--pole);
 }
 .arm {
   position: absolute;
-  left: calc(24px * var(--k));
-  right: calc(24px * var(--k));
-  top: calc(81px * var(--k));
-  height: max(3px, calc(6px * var(--k)));
+  left: calc(24px * var(--s));
+  right: calc(24px * var(--s));
+  top: calc(81px * var(--s));
+  height: max(3px, calc(6px * var(--s)));
   background: var(--pole);
 }
 .board {
   position: absolute;
   inset: 0 0 auto 0;
-  height: calc(104px * var(--k));
+  height: calc(104px * var(--s));
   box-sizing: border-box;
-  border: max(2px, calc(4px * var(--k))) solid var(--glass-edge);
-  border-radius: calc(8px * var(--k));
+  border: max(2px, calc(4px * var(--s))) solid var(--glass-edge);
+  border-radius: calc(8px * var(--s));
   background: var(--glass);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: calc(9px * var(--k));
-  gap: calc(2px * var(--k));
+  padding-top: calc(9px * var(--s));
+  gap: calc(2px * var(--s));
   transition: box-shadow 0.3s;
 }
 /* Диагональ гялбаа */
@@ -451,30 +475,30 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
   background: linear-gradient(115deg, var(--shine) 0 16%, transparent 16% 24%, var(--shine-2) 24% 30%, transparent 30%);
 }
 .lv, .board-name { position: relative; text-align: center; line-height: 1.2; }
-.lv { font-size: max(11px, calc(12px * var(--k))); font-weight: 600; letter-spacing: 0.14em; color: var(--muted); }
-.board-name { font-size: max(16px, calc(26px * var(--k))); font-weight: 800; line-height: 1.1; color: var(--ink); }
+.lv { font-size: max(11px, calc(12px * var(--s))); font-weight: 600; letter-spacing: 0.14em; color: var(--muted); }
+.board-name { font-size: max(16px, calc(26px * var(--s))); font-weight: 800; line-height: 1.1; color: var(--ink); }
 .square {
   position: absolute;
-  left: calc(59px * var(--k));
-  top: calc(54px * var(--k));
-  width: calc(62px * var(--k));
-  height: calc(42px * var(--k));
-  border: max(2px, calc(3px * var(--k))) solid var(--accent);
+  left: calc(59px * var(--s));
+  top: calc(54px * var(--s));
+  width: calc(62px * var(--s));
+  height: calc(42px * var(--s));
+  border: max(2px, calc(3px * var(--s))) solid var(--accent);
 }
 .rim {
   position: absolute;
-  left: calc(-68px * var(--k));
-  top: calc(90px * var(--k));
-  width: calc(78px * var(--k));
-  height: calc(70px * var(--k));
+  left: calc(-68px * var(--s));
+  top: calc(90px * var(--s));
+  width: calc(78px * var(--s));
+  height: calc(70px * var(--s));
 }
 /* Гол орсон станц гэрэлтэнэ */
-.station.scored .board { border-color: var(--accent); box-shadow: 0 0 0 calc(8px * var(--k)) var(--glow); }
+.station.scored .board { border-color: var(--accent); box-shadow: 0 0 0 calc(8px * var(--s)) var(--glow); }
 
 /* «To be continued»: тасархай самбар, цагираггүй, газар дээр барьцаалгын тууз */
 .unbuilt { opacity: 0.9; }
-.unbuilt .board { border-style: dashed; padding-top: calc(14px * var(--k)); }
-.unbuilt .board-name { font-size: max(16px, calc(20px * var(--k))); }
+.unbuilt .board { border-style: dashed; padding-top: calc(14px * var(--s)); }
+.unbuilt .board-name { font-size: max(16px, calc(20px * var(--s))); }
 .unbuilt::after {
   content: "";
   position: absolute;
@@ -575,7 +599,7 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
 /* «Гол! +3 XP» шошго самбарын дээр */
 .goal-pill {
   position: absolute;
-  bottom: calc(var(--ground-h) + 404px * var(--k) + 0.75rem);
+  bottom: calc(var(--ground-h) + 404px * var(--k) * var(--ws, 1) + 0.75rem);
   transform: translateX(-50%);
   padding: 0.45rem 1rem;
   border-radius: 99rem;

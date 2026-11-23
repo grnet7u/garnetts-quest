@@ -1,8 +1,9 @@
 import { ui } from "../data.js";
 
-// Утасны товч: ◀ ▶ ⤒. Дарж байх хугацаанд input-ийн утга true байна.
-// Товч бүр тусдаа pointer event-тэй тул хоёр хуруугаар зэрэг (алхаж + үсрэх) дарж болно.
-export default function TouchControls({ input, t }) {
+// Утасны товч: ◀ ▶ ба том Shoot товч. Дарж байх хугацаанд input-ийн утга true байна.
+// Shoot = Space: цагирагийн өмнө шиднэ, бусад газар үсэрнэ (дээрх зоосыг авахад).
+// Товч бүр тусдаа pointer event-тэй тул хоёр хуруугаар зэрэг (алхаж + шидэх) дарж болно.
+export default function TouchControls({ input, canShoot, t }) {
   function hold(name) {
     const release = () => (input[name] = false);
     return {
@@ -17,11 +18,9 @@ export default function TouchControls({ input, t }) {
   }
   return (
     <div className="touch">
-      <div className="touch-move">
-        <button aria-label={t(ui.left)} {...hold("left")}>◀</button>
-        <button aria-label={t(ui.right)} {...hold("right")}>▶</button>
-      </div>
-      <button aria-label={t(ui.jump)} {...hold("jump")}>⤒</button>
+      <button aria-label={t(ui.left)} {...hold("left")}>◀</button>
+      <button aria-label={t(ui.right)} {...hold("right")}>▶</button>
+      <button className="shoot" {...hold("jump")}>{canShoot ? t(ui.shoot) : t(ui.jump) + " ⤒"}</button>
     </div>
   );
 }
