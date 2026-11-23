@@ -122,7 +122,7 @@ export const projects = [
     },
     tech: ["Electron", "AI", "Supabase", "Vercel"],
     image: "/projects/nasa.svg",
-    demoUrl: "", // TODO
+    demoUrl: "https://cosmo-nine-phi.vercel.app/",
     repoUrl: "", // TODO
   },
   {
