@@ -22,12 +22,10 @@
   --shine-2: rgba(255, 255, 255, 0.35);
   --net-shadow: rgba(11, 27, 58, 0.45);
   --glow: rgba(29, 78, 216, 0.16);
-  --good: #16a34a; /* ур чадварын хувь (хэрэглэгчийн хүсэлтээр ногоон) */
 }
 :root[data-theme="dark"] {
   --bg: #0a1228;
   --ink: #ffffff;
-  --good: #4ade80;
   --muted: #bfd3f5;
   --accent: #60a5fa;
   --accent-2: #16264f;
@@ -171,12 +169,14 @@ h3 { font-size: 1.1rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
 .chip.using { background: transparent; }
 .chip.learning { border-style: dashed; color: var(--muted); }
 .legend { margin-bottom: 0.5rem; font-size: 0.85rem; }
-/* Ур чадварын жагсаалт: доош нь, баруун талд нь ногоон хувь. bar/pct нь бусад chip-д харагдахгүй */
-.chip .pct { display: none; }
+/* Ур чадварын жагсаалт: доош нь, баруун талд нь урт 0–100 шугам + цэнхэр хувь. bar/pct нь бусад chip-д харагдахгүй */
+.chip .bar, .chip .pct { display: none; }
 .skill-list { flex-direction: column; flex-wrap: nowrap; }
 .skill-list .chip { display: flex; align-items: center; gap: 0.4rem; border-radius: 0.6rem; }
 .skill-list .chip.used { background: transparent; color: var(--ink); }
-.skill-list .pct { display: inline; margin-left: auto; color: var(--good); font-weight: 800; text-shadow: 0 0 0.4rem var(--good); }
+.skill-list .bar { display: block; flex: 1; min-width: 4rem; margin-left: 0.5rem; height: 0.45rem; border-radius: 99rem; background: var(--accent-2); overflow: hidden; }
+.skill-list .bar span { display: block; height: 100%; background: var(--accent); }
+.skill-list .pct { display: inline; min-width: 2.6rem; text-align: right; color: var(--accent); font-weight: 800; }
 .chips.small .chip { font-size: 0.8rem; border-width: 0.08rem; }
 
 /* Бүтээлийн картууд */
@@ -854,9 +854,8 @@ button.btn { background: var(--bg); color: var(--accent); gap: 0.4rem; }
 /* ===== Хэвлэх / PDF загвар: зөвхөн агуулга, цагаан дэвсгэр ===== */
 @media print {
   :root, :root[data-theme="dark"] {
-    --bg: #ffffff; --ink: #0b1b3a; --muted: #33466b; --accent: #1d4ed8; --accent-2: #dbeafe; --line: #c7d7f5; --good: #15803d;
+    --bg: #ffffff; --ink: #0b1b3a; --muted: #33466b; --accent: #1d4ed8; --accent-2: #dbeafe; --line: #c7d7f5;
   }
-  .skill-list .pct { text-shadow: none; } /* цаасан дээр гэрэлтэлт бүдгэрүүлнэ */
   body { background: #ffffff; }
   .site-header, .hero-actions, .carousel-controls, .site-footer nav, .footer-bottom a { display: none !important; }
   .simple { max-width: none; padding: 0; }
@@ -872,5 +871,5 @@ button.btn { background: var(--bg); color: var(--accent); gap: 0.4rem; }
   .social a { width: auto; height: auto; border: none; background: none; display: flex; gap: 0.5rem; }
   .social a::after { content: attr(aria-label); font-weight: 600; }
   .card .links a::after { content: " " attr(href); font-weight: 400; color: var(--muted); }
-  .chip.used { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .chip.used, .skill-list .bar span { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
