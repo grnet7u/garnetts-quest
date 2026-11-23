@@ -21,12 +21,21 @@ export default function Character() {
       <rect x="34" y="70" width="52" height="68" rx="14" fill="#1D4ED8" />
       <circle cx="60" cy="100" r="10" fill="#FFFFFF" />
       <text x="60" y="105" textAnchor="middle" fontFamily="Montserrat, sans-serif" fontWeight="800" fontSize="13" fill="#1D4ED8">G</text>
-      {/* Гар: зүүн гар доош, баруун гар бөмбөгтэй дээш */}
+      {/* Зүүн гар доош */}
       <path d="M38 80 L26 116" stroke="#DCE8FF" strokeWidth="11" strokeLinecap="round" fill="none" />
-      <path d="M80 80 L100 54 L100 36" stroke="#DCE8FF" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-      <g className="held-ball">
-        <circle cx="100" cy="22" r="17" fill="#F97316" />
-        <path d="M83 22 H117 M100 5 V39 M88 10 Q100 22 88 34 M112 10 Q100 22 112 34" stroke="#7C2D12" strokeWidth="2" fill="none" />
+      {/* Зогсож байхад: баруун гар бөмбөгтэй дээш (онилох байрлал) */}
+      <g className="aim">
+        <path d="M80 80 L100 54 L100 36" stroke="#DCE8FF" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+        <g className="held-ball">
+          <Ball cx={100} cy={22} r={17} />
+        </g>
+      </g>
+      {/* Алхаж байхад: баруун гар доош, бөмбөг гар ба газрын хооронд үсэрнэ (dribble, CSS анимэйшн) */}
+      <g className="dribble">
+        <path d="M80 80 L95 102 L98 116" stroke="#DCE8FF" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+        <g className="dribble-ball">
+          <Ball cx={100} cy={131} r={13} />
+        </g>
       </g>
       {/* Толгой, үс, нүд, инээмсэглэл */}
       <circle cx="60" cy="42" r="24" fill="#DCE8FF" />
@@ -34,5 +43,17 @@ export default function Character() {
       <circle cx="68" cy="47" r="2.5" fill="#0F2A6B" />
       <path d="M58 56 Q64 60 70 56" stroke="#0F2A6B" strokeWidth="2.5" strokeLinecap="round" fill="none" />
     </svg>
+  );
+}
+
+// Улбар шар сагсан бөмбөг (оёдлын шугамтай)
+function Ball({ cx, cy, r }) {
+  const k = r / 17; // оёдлын хэмжээг радиустай уялдуулна
+  const seams = `M${cx - r} ${cy} H${cx + r} M${cx} ${cy - r} V${cy + r} M${cx - 12 * k} ${cy - 12 * k} Q${cx} ${cy} ${cx - 12 * k} ${cy + 12 * k} M${cx + 12 * k} ${cy - 12 * k} Q${cx} ${cy} ${cx + 12 * k} ${cy + 12 * k}`;
+  return (
+    <>
+      <circle cx={cx} cy={cy} r={r} fill="#F97316" />
+      <path d={seams} stroke="#7C2D12" strokeWidth="2" fill="none" />
+    </>
   );
 }

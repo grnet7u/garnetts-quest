@@ -10,6 +10,7 @@ import Hud from "./Hud.jsx";
 import Station from "./Station.jsx";
 import TouchControls from "./TouchControls.jsx";
 import { beep } from "./sound.js";
+import Icon from "../Icon.jsx";
 
 // Тоглоомын горим. Хоёр хэсэгтэй:
 //  1) React — ертөнц, HUD, панелийг зурна. Зөвхөн «үйл явдал» (гол, зоос, панел) болоход шинэчлэгдэнэ.
@@ -326,7 +327,7 @@ export default function Game({ t }) {
           collected.has(skill.id) ? null : (
             <div key={skill.id} className="coin" title={skill.name}
               style={{ left: coinX(i) + "px", "--lift": coinY(i) + "px" }}>
-              {skill.name.slice(0, 2)}
+              <Icon name={skill.icon} />
             </div>
           )
         )}

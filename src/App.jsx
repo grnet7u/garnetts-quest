@@ -3,6 +3,7 @@ import { load, save, defaultLang, defaultTheme } from "./settings.js";
 import { ui } from "./data.js";
 import SimpleMode from "./SimpleMode.jsx";
 import Game from "./game/Game.jsx";
+import Icon from "./Icon.jsx";
 import { setSoundEnabled } from "./game/sound.js";
 
 // Хөдөлгөөн багасгахыг хүссэн хэрэглэгчид (prefers-reduced-motion) энгийн горимоор эхэлнэ
@@ -43,14 +44,14 @@ export default function App() {
         </button>
         {mode === "game" && (
           <button onClick={toggleSound} aria-label={t(sound ? ui.soundOff : ui.soundOn)}>
-            {sound ? "🔊" : "🔇"}
+            <Icon name={sound ? "soundOn" : "soundOff"} size="1.25rem" />
           </button>
         )}
         <button onClick={() => setLang(lang === "mn" ? "en" : "mn")} aria-label={t(ui.langLabel)}>
           {t(ui.langButton)}
         </button>
         <button onClick={() => setTheme(theme === "light" ? "dark" : "light")} aria-label={t(ui.themeLabel)}>
-          {theme === "light" ? "🌙" : "☀"}
+          <Icon name={theme === "light" ? "moon" : "sun"} size="1.25rem" />
         </button>
       </div>
       {mode === "game" ? (

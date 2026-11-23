@@ -79,26 +79,26 @@ export const statusLabels = {
   learning: { mn: "Сурч байгаа", en: "Learning" },
 };
 
-// Технологи бүр тоглоомд нэг «зоос» болно (id давхцахгүй байх ёстой)
+// Технологи бүр тоглоомд нэг «зоос» болно (id давхцахгүй байх ёстой). icon = src/Icon.jsx-ийн нэр
 export const skills = [
-  { id: "html", name: "HTML", group: "frontend", status: "used" },
-  { id: "css", name: "CSS", group: "frontend", status: "used" },
-  { id: "js", name: "JavaScript", group: "frontend", status: "used" },
-  { id: "next", name: "Next.js", group: "frontend", status: "using" },
-  { id: "rn", name: "React Native", group: "frontend", status: "learning" },
-  { id: "php", name: "PHP (MVC)", group: "backend", status: "used" },
-  { id: "laravel", name: "Laravel", group: "backend", status: "learning" },
-  { id: "node", name: "JavaScript back-end", group: "backend", status: "using" },
-  { id: "pg", name: "PostgreSQL", group: "data", status: "using" },
-  { id: "supabase", name: "Supabase", group: "data", status: "using" },
-  { id: "git", name: "Git / GitHub", group: "tools", status: "using" },
-  { id: "vscode", name: "VS Code", group: "tools", status: "using" },
-  { id: "vercel", name: "Vercel", group: "tools", status: "using" },
-  { id: "electron", name: "Electron", group: "tools", status: "used" },
-  { id: "claude", name: "Claude Code", group: "ai", status: "using" },
-  { id: "groq", name: "Groq API", group: "ai", status: "using" },
-  { id: "agent", name: "AI agent", group: "ai", status: "using" },
-  { id: "monolith", name: "Modular monolith", group: "arch", status: "used" },
+  { id: "html", icon: "code", name: "HTML", group: "frontend", status: "used" },
+  { id: "css", icon: "layout", name: "CSS", group: "frontend", status: "used" },
+  { id: "js", icon: "braces", name: "JavaScript", group: "frontend", status: "used" },
+  { id: "next", icon: "layers", name: "Next.js", group: "frontend", status: "using" },
+  { id: "rn", icon: "phone", name: "React Native", group: "frontend", status: "learning" },
+  { id: "php", icon: "server", name: "PHP (MVC)", group: "backend", status: "used" },
+  { id: "laravel", icon: "server", name: "Laravel", group: "backend", status: "learning" },
+  { id: "node", icon: "terminal", name: "JavaScript back-end", group: "backend", status: "using" },
+  { id: "pg", icon: "database", name: "PostgreSQL", group: "data", status: "using" },
+  { id: "supabase", icon: "database", name: "Supabase", group: "data", status: "using" },
+  { id: "git", icon: "branch", name: "Git / GitHub", group: "tools", status: "using" },
+  { id: "vscode", icon: "editor", name: "VS Code", group: "tools", status: "using" },
+  { id: "vercel", icon: "cloud", name: "Vercel", group: "tools", status: "using" },
+  { id: "electron", icon: "atom", name: "Electron", group: "tools", status: "used" },
+  { id: "claude", icon: "spark", name: "Claude Code", group: "ai", status: "using" },
+  { id: "groq", icon: "bolt", name: "Groq API", group: "ai", status: "using" },
+  { id: "agent", icon: "robot", name: "AI agent", group: "ai", status: "using" },
+  { id: "monolith", icon: "blocks", name: "Modular monolith", group: "arch", status: "used" },
 ];
 
 export const skillGroups = {

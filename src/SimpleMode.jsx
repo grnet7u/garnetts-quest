@@ -1,3 +1,4 @@
+import Icon from "./Icon.jsx";
 import { profile, salesJobs, salesSummary, devHistory, skills, skillGroups, statusLabels, projects, awards, contact, ui } from "./data.js";
 
 // «Энгийн горим»: data.js-ийн өгөгдлөөс үүссэн ердийн, семантик хуудас.
@@ -89,7 +90,7 @@ const statusIcon = { used: "✓", using: "●", learning: "◌" };
 export function SkillChip({ skill, t }) {
   return (
     <li className={"chip " + skill.status} title={t(statusLabels[skill.status])}>
-      <span aria-hidden="true">{statusIcon[skill.status]}</span> {skill.name}
+      <span aria-hidden="true">{statusIcon[skill.status]}</span> <Icon name={skill.icon} /> {skill.name}
       <span className="sr-only"> ({t(statusLabels[skill.status])})</span>
     </li>
   );
@@ -128,9 +129,9 @@ export function ProjectCard({ project, t }) {
 export function ContactLinks() {
   return (
     <ul className="contact-links">
-      <li><a href={"mailto:" + contact.email}>✉ {contact.email}</a></li>
-      <li><a href={contact.facebook} target="_blank" rel="noreferrer">Facebook: garnett1027</a></li>
-      {contact.github && <li><a href={contact.github} target="_blank" rel="noreferrer">GitHub</a></li>}
+      <li><a href={"mailto:" + contact.email}><Icon name="mail" /> {contact.email}</a></li>
+      <li><a href={contact.facebook} target="_blank" rel="noreferrer"><Icon name="user" /> Facebook: garnett1027</a></li>
+      {contact.github && <li><a href={contact.github} target="_blank" rel="noreferrer"><Icon name="branch" /> GitHub</a></li>}
     </ul>
   );
 }

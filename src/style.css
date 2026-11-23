@@ -465,6 +465,18 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
 
 .throwing .held-ball { visibility: hidden; }
 
+/* Dribble: алхаж байхад онилох гарын оронд бөмбөг цохиулах гар харагдана.
+   Бөмбөг гараас газар (81 нэгж доош) хүрээд буцна: доош хурдасч (ease-in), дээш удааширна (ease-out) */
+.dribble { display: none; }
+.walking .aim { display: none; }
+.walking .dribble { display: inline; }
+.walking .dribble-ball { animation: dribble 0.36s infinite; }
+@keyframes dribble {
+  0% { transform: translateY(0); animation-timing-function: ease-in; }
+  50% { transform: translateY(81px); animation-timing-function: ease-out; }
+  100% { transform: translateY(0); }
+}
+
 /* ===== Станц = сагсны цагираг. Бүх хэмжээ --k-аас (k=1 үед самбар 180px) ===== */
 .station {
   position: absolute;
@@ -662,3 +674,8 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
   white-space: nowrap;
   animation: toast 2.2s ease-out forwards;
 }
+
+/* Icon: текстийн мөрөнд тэгшлэнэ */
+.icon { display: inline-block; vertical-align: -0.15em; flex: none; }
+button .icon { vertical-align: middle; }
+.coin .icon { width: 1.3rem; height: 1.3rem; }
