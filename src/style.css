@@ -147,6 +147,8 @@ button:hover { border-color: var(--accent); }
   color: var(--ink);
 }
 .social a:hover { border-color: var(--accent); color: var(--accent); }
+.social.big { gap: 1rem; margin-top: 1rem; }
+.social.big a { width: 4rem; height: 4rem; border-width: 2px; }
 
 section { padding: 2.5rem 0 1rem; scroll-margin-top: 5rem; } /* sticky header-ийн доор нуугдахгүй */
 h2 { font-size: 1.75rem; font-weight: 800; margin: 0 0 1rem; }
@@ -180,8 +182,6 @@ h3 { font-size: 1.1rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
 .card h3 { margin-top: 0.75rem; }
 .links { display: flex; gap: 1rem; margin-bottom: 0; }
 
-.contact-links { list-style: none; padding: 0; display: grid; gap: 0.6rem; }
-.contact-links a { overflow-wrap: anywhere; }
 
 /* Footer */
 .site-footer { border-top: 1px solid var(--line); background: var(--accent-2); margin-top: 2rem; }

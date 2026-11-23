@@ -162,32 +162,25 @@ export function ProjectCard({ project, t }) {
   );
 }
 
+// Холбоо барих: текстгүй том icon товчнууд
 export function ContactLinks() {
-  return (
-    <ul className="contact-links">
-      <li><a href={"mailto:" + contact.email}><Icon name="mail" /> {contact.email}</a></li>
-      <li><a href={contact.facebook} target="_blank" rel="noreferrer"><Icon name="facebook" /> Facebook: garnett1027</a></li>
-      {contact.github && (
-        <li><a href={contact.github} target="_blank" rel="noreferrer"><Icon name="github" /> GitHub: grnet7u</a></li>
-      )}
-    </ul>
-  );
+  return <SocialLinks big />;
 }
 
-// Сошиал icon товчнууд (дугуй, ≥44px). Icon-ы утгыг aria-label-аар өгнө
-export function SocialLinks() {
+// big = Холбоо барих хэсгийн том хувилбар. Icon-ы утгыг aria-label ба title (tooltip)-аар өгнө
+export function SocialLinks({ big = false }) {
   const links = [
-    { name: "mail", label: "Email", href: "mailto:" + contact.email },
-    { name: "facebook", label: "Facebook", href: contact.facebook },
-    { name: "github", label: "GitHub", href: contact.github },
+    { name: "mail", label: "Email: " + contact.email, href: "mailto:" + contact.email },
+    { name: "facebook", label: "Facebook: garnett1027", href: contact.facebook },
+    { name: "github", label: "GitHub: grnet7u", href: contact.github },
   ].filter((link) => link.href);
   return (
-    <ul className="social">
+    <ul className={"social" + (big ? " big" : "")}>
       {links.map((link) => (
         <li key={link.name}>
-          <a href={link.href} aria-label={link.label}
+          <a href={link.href} aria-label={link.label} title={link.label}
             {...(link.name === "mail" ? {} : { target: "_blank", rel: "noreferrer" })}>
-            <Icon name={link.name} size="1.25rem" />
+            <Icon name={link.name} size={big ? "1.75rem" : "1.25rem"} />
           </a>
         </li>
       ))}

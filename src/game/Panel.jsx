@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { profile, salesJobs, salesSummary, devHistory, skills, awards, stations, ui } from "../data.js";
-import { SkillChip, ContactLinks, SocialLinks } from "../SimpleMode.jsx";
+import { SkillChip, ContactLinks } from "../SimpleMode.jsx";
 import ProjectCarousel from "../ProjectCarousel.jsx";
 
 // Станц нээгдсэний дараах карт (компьютерт баруун талд, утсанд доороос гарах bottom sheet).
@@ -94,7 +94,6 @@ function PanelContent({ id, collected, t }) {
     <>
       <p className="lead">{t(ui.contactText)}</p>
       <ContactLinks />
-      <SocialLinks />
     </>
   );
 }
