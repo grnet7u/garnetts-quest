@@ -47,7 +47,7 @@ export default function SimpleMode({ t, toolbar }) {
           {Object.entries(skillGroups).map(([group, label]) => (
             <div key={group} className="skill-group">
               <h3>{t(label)}</h3>
-              <ul className="chips">
+              <ul className="chips skill-list">
                 {skills.filter((s) => s.group === group).map((s) => (
                   <SkillChip key={s.id} skill={s} t={t} />
                 ))}
@@ -124,12 +124,17 @@ export function Timeline({ items, t }) {
 
 // Төлөвийг өнгөөр биш, тэмдэг + хүрээний хэлбэрээр ялгана (✓ дүүрсэн, ● хүрээтэй, ◌ тасархай)
 const statusIcon = { used: "✓", using: "●", learning: "◌" };
+// Хувь: data.js-д skill.level өгвөл тэрийг, үгүй бол төлөвөөс нь авна
+const levelByStatus = { used: 90, using: 70, learning: 40 };
 
 export function SkillChip({ skill, t }) {
+  const level = skill.level ?? levelByStatus[skill.status];
   return (
     <li className={"chip " + skill.status} title={t(statusLabels[skill.status])}>
       <span aria-hidden="true">{statusIcon[skill.status]}</span> <Icon name={skill.icon} /> {skill.name}
       <span className="sr-only"> ({t(statusLabels[skill.status])})</span>
+      <span className="bar" aria-hidden="true"><span style={{ width: level + "%" }} /></span>
+      <span className="pct">{level}%</span>
     </li>
   );
 }

@@ -66,7 +66,7 @@ function PanelContent({ id, t }) {
         <p className="lead">{t(stations[2].lead)}</p>
         <History items={devHistory.map((j) => ({ title: t(j.company), meta: [t(j.title), j.period] }))} />
         <h3>{t(ui.nav.skills)} · {skills.length}</h3> {/* оноо биш, нийт ур чадварын тоо */}
-        <ul className="chips">
+        <ul className="chips skill-list">
           {skills.map((s) => (
             <SkillChip key={s.id} skill={s} t={t} />
           ))}
