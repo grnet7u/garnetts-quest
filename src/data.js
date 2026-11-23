@@ -151,14 +151,14 @@ export const projects = [
   },
   {
     id: "ajiltai",
-    title: { mn: "Ажилтай.tech", en: "Ajiltai.tech" },
+    title: { mn: "ajiltAI — бизнесийн AI автоматжуулалт", en: "ajiltAI — AI automation for businesses" },
     description: {
-      mn: "Бизнесийн ажлыг AI агентаар автоматжуулах платформ дээр ажилласан. (Хэрэглэгч өөр төслөөр сольж болно.)",
-      en: "Worked on a platform that automates business tasks with AI agents. (May be swapped for another project.)",
+      mn: "Монголын бизнесүүдэд зориулсан платформ: харилцагчийн чат, цаг захиалга, төлбөр, тайланг нэг систем дотор AI агентаар автоматжуулна. Би энд AI агент хөгжүүлэгчээр ажилласан.",
+      en: "A platform for Mongolian businesses that automates customer chats, bookings, payments and reports in one system with AI agents. I worked on it as an AI agent developer.",
     },
     tech: ["AI agent", "Groq API", "Next.js"],
     image: "/projects/ajiltai.svg",
-    demoUrl: "", // TODO
+    demoUrl: "https://ajiltai.tech/",
     repoUrl: "", // TODO
   },
   {
