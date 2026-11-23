@@ -4,6 +4,7 @@ import { ui } from "./data.js";
 import SimpleMode from "./SimpleMode.jsx";
 import Game from "./game/Game.jsx";
 import Icon from "./Icon.jsx";
+import Flag from "./Flag.jsx";
 import { setSoundEnabled } from "./game/sound.js";
 
 export default function App() {
@@ -43,7 +44,7 @@ export default function App() {
           </button>
         )}
         <button onClick={() => setLang(lang === "mn" ? "en" : "mn")} aria-label={t(ui.langLabel)}>
-          {t(ui.langButton)}
+          <Flag code={lang === "mn" ? "en" : "mn"} /> {/* солих хэлний туг */}
         </button>
         <button onClick={() => setTheme(theme === "light" ? "dark" : "light")} aria-label={t(ui.themeLabel)}>
           <Icon name={theme === "light" ? "moon" : "sun"} size="1.25rem" />

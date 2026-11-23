@@ -283,7 +283,6 @@ export const ui = {
     mn: "Хамтран ажиллах, асуух зүйл байвал бичээрэй.",
     en: "Want to work together or have a question? Get in touch.",
   },
-  langButton: { mn: "EN", en: "МН" },
   langLabel: { mn: "Switch to English", en: "Монгол хэл рүү солих" },
   themeLabel: { mn: "Өдөр/шөнийн горим солих", en: "Toggle light/dark mode" },
   footer: { mn: "Бүх код, зургийг өөрөө хийсэн.", en: "All code and art made by me." },
