@@ -60,6 +60,14 @@ test("Bézier эхлэл ба төгсгөлд таарна, цагирагий�
   assert.ok(rimCenter(5, 1.25).y > rimCenter(0, 0.6).y);
 });
 
+test("дээд (үсэрч авдаг) зоос шидэх бүсэд орохгүй, эс бөгөөс Space шидэлт болж авч чадахгүй", async () => {
+  const { coinX, coinY } = await import("./physics.js");
+  const { skills } = await import("../data.js");
+  skills.forEach((_, i) => {
+    if (coinY(i) > 0) assert.equal(shootZone(coinX(i), 7), -1, "зоос " + i);
+  });
+});
+
 test("доод зоосыг алхаж, дээд зоосыг үсэрч авна", async () => {
   const { coinX, touchesCoin } = await import("./physics.js");
   const walking = { x: coinX(0), y: 0 };

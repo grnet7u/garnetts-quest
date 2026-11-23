@@ -99,6 +99,7 @@ export const skills = [
   { id: "groq", icon: "bolt", name: "Groq API", group: "ai", status: "using" },
   { id: "agent", icon: "robot", name: "AI agent", group: "ai", status: "using" },
   { id: "monolith", icon: "blocks", name: "Modular monolith", group: "arch", status: "used" },
+  { id: "mvc", icon: "mvc", name: "MVC", group: "arch", status: "used" },
 ];
 
 export const skillGroups = {

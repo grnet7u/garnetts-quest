@@ -18,6 +18,7 @@ const paths = {
   bolt: "M13 2 4 14h7l-1 8 9-12h-7l1-8z",
   robot: "M5 8h14v11H5zM12 4v4M9 13h.01M15 13h.01M9 16h6M2 12v3M22 12v3",
   blocks: "M3 3h8v8H3zM13 3h8v8h-8zM3 13h8v8H3zM13 13h8v8h-8z",
+  mvc: "M3 4h7v6H3zM14 4h7v6h-7zM8.5 15h7v6h-7zM6.5 10v2.5h11V10M12 12.5V15", // Model, View, Controller гурван хайрцаг
   // интерфейсийн icon
   sun: "M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4",
   moon: "M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z",
