@@ -158,6 +158,18 @@ export const projects = [
     repoUrl: "", // TODO
   },
   {
+    id: "gastro",
+    title: { mn: "Gastro Catering — байгууллагын катеринг", en: "Gastro Catering — corporate catering" },
+    description: {
+      mn: "Хурал, хүлээн авалт, баяр ёслол, буфетэд хоол хүргэдэг катерингийн компанийн сайт. Үйлчилгээний төрлүүд, каталог, хайлт, цэсний туслахтай; МН/EN хоёр хэл, өдөр/шөнийн горимтой. Бүтээгдэхүүн, зургийг Supabase-ээс уншиж, админ хэсгээс шинэчилдэг.",
+      en: "A website for a catering company that serves meetings, receptions, celebrations and buffets. It has service types, a catalog, search and a menu assistant, in Mongolian and English with light and dark modes. Products and photos load from Supabase and are updated from an admin area.",
+    },
+    tech: ["HTML", "CSS", "JavaScript", "Supabase", "Vercel"],
+    image: "/projects/gastro.jpg", // gastro-catering.vercel.app-ийн дэлгэцийн зураг
+    demoUrl: "https://gastro-catering.vercel.app/",
+    repoUrl: "", // TODO
+  },
+  {
     id: "invoice",
     title: { mn: "Нэхэмжлэхийн апп", en: "Invoice app (Mongolia)" },
     description: {
