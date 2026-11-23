@@ -938,4 +938,12 @@ button.btn { background: var(--bg); color: var(--accent); gap: 0.4rem; }
   .social a::after { content: attr(aria-label); font-weight: 600; }
   .card .links a::after { content: " " attr(href); font-weight: 400; color: var(--muted); }
   .chip.used, .skill-list .skill-bar span { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  /* Шилэн эффект цаасан дээр саарал болдог тул цэвэр цагаан болгоно */
+  .simple .card, .simple .skill-list .chip { background: #ffffff; box-shadow: none; backdrop-filter: none; border-color: var(--line); }
+  /* Холбоо барих мэдээлэл эхэнд аль хэдийн бий → давхардлыг хасна */
+  .site-footer, #contact { display: none !important; }
+  /* Ур чадвар: 2 багана, нягт мөр (4 хуудас биш ~1 хуудас) */
+  .skill-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.2rem 1.5rem; }
+  .simple .skill-list .chip { border: 0; padding: 0.1rem 0; font-size: 0.8rem; break-inside: avoid; }
+  .learn-topic { break-inside: avoid; }
 }
