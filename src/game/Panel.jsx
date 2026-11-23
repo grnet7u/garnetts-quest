@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
-import { profile, salesJobs, salesSummary, devHistory, skills, projects, awards, stations, ui } from "../data.js";
-import { SkillChip, ProjectCard, ContactLinks } from "../SimpleMode.jsx";
+import { profile, salesJobs, salesSummary, devHistory, skills, awards, stations, ui } from "../data.js";
+import { SkillChip, ContactLinks, SocialLinks } from "../SimpleMode.jsx";
+import ProjectCarousel from "../ProjectCarousel.jsx";
 
 // Станц нээгдсэний дараах карт (компьютерт баруун талд, утсанд доороос гарах bottom sheet).
 // Бүтэц: LV · XP шошго, ✕, гарчиг, 1–2 өгүүлбэр, түүхэн жагсаалт, «Үргэлжлүүлэх →» товч.
@@ -77,7 +78,7 @@ function PanelContent({ id, collected, t }) {
     return (
       <>
         <p className="lead">{t(stations[3].lead)}</p>
-        <div className="cards">{projects.map((p) => <ProjectCard key={p.id} project={p} t={t} />)}</div>
+        <ProjectCarousel t={t} />
       </>
     );
   }
@@ -93,6 +94,7 @@ function PanelContent({ id, collected, t }) {
     <>
       <p className="lead">{t(ui.contactText)}</p>
       <ContactLinks />
+      <SocialLinks />
     </>
   );
 }

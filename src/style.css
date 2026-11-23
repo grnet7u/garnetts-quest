@@ -91,13 +91,64 @@ button:hover { border-color: var(--accent); }
 
 /* ===== Энгийн горим ===== */
 .simple { max-width: 60rem; margin: 0 auto; padding: 0 1rem 3rem; }
-.hero { padding: 5rem 0 2rem; border-bottom: 0.1rem solid var(--line); }
-.hero h1 { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 800; line-height: 1.1; margin: 0 0 0.5rem; }
-.role { font-weight: 600; color: var(--accent); margin: 0; }
-.tagline { font-size: 1.15rem; max-width: 40rem; }
-nav { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; margin-top: 1.5rem; }
 
-section { padding: 2.5rem 0 1rem; scroll-margin-top: 1rem; }
+/* Header: дээр наалддаг (sticky) мөр — нэр, nav bar, toolbar */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.bar {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.brand { font-size: 1.25rem; font-weight: 800; color: var(--ink); text-decoration: none; }
+.brand span { color: var(--accent); }
+.site-header nav { flex: 1; }
+.nav-links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; }
+.nav-links a { text-decoration: none; display: inline-block; padding: 0.35rem 0; }
+.nav-links a:hover { text-decoration: underline; }
+.site-header .toolbar { position: static; } /* энгийн горимд header дотор */
+
+.hero { padding: 4rem 0 2.5rem; border-bottom: 0.1rem solid var(--line); }
+.hero h1 { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 800; line-height: 1.1; margin: 0.25rem 0 0.75rem; }
+.role { font-weight: 600; color: var(--accent); margin: 0; }
+.tagline { font-size: 1.15rem; max-width: 40rem; margin: 0 0 1.5rem; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.5rem; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3rem;
+  padding: 0 1.25rem;
+  border-radius: 0.75rem;
+  border: 2px solid var(--accent);
+  text-decoration: none;
+  font-weight: 800;
+}
+.btn.primary { background: var(--accent); color: var(--bg); }
+
+/* Сошиал icon товч */
+.social { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.6rem; }
+.social a {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem; /* ≥44px */
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--accent-2);
+  color: var(--ink);
+}
+.social a:hover { border-color: var(--accent); color: var(--accent); }
+
+section { padding: 2.5rem 0 1rem; scroll-margin-top: 5rem; } /* sticky header-ийн доор нуугдахгүй */
 h2 { font-size: 1.75rem; font-weight: 800; margin: 0 0 1rem; }
 h3 { font-size: 1.1rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
 .list { padding-left: 1.2rem; margin: 0; }
@@ -119,7 +170,6 @@ h3 { font-size: 1.1rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
 .chips.small .chip { font-size: 0.8rem; border-width: 0.08rem; }
 
 /* Бүтээлийн картууд */
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1.25rem; }
 .card {
   border: 0.1rem solid var(--line);
   border-radius: 1rem;
@@ -133,7 +183,90 @@ h3 { font-size: 1.1rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
 .contact-links { list-style: none; padding: 0; display: grid; gap: 0.6rem; }
 .contact-links a { overflow-wrap: anywhere; }
 
-footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1rem; color: var(--muted); font-size: 0.9rem; }
+/* Footer */
+.site-footer { border-top: 1px solid var(--line); background: var(--accent-2); margin-top: 2rem; }
+.footer-grid {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 2rem 1rem 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+}
+.footer-grid p { margin: 0.25rem 0 0; }
+.site-footer .nav-links { flex-direction: column; gap: 0; }
+.footer-bottom {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.footer-bottom a { text-decoration: none; }
+
+/* Бүтээлүүдийн carousel: scroll-snap дээр суурилсан */
+.carousel-track {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  position: relative; /* слайдын offsetLeft-ийг track-аас хэмжинэ */
+}
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-slide { flex: 0 0 100%; scroll-snap-align: start; }
+.carousel-slide .card { height: 100%; box-sizing: border-box; }
+.carousel-controls { display: flex; align-items: center; gap: 0.75rem; margin-top: 1rem; }
+.dots { display: flex; gap: 0.25rem; flex: 1; justify-content: center; }
+.dot {
+  min-width: 2.75rem; /* хүрэх талбай 44px, харагдах цэг жижиг */
+  min-height: 2.75rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  position: relative;
+}
+.dot::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 0.7rem;
+  height: 0.7rem;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+}
+.dot[aria-current="true"]::after { background: var(--accent); width: 1.6rem; border-radius: 99rem; }
+.counter { font-weight: 800; font-size: 0.9rem; color: var(--muted); min-width: 3rem; text-align: center; }
+/* Нарийн утас: тоолуурыг зөвхөн дэлгэц уншигчид үлдээнэ (цэгүүд ижил мэдээлэл өгнө), эс бөгөөс мөр багтахгүй */
+@media (max-width: 30rem) {
+  .counter { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); min-width: 0; }
+  .carousel-controls { gap: 0.25rem; }
+}
+
+/* Өргөн дэлгэц: картад зураг зүүн, текст баруун */
+@media (min-width: 40rem) {
+  .simple .card { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: center; }
+  .simple .card h3 { margin-top: 0; }
+}
+
+/* Утас: header-т эхний мөрөнд нэр + toolbar, хоёр дахь мөрөнд цэс (хэвтээ гүйлгэнэ) */
+@media (max-width: 48rem) {
+  .bar { flex-wrap: wrap; gap: 0.25rem 0.5rem; }
+  .brand { flex: 1; }
+  .site-header nav { order: 3; flex-basis: 100%; min-width: 0; overflow-x: auto; }
+  .site-header .nav-links { flex-wrap: nowrap; white-space: nowrap; }
+  .site-header .toolbar button { min-width: 2.75rem; min-height: 2.75rem; padding: 0 0.6rem; }
+}
 
 /* ===== Тоглоомын горим ===== */
 .game {

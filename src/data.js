@@ -180,7 +180,7 @@ export const awards = [
 export const contact = {
   email: "changaanz7@gmail.com",
   facebook: "https://facebook.com/garnett1027",
-  github: "", // TODO: хэрэглэгч өгнө
+  github: "https://github.com/grnet7u", // энэ төслийн repo байрлах бүртгэл
 };
 
 // Тоглоомын станцууд (дарааллаар). scale = станцын хэмжээ: мэдлэг өсөх тусам цагираг томорно.
@@ -230,6 +230,14 @@ export const ui = {
   themeLabel: { mn: "Өдөр/шөнийн горим солих", en: "Toggle light/dark mode" },
   footer: { mn: "Бүх код, зургийг өөрөө хийсэн.", en: "All code and art made by me." },
   start: { mn: "Эхлэх ▶", en: "Start ▶" },
+  seeProjects: { mn: "Бүтээлүүд харах", en: "See my projects" },
+  menu: { mn: "Үндсэн цэс", en: "Main menu" },
+  footerMenu: { mn: "Доод цэс", en: "Footer menu" },
+  backToTop: { mn: "Дээш буцах", en: "Back to top" },
+  prev: { mn: "Өмнөх бүтээл", en: "Previous project" },
+  next: { mn: "Дараагийн бүтээл", en: "Next project" },
+  goTo: { mn: "Бүтээл рүү очих", en: "Go to project" },
+  projectsLabel: { mn: "Бүтээлүүдийн carousel", en: "Projects carousel" },
   close: { mn: "Хаах", en: "Close" },
   continueTo: { mn: "Үргэлжлүүлэх", en: "Continue" },
   panelKeys: { mn: "Esc: хаах · Enter: дараагийн станц", en: "Esc: close · Enter: next station" },

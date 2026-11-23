@@ -1,23 +1,33 @@
 import Icon from "./Icon.jsx";
-import { profile, salesJobs, salesSummary, devHistory, skills, skillGroups, statusLabels, projects, awards, contact, ui } from "./data.js";
+import ProjectCarousel from "./ProjectCarousel.jsx";
+import { profile, salesJobs, salesSummary, devHistory, skills, skillGroups, statusLabels, awards, contact, ui } from "./data.js";
 
 // «Энгийн горим»: data.js-ийн өгөгдлөөс үүссэн ердийн, семантик хуудас.
 // Тоглоом ажиллахгүй үед ч 5 заавал байх хэсэг бүгд энд харагдана.
-export default function SimpleMode({ t }) {
+// Бүтэц: header (нэр + nav bar + toolbar) → main (hero + 5 хэсэг) → footer.
+export default function SimpleMode({ t, toolbar }) {
   return (
-    <div className="simple">
-      <header className="hero">
-        <h1>{t(profile.name)}</h1>
-        <p className="role">{t(profile.role)} · {t(profile.school)}</p>
-        <p className="tagline">{t(profile.tagline)}</p>
-        <nav aria-label="Sections">
-          {Object.entries(ui.nav).map(([id, label]) => (
-            <a key={id} href={"#" + id}>{t(label)}</a>
-          ))}
-        </nav>
+    <div className="simple-page" id="top">
+      <header className="site-header">
+        <div className="bar">
+          <a className="brand" href="#top">Garnett<span aria-hidden="true">.</span></a>
+          <NavLinks t={t} label={t(ui.menu)} />
+          {toolbar}
+        </div>
       </header>
 
-      <main>
+      <main className="simple">
+        <section className="hero" aria-labelledby="hero-title">
+          <p className="role">{t(profile.role)} · {t(profile.school)}</p>
+          <h1 id="hero-title">{t(profile.name)}</h1>
+          <p className="tagline">{t(profile.tagline)}</p>
+          <div className="hero-actions">
+            <a className="btn primary" href="#projects">{t(ui.seeProjects)}</a>
+            <a className="btn" href="#contact">{t(ui.nav.contact)}</a>
+          </div>
+          <SocialLinks />
+        </section>
+
         <section id="about">
           <h2>{t(ui.nav.about)}</h2>
           <h3>{t(ui.salesTitle)}</h3>
@@ -44,9 +54,7 @@ export default function SimpleMode({ t }) {
 
         <section id="projects">
           <h2>{t(ui.nav.projects)}</h2>
-          <div className="cards">
-            {projects.map((p) => <ProjectCard key={p.id} project={p} t={t} />)}
-          </div>
+          <ProjectCarousel t={t} />
         </section>
 
         <section id="awards">
@@ -65,8 +73,34 @@ export default function SimpleMode({ t }) {
         </section>
       </main>
 
-      <footer>{t(ui.footer)}</footer>
+      <footer className="site-footer">
+        <div className="footer-grid">
+          <div>
+            <a className="brand" href="#top">Garnett<span aria-hidden="true">.</span></a>
+            <p className="muted">{t(profile.role)}</p>
+          </div>
+          <NavLinks t={t} label={t(ui.footerMenu)} />
+          <SocialLinks />
+        </div>
+        <div className="footer-bottom">
+          <span>© 2026 {t(profile.name)} · {t(ui.footer)}</span>
+          <a href="#top"><Icon name="arrowUp" /> {t(ui.backToTop)}</a>
+        </div>
+      </footer>
     </div>
+  );
+}
+
+// Хэсгүүд рүү очих цэс (header ба footer-т давтагдана)
+function NavLinks({ t, label }) {
+  return (
+    <nav aria-label={label}>
+      <ul className="nav-links">
+        {Object.entries(ui.nav).map(([id, text]) => (
+          <li key={id}><a href={"#" + id}>{t(text)}</a></li>
+        ))}
+      </ul>
+    </nav>
   );
 }
 
@@ -112,16 +146,18 @@ export function ProjectCard({ project, t }) {
   return (
     <article className="card">
       <img src={project.image} alt={t(project.title)} width="640" height="360" loading="lazy" />
-      <h3>{t(project.title)}</h3>
-      <p>{t(project.description)}</p>
-      <ul className="chips small">
-        {project.tech.map((name) => <li key={name} className="chip">{name}</li>)}
-      </ul>
-      <p className="links">
-        {project.demoUrl && <a href={project.demoUrl} target="_blank" rel="noreferrer">{t(ui.demo)} ↗</a>}
-        {project.repoUrl && <a href={project.repoUrl} target="_blank" rel="noreferrer">{t(ui.repo)} ↗</a>}
-        {!project.demoUrl && !project.repoUrl && <span className="muted">{t(ui.linkSoon)}</span>}
-      </p>
+      <div className="card-text">
+        <h3>{t(project.title)}</h3>
+        <p>{t(project.description)}</p>
+        <ul className="chips small">
+          {project.tech.map((name) => <li key={name} className="chip">{name}</li>)}
+        </ul>
+        <p className="links">
+          {project.demoUrl && <a href={project.demoUrl} target="_blank" rel="noreferrer">{t(ui.demo)} <Icon name="external" /></a>}
+          {project.repoUrl && <a href={project.repoUrl} target="_blank" rel="noreferrer">{t(ui.repo)} <Icon name="external" /></a>}
+          {!project.demoUrl && !project.repoUrl && <span className="muted">{t(ui.linkSoon)}</span>}
+        </p>
+      </div>
     </article>
   );
 }
@@ -130,8 +166,31 @@ export function ContactLinks() {
   return (
     <ul className="contact-links">
       <li><a href={"mailto:" + contact.email}><Icon name="mail" /> {contact.email}</a></li>
-      <li><a href={contact.facebook} target="_blank" rel="noreferrer"><Icon name="user" /> Facebook: garnett1027</a></li>
-      {contact.github && <li><a href={contact.github} target="_blank" rel="noreferrer"><Icon name="branch" /> GitHub</a></li>}
+      <li><a href={contact.facebook} target="_blank" rel="noreferrer"><Icon name="facebook" /> Facebook: garnett1027</a></li>
+      {contact.github && (
+        <li><a href={contact.github} target="_blank" rel="noreferrer"><Icon name="github" /> GitHub: grnet7u</a></li>
+      )}
+    </ul>
+  );
+}
+
+// Сошиал icon товчнууд (дугуй, ≥44px). Icon-ы утгыг aria-label-аар өгнө
+export function SocialLinks() {
+  const links = [
+    { name: "mail", label: "Email", href: "mailto:" + contact.email },
+    { name: "facebook", label: "Facebook", href: contact.facebook },
+    { name: "github", label: "GitHub", href: contact.github },
+  ].filter((link) => link.href);
+  return (
+    <ul className="social">
+      {links.map((link) => (
+        <li key={link.name}>
+          <a href={link.href} aria-label={link.label}
+            {...(link.name === "mail" ? {} : { target: "_blank", rel: "noreferrer" })}>
+            <Icon name={link.name} size="1.25rem" />
+          </a>
+        </li>
+      ))}
     </ul>
   );
 }

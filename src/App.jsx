@@ -34,10 +34,8 @@ export default function App() {
 
   // t(): { mn, en } объектоос одоогийн хэлний текстийг авна
   const t = (text) => text[lang];
-  const simple = <SimpleMode t={t} />;
-
-  return (
-    <>
+  // Toolbar: тоглоомд баруун дээд буланд хөвнө, энгийн горимд header дотор байрлана
+  const toolbar = (
       <div className="toolbar">
         <button onClick={() => setMode(mode === "game" ? "simple" : "game")}>
           {mode === "game" ? t(ui.toSimple) : t(ui.toGame)}
@@ -54,8 +52,14 @@ export default function App() {
           <Icon name={theme === "light" ? "moon" : "sun"} size="1.25rem" />
         </button>
       </div>
+  );
+  const simple = <SimpleMode t={t} toolbar={toolbar} />;
+
+  return (
+    <>
+      {mode === "game" && toolbar}
       {mode === "game" ? (
-        <FallbackToSimple fallback={simple}>
+        <FallbackToSimple fallback={<SimpleMode t={t} />}>
           <Game t={t} />
         </FallbackToSimple>
       ) : (
