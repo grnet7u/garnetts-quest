@@ -351,7 +351,7 @@ export default function Game({ t }) {
       )}
       {toast && <div key={toast.key} className="toast" role="status">{toast.text}</div>}
       {panel !== -1 && (
-        <Panel index={panel} xp={xp} collected={collected} t={t}
+        <Panel index={panel} xp={xp} t={t}
           onClose={() => setPanel(-1)}
           onContinue={() => { setPanel(-1); travel(panel + 1); }} />
       )}

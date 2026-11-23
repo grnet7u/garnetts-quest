@@ -6,7 +6,7 @@ import ProjectCarousel from "../ProjectCarousel.jsx";
 // Станц нээгдсэний дараах карт (компьютерт баруун талд, утсанд доороос гарах bottom sheet).
 // Бүтэц: LV · XP шошго, ✕, гарчиг, 1–2 өгүүлбэр, түүхэн жагсаалт, «Үргэлжлүүлэх →» товч.
 // Агуулга нь энгийн горимын компонентуудыг дахин ашигладаг (давхардал байхгүй).
-export default function Panel({ index, xp, collected, onClose, onContinue, t }) {
+export default function Panel({ index, xp, onClose, onContinue, t }) {
   const panelRef = useRef(null);
 
   // Нээгдэхэд панел өөрөө focus авна: Tab дарвал доторх товч руу орно, Esc хаана.
@@ -31,7 +31,7 @@ export default function Panel({ index, xp, collected, onClose, onContinue, t }) 
         <button onClick={onClose} aria-label={t(ui.close)}>✕</button>
       </div>
       <h2 id="panel-title">{index === 0 ? t(profile.name) : t(station.label)}</h2>
-      <PanelContent id={station.id} collected={collected} t={t} />
+      <PanelContent id={station.id} t={t} />
       {next && (
         <button className="continue" onClick={onContinue}>
           {t(ui.continueTo)}: {t(next.label)} →
@@ -42,7 +42,7 @@ export default function Panel({ index, xp, collected, onClose, onContinue, t }) 
   );
 }
 
-function PanelContent({ id, collected, t }) {
+function PanelContent({ id, t }) {
   if (id === "start") {
     return (
       <>
@@ -65,7 +65,7 @@ function PanelContent({ id, collected, t }) {
       <>
         <p className="lead">{t(stations[2].lead)}</p>
         <History items={devHistory.map((j) => ({ title: t(j.company), meta: [t(j.title), j.period] }))} />
-        <h3>{t(ui.nav.skills)} · {collected.size}/{skills.length}</h3>
+        <h3>{t(ui.nav.skills)} · {skills.length}</h3> {/* оноо биш, нийт ур чадварын тоо */}
         <ul className="chips">
           {skills.map((s) => (
             <SkillChip key={s.id} skill={s} t={t} />
