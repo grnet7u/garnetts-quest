@@ -229,16 +229,17 @@ export const ui = {
   jump: { mn: "Үсрэх", en: "Jump" },
   soundOn: { mn: "Дуу асаах", en: "Turn sound on" },
   soundOff: { mn: "Дуу унтраах", en: "Turn sound off" },
-  hoopHint: {
-    mn: "🏀 Нууц: панелийг хаагаад цагирагийн дэргэд Space (утсанд ⤒) дараарай.",
-    en: "🏀 Secret: close this panel and press Space (⤒ on phones) near the hoop.",
-  },
+  shootPrompt: { mn: "Space: Шидэх", en: "Space: Shoot" },
+  powerTitle: { mn: "POWER · тод бүсэд Space дар", en: "POWER · press Space in the bright zone" },
+  powerNote: { mn: "2 удаа алдвал дараагийн шидэлтэд тод бүс өргөснө.", en: "Miss twice and the next shot gets a wider zone." },
+  goal: { mn: "Гол! +3 XP", en: "Swish! +3 XP" },
+  wider: { mn: "Тод бүс өргөслөө", en: "Bright zone is wider now" },
   moreSoon: { mn: "Үргэлжлэл бий…", en: "More coming…" },
   soon: { mn: "Удахгүй…", en: "Coming soon…" },
   toSimple: { mn: "Энгийн харах", en: "Simple view" },
   toGame: { mn: "Тоглох", en: "Play" },
   hint: {
-    mn: "← → эсвэл A/D: алхах · Space: үсрэх · Enter: станцад орох",
-    en: "← → or A/D: walk · Space: jump · Enter: open station",
+    mn: "← → эсвэл A/D: алхах · Space: үсрэх / шидэх · Enter: станц нээх",
+    en: "← → or A/D: walk · Space: jump / shoot · Enter: open station",
   },
 };

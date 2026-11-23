@@ -44,17 +44,21 @@ export function cameraFor(x, viewW) {
   return clamp(x - viewW / 2, 0, Math.max(0, WORLD_W - viewW));
 }
 
-// Дүр аль нэг станцын радиус дотор байвал тэр станцын дугаарыг, үгүй бол -1
-export function nearStation(x, count) {
+// Шидэх бүс: дүр цагирагийн өмнө (зүүн талд) 40–420 px зайд зогсвол Space = шидэх.
+// Бүсэд байгаа станцын дугаарыг, үгүй бол -1 буцаана.
+export function shootZone(x, count) {
   for (let i = 0; i < count; i++) {
-    if (Math.abs(x - stationX(i)) < STATION_RADIUS) return i;
+    const sx = stationX(i);
+    if (x > sx - 420 && x < sx - 40) return i;
   }
   return -1;
 }
+// Fast travel хийхэд дүр зогсох газар (шидэх бүсийн дунд)
+export const shootSpot = (i) => stationX(i) - 260;
 
-// «Зоос» (технологи бүр нэг зоос): Хөгжүүлэгч ба Бүтээл станцын хооронд эгнэнэ.
+// «Зоос» (технологи бүр нэг зоос): Хөгжүүлэгч станцын ард, Бүтээлийн шидэх бүсээс өмнө эгнэнэ.
 // Сондгой зоос дээгүүр (110 px) байрладаг тул авахын тулд үсрэх хэрэгтэй.
-export const coinX = (i) => stationX(2) + 170 + i * 48;
+export const coinX = (i) => stationX(2) + 110 + i * 36;
 export const coinY = (i) => (i % 2) * 110;
 
 export function touchesCoin(p, i) {
@@ -67,7 +71,20 @@ export function rimCenter(i, k) {
   return { x: stationX(i) - 120 * k, y: 308 * k };
 }
 
-// Easter egg (түр): Холбоо барих станцын цагираг руу Space-ээр шидэх
-export const HOOP_X = rimCenter(5, 1.25).x;
-export const RIM_H = rimCenter(5, 1.25).y;
-export const inHoopZone = (x) => x > stationX(5) - STATION_RADIUS;
+// ===== Шидэлт =====
+// POWER хэмжигч: тэмдэг 0→1→0 гэж 1.4 секундэд нэг удаа явж ирнэ (гурвалжин долгион)
+export function meterPos(seconds) {
+  const p = (seconds / 1.4) % 1;
+  return p < 0.5 ? p * 2 : 2 - p * 2;
+}
+// Тод бүсийн хагас өргөн: ердийн үед 0.125 (нийтдээ 25%), 2 удаа алдсаны дараа 2 дахин өргөн
+export const zoneHalf = (misses) => (misses >= 2 ? 0.25 : 0.125);
+export const isHit = (pos, misses) => Math.abs(pos - 0.5) <= zoneHalf(misses);
+
+// Quadratic Bézier: эхлэл p0, хяналтын цэг p1 (нумын орой татагч), төгсгөл p2, t = 0…1
+export function bezier(p0, p1, p2, t) {
+  const u = 1 - t;
+  return { x: u * u * p0.x + 2 * u * t * p1.x + t * t * p2.x, y: u * u * p0.y + 2 * u * t * p1.y + t * t * p2.y };
+}
+// Хоёр цэгийн дундуур, өндрөөс нь дээш arc px-д хяналтын цэг тавина
+export const arcControl = (p0, p2, arc) => ({ x: (p0.x + p2.x) / 2, y: Math.max(p0.y, p2.y) + arc });

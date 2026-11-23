@@ -49,7 +49,7 @@ function PanelContent({ id, collected, onClose, t }) {
     return (
       <>
         <Timeline items={devHistory} t={t} />
-        <h3>{t(ui.nav.skills)} · XP {collected.size}/{skills.length}</h3>
+        <h3>{t(ui.nav.skills)} · {collected.size}/{skills.length}</h3>
         <ul className="chips">
           {skills.map((s) => (
             <SkillChip key={s.id} skill={s} t={t} />
@@ -74,7 +74,6 @@ function PanelContent({ id, collected, onClose, t }) {
     <>
       <p>{t(ui.contactText)}</p>
       <ContactLinks />
-      <p className="muted">{t(ui.hoopHint)}</p>
     </>
   );
 }

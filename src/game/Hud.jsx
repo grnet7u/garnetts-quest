@@ -1,9 +1,9 @@
-import { stations, skills, ui } from "../data.js";
+import { stations, ui } from "../data.js";
 
 // Workflow HUD (n8n маягийн диаграм): зангилаа = станц, утас = тэдгээрийн хоорондох шугам.
 // Төлөв: locked (очоогүй), active (одоо энд), done (очсон, ✓).
 // Зангилаа дээр дарвал дүр тэр станц руу шууд очно (fast travel).
-export default function Hud({ current, visited, collected, packet, log, onTravel, t }) {
+export default function Hud({ current, visited, xp, packet, log, onTravel, t }) {
   return (
     <div className="hud">
       <ol className="flow" aria-label={t(ui.workflow)}>
@@ -36,7 +36,7 @@ export default function Hud({ current, visited, collected, packet, log, onTravel
         })}
       </ol>
       <div className="side">
-        <span className="xp">XP {collected.size}/{skills.length}</span>
+        <span className="xp">XP {xp}/18</span>
         <ul className="log" aria-live="polite">
           {log.slice(-3).map((line) => <li key={line.id}>{line.text}</li>)}
         </ul>

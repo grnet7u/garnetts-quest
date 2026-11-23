@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { stations, skills, ui } from "../data.js";
-import { step, cameraFor, nearStation, stationX, coinX, coinY, touchesCoin, WORLD_W, HOOP_X, RIM_H, inHoopZone } from "./physics.js";
+import {
+  step, cameraFor, stationX, coinX, coinY, touchesCoin, WORLD_W,
+  shootZone, shootSpot, rimCenter, meterPos, isHit, zoneHalf, bezier, arcControl,
+} from "./physics.js";
 import Character from "./Character.jsx";
 import Panel from "./Panel.jsx";
 import Hud from "./Hud.jsx";
@@ -9,28 +12,32 @@ import TouchControls from "./TouchControls.jsx";
 import { beep } from "./sound.js";
 
 // Тоглоомын горим. Хоёр хэсэгтэй:
-//  1) React — ертөнц, HUD, панелийг зурна. Зөвхөн «үйл явдал» (станцад хүрэх, зоос авах) болоход шинэчлэгдэнэ.
-//  2) Game loop (requestAnimationFrame) — секундэд ~60 удаа дүр, camera-г DOM дээр шууд хөдөлгөнө.
-//     60 удаа React render хийх шаардлагагүй тул state биш, ref ашиглана.
+//  1) React — ертөнц, HUD, панелийг зурна. Зөвхөн «үйл явдал» (гол, зоос, панел) болоход шинэчлэгдэнэ.
+//  2) Game loop (requestAnimationFrame) — секундэд ~60 удаа дүр, бөмбөг, camera, POWER тэмдгийг
+//     DOM дээр шууд хөдөлгөнө. 60 удаа React render хийх шаардлагагүй тул state биш, ref ашиглана.
 export default function Game({ t }) {
   const stageRef = useRef(null);
   const worldRef = useRef(null);
   const playerRef = useRef(null);
+  const ballRef = useRef(null);
+  const markerRef = useRef(null);
 
-  // Дүрийн төлөв (game loop өөрчилнө). Эхлээд Start станц дээр зогсоно
-  const player = useRef({ x: stationX(0), y: 0, vx: 0, vy: 0, facing: 1, onGround: true }).current;
-  // Товчны төлөв. Гар (keyboard) болон утасны товч энийг өөрчилнө
+  // Дүрийн төлөв (game loop өөрчилнө). Эхлээд Start станцын өмнө зогсоно
+  const player = useRef({ x: shootSpot(0), y: 0, vx: 0, vy: 0, facing: 1, onGround: true }).current;
+  // Товчны төлөв. Гар (keyboard) болон утасны товч энийг өөрчилнө. jump = Space / Shoot товч
   const input = useRef({ left: false, right: false, jump: false, enter: false }).current;
+  // Шидэлтийн төлөв: aim = POWER хэмжигч ажиллаж байна, flight = бөмбөг нисэж байна
+  const shot = useRef({ aim: null, flight: null, misses: 0 }).current;
 
   // React state: дэлгэц дээр харагдах зүйлс
   const [panel, setPanel] = useState(0); // нээлттэй панелийн станц (-1 = хаалттай). Эхлэхэд Start нээлттэй
-  const [current, setCurrent] = useState(0); // дүр одоо аль станц дээр байгаа (-1 = замд)
+  const [current, setCurrent] = useState(0); // дүр аль станцын шидэх бүсэд байгаа (-1 = замд)
   const [visited, setVisited] = useState(() => new Set([0]));
   const [collected, setCollected] = useState(() => new Set());
   const [packet, setPacket] = useState({ to: -1, key: 0 });
-  const [log, setLog] = useState([{ id: 0, text: "▶ run: Start" }]);
-  const [shot, setShot] = useState(null); // нисэж буй бөмбөг { key, x, dx }
-  const [swishes, setSwishes] = useState(0); // хэдэн удаа цагирагт оруулсан
+  const [log, setLog] = useState([{ id: 0, text: "✔ success: Start" }]);
+  const [aiming, setAiming] = useState(null); // POWER хэмжигч харагдах эсэх { half } эсвэл null
+  const [goal, setGoal] = useState(null); // «Гол! +3 XP» шошго { key, i }
   const [toast, setToast] = useState(null); // жижиг мэдэгдэл { key, text }
 
   // Game loop нь нэг л удаа эхэлдэг тул хамгийн сүүлийн утгыг ref-ээр уншина
@@ -40,23 +47,41 @@ export default function Game({ t }) {
   function addLog(text) {
     setLog((lines) => [...lines, { id: Date.now() + Math.random(), text }]);
   }
-
   function showToast(text) {
     setToast((old) => ({ key: (old?.key ?? 0) + 1, text }));
   }
 
-  // Станц нээх: панел гаргаж, workflow-д «run → success» бичиж, packet гүйлгэнэ
-  function openStation(i) {
-    // Бэлэн биш станц: панел биш, «Удахгүй…» мэдэгдэл
-    if (stations[i].built === false) return showToast(live.current.t(ui.soon));
-    setPanel(i);
-    setCurrent(i);
+  // Станцыг «дууссан» болгох: HUD-д ✓, утсаар packet гүйнэ, log-д success
+  function markDone(i) {
     if (live.current.visited.has(i)) return;
     setVisited((old) => new Set(old).add(i));
     setPacket((old) => ({ to: i, key: old.key + 1 }));
-    beep(660, 160);
-    addLog("▶ run: " + live.current.t(stations[i].label));
-    setTimeout(() => addLog("✔ success"), 700);
+    addLog("✔ success: " + live.current.t(stations[i].label));
+  }
+
+  // Шидэлтгүйгээр шууд нээх (Enter, «Үргэлжлүүлэх»)
+  function openStation(i) {
+    if (stations[i].built === false) return showToast(live.current.t(ui.soon));
+    markDone(i);
+    setCurrent(i);
+    setPanel(i);
+  }
+
+  // Гол орсон: самбар гэрэлтэж, шошго гарч, хэсэг хугацааны дараа панел нээгдэнэ
+  function score(i) {
+    shot.misses = 0;
+    setGoal((old) => ({ key: (old?.key ?? 0) + 1, i }));
+    beep(988);
+    setTimeout(() => beep(1319, 150), 110);
+    markDone(i);
+    setTimeout(() => setPanel(i), 700);
+  }
+
+  function miss() {
+    shot.misses += 1;
+    addLog("✖ miss");
+    beep(220, 160);
+    if (shot.misses === 2) showToast(live.current.t(ui.wider));
   }
 
   function collect(index) {
@@ -66,34 +91,24 @@ export default function Game({ t }) {
     beep(880);
   }
 
-  // Easter egg: бөмбөг шидэх. Бөмбөгний нислэгийг CSS анимэйшн хийнэ (доорх .shot),
-  // энд зөвхөн хаанаас, хэр хол шидэхийг тооцоод 0.85 секундийн дараа «Swish!» бичнэ.
-  function shoot() {
-    const dx = HOOP_X - player.x;
-    player.facing = dx >= 0 ? 1 : -1;
-    setShot((old) => ({ key: (old?.key ?? 0) + 1, x: player.x, dx }));
-    playerRef.current.classList.add("throwing"); // гартаа барьсан бөмбөгийг нуух
-    beep(440);
-    setTimeout(() => {
-      playerRef.current?.classList.remove("throwing");
-      setSwishes((n) => n + 1);
-      addLog("🏀 Swish!");
-      beep(988);
-      setTimeout(() => beep(1319, 150), 110);
-    }, 850);
-  }
-
-  // Fast travel: HUD-ийн зангилаа дээр дарахад тэр станц руу шууд очно
+  // Fast travel: HUD-ийн зангилаа дээр дарахад тэр станцын шидэх газар руу шууд очно
   function travel(i) {
-    player.x = stationX(i);
+    shot.aim = null;
+    setAiming(null);
+    player.x = shootSpot(i);
     player.y = 0;
-    openStation(i);
+    setCurrent(i);
+    if (stations[i].built === false) showToast(live.current.t(ui.soon));
   }
 
   // Гарын товч
   useEffect(() => {
     function onKey(event, isDown) {
-      if (event.key === "Escape") return setPanel(-1);
+      if (event.key === "Escape") {
+        shot.aim = null; // онилж байсныг цуцална
+        setAiming(null);
+        return setPanel(-1);
+      }
       // Панел нээлттэй, эсвэл товч/холбоос дээр focus байвал дарсан товчийг тэдэнд үлдээнэ.
       // Харин товч суллах (keyup)-ыг үргэлж бүртгэнэ, эс бөгөөс дүр «гацаж» өөрөө алхсаар байна.
       // (window дээр шууд үүссэн event-д closest байхгүй тул ?. ашиглана)
@@ -107,60 +122,129 @@ export default function Game({ t }) {
       else return;
       event.preventDefault(); // хуудас гүйлгэгдэхээс сэргийлнэ
     }
+    // Хулганаар товч дарсны дараа focus-ийг авна, эс бөгөөс дараагийн Space тэр товчийг дахин дарна.
+    // (e.detail > 0 = хулгана/хуруу; клавиатураар дарахад 0 тул клавиатурын хэрэглэгчийн focus хэвээр)
+    function onClick(e) {
+      if (e.detail > 0) e.target.closest?.("button")?.blur();
+    }
     const down = (e) => onKey(e, true);
     const up = (e) => onKey(e, false);
     window.addEventListener("keydown", down);
     window.addEventListener("keyup", up);
+    window.addEventListener("click", onClick);
     return () => {
       window.removeEventListener("keydown", down);
       window.removeEventListener("keyup", up);
+      window.removeEventListener("click", onClick);
     };
-  }, [input]);
+  }, [input, shot]);
 
   // Game loop
   useEffect(() => {
     let last = performance.now();
     let frameId;
-    let lastNear = 0;
-    let lastShot = 0;
+    let lastZone = 0;
+    let prevJump = false;
 
     function frame(now) {
       // dt = өмнөх frame-ээс хойш өнгөрсөн секунд (таб нуугдсан үед хэт том болохгүй байлгана)
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
+      // «Дарсан агшин»: өмнөх frame-д дараагүй, одоо дарсан (удаан дарж байхад давтагдахгүй)
+      const pressed = input.jump && !prevJump;
+      prevJump = input.jump;
 
-      // Панел нээлттэй үед дүр зогсоно
+      // Панел нээлттэй үед бүх зүйл зогсоно
       if (live.current.panel === -1) {
-        // Цагирагийн бүсэд Space = шидэх (үсрэхгүй). Секундэд нэгээс олон шидэхгүй
-        if (input.jump && player.onGround && inHoopZone(player.x)) {
-          input.jump = false;
-          if (now - lastShot > 1000) {
-            lastShot = now;
-            shoot();
-          }
+        const zone = shootZone(player.x, stations.length);
+        if (shot.flight) updateFlight(now);
+        else if (shot.aim) updateAim(now, pressed);
+        else {
+          if (pressed && zone !== -1 && player.onGround) startAim(zone, now);
+          // Шидэх бүсэд Space үсрүүлэхгүй
+          step(player, { ...input, jump: input.jump && zone === -1 }, dt);
         }
-        const wasOnGround = player.onGround;
-        step(player, input, dt);
-        if (wasOnGround && !player.onGround) beep(520); // үсэрсэн
-        checkStations();
+        checkZone(zone);
         checkCoins();
       }
       draw();
       frameId = requestAnimationFrame(frame);
     }
 
-    // Станцад хүрсэн эсэх: шинэ станц бол автоматаар нээнэ, очсон бол Enter дарж нээнэ
-    function checkStations() {
-      const near = nearStation(player.x, stations.length);
-      if (near !== lastNear) {
-        lastNear = near;
-        setCurrent(near);
-        if (near !== -1 && !live.current.visited.has(near)) openStation(near);
+    // HUD-ийн «одоогийн» зангилаа ба Enter-ээр шууд нээх
+    function checkZone(zone) {
+      if (zone !== lastZone) {
+        lastZone = zone;
+        setCurrent(zone);
       }
-      if (input.enter && near !== -1) {
+      if (input.enter) {
         input.enter = false;
-        openStation(near);
+        if (zone !== -1) {
+          shot.aim = null;
+          setAiming(null);
+          openStation(zone);
+        }
       }
+      const canShoot = zone !== -1 && stations[zone].built !== false && !shot.aim && !shot.flight;
+      playerRef.current.classList.toggle("can-shoot", canShoot);
+    }
+
+    function startAim(i, now) {
+      if (stations[i].built === false) return showToast(live.current.t(ui.soon));
+      shot.aim = { i, start: now };
+      setAiming({ half: zoneHalf(shot.misses) });
+      addLog("▶ run: " + live.current.t(stations[i].label));
+    }
+
+    // POWER тэмдэг хөдөлнө. Дахин дарахад тэр байрлалаар шиднэ
+    function updateAim(now, pressed) {
+      const pos = meterPos((now - shot.aim.start) / 1000);
+      if (markerRef.current) markerRef.current.style.left = pos * 100 + "%";
+      if (!pressed) return;
+      const { i } = shot.aim;
+      shot.aim = null;
+      setAiming(null);
+      launch(i, isHit(pos, shot.misses), pos < 0.5, now);
+    }
+
+    // Бөмбөгний замыг тооцно: гараас (p0) цагираг руу (p2). Алдвал цагирагийн урд ирмэг
+    // (сул шидсэн) эсвэл самбар (хүчтэй шидсэн) руу очоод буцаж үсэрнэ.
+    function launch(i, hit, short, now) {
+      const k = stations[i].scale;
+      const rim = rimCenter(i, k);
+      const hand = playerRef.current.offsetHeight * 0.85;
+      const p0 = { x: player.x + 20, y: player.y + hand };
+      const p2 = hit ? { x: rim.x, y: rim.y + 8 } : short ? { x: rim.x - 40 * k, y: rim.y } : { x: rim.x + 60 * k, y: rim.y + 50 * k };
+      shot.flight = { i, hit, p0, p1: arcControl(p0, p2, 200), p2, t0: now, dur: 800, bounce: false };
+      player.facing = 1;
+      playerRef.current.classList.add("throwing");
+      beep(440);
+    }
+
+    // Бөмбөгийг Bézier-ийн t (0→1)-ээр хөдөлгөнө
+    function updateFlight(now) {
+      const f = shot.flight;
+      const t = Math.min((now - f.t0) / f.dur, 1);
+      const p = bezier(f.p0, f.p1, f.p2, t);
+      ballRef.current.style.transform = `translate3d(${p.x}px, ${-p.y}px, 0)`;
+      ballRef.current.style.opacity = 1;
+      if (t < 1) return;
+
+      if (f.hit) return endFlight(() => score(f.i));
+      if (!f.bounce) {
+        // Цагираг/самбарт мөргөөд дүр рүү буцаж үсэрнэ
+        const back = { x: player.x + 60, y: 0 };
+        shot.flight = { ...f, p0: f.p2, p1: arcControl(f.p2, back, 80), p2: back, t0: now, dur: 600, bounce: true };
+        return;
+      }
+      endFlight(miss);
+    }
+
+    function endFlight(after) {
+      shot.flight = null;
+      ballRef.current.style.opacity = 0;
+      playerRef.current.classList.remove("throwing");
+      after();
     }
 
     function checkCoins() {
@@ -186,15 +270,18 @@ export default function Game({ t }) {
 
     frameId = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(frameId);
-    // openStation/collect нь зөвхөн setState дууддаг тул loop-ийг дахин эхлүүлэх шаардлагагүй
+    // score/miss/collect нь зөвхөн setState дууддаг тул loop-ийг дахин эхлүүлэх шаардлагагүй
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // XP: бэлэн станц бүрт 3 оноо (6 станц × 3 = 18)
+  const xp = 3 * [...visited].filter((i) => stations[i].built !== false).length;
 
   return (
     <div className="game" ref={stageRef}>
       <div className="sky" />
-      <Skyline className="layer far" count={70} maxH={14} seed={3} />
-      <Skyline className="layer mid" count={90} maxH={9} seed={7} />
+      <Skyline className="layer far" count={80} maxH={14} seed={3} />
+      <Skyline className="layer mid" count={100} maxH={9} seed={7} />
 
       <div className="world" ref={worldRef} style={{ width: WORLD_W + "px" }}>
         <div className="ground">
@@ -203,6 +290,12 @@ export default function Game({ t }) {
         {stations.map((st, i) => (
           <Station key={st.id} station={st} index={i} scored={visited.has(i)} t={t} />
         ))}
+        {goal && (
+          <div key={goal.key} className="goal-pill"
+            style={{ left: stationX(goal.i) + "px", "--k": stations[goal.i].scale }}>
+            {t(ui.goal)}
+          </div>
+        )}
         {skills.map((skill, i) =>
           collected.has(skill.id) ? null : (
             <div key={skill.id} className="coin" title={skill.name}
@@ -211,22 +304,24 @@ export default function Game({ t }) {
             </div>
           )
         )}
-        {swishes > 0 && (
-          <div key={swishes} className="swish" style={{ left: HOOP_X + "px", bottom: `calc(var(--ground-h) + ${RIM_H + 60}px)` }}>
-            SWISH!
-          </div>
-        )}
-        {shot && (
-          <div key={shot.key} className="shot" style={{ left: shot.x + "px", "--dx": shot.dx + "px", "--rim": RIM_H + "px" }}>
-            <div className="shot-ball" />
-          </div>
-        )}
         <div className="player" ref={playerRef}>
+          <span className="prompt">{t(ui.shootPrompt)}</span>
           <Character />
         </div>
+        <div className="ball" ref={ballRef} aria-hidden="true" />
       </div>
 
-      <Hud current={current} visited={visited} collected={collected} packet={packet} log={log} onTravel={travel} t={t} />
+      <Hud current={current} visited={visited} xp={xp} packet={packet} log={log} onTravel={travel} t={t} />
+      {aiming && (
+        <div className="power">
+          <span className="power-title">{t(ui.powerTitle)}</span>
+          <div className="power-bar">
+            <div className="sweet" style={{ left: (0.5 - aiming.half) * 100 + "%", width: aiming.half * 200 + "%" }} />
+            <div className="marker" ref={markerRef} />
+          </div>
+          <span className="power-note">{t(ui.powerNote)}</span>
+        </div>
+      )}
       {toast && <div key={toast.key} className="toast" role="status">{toast.text}</div>}
       {panel !== -1 && <Panel index={panel} collected={collected} onClose={() => setPanel(-1)} t={t} />}
       <p className="hint">{t(ui.hint)}</p>

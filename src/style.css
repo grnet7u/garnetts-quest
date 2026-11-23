@@ -389,44 +389,6 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
   }
 }
 
-/* ===== Easter egg: сагсны цагираг ба шидсэн бөмбөг ===== */
-.swish {
-  position: absolute;
-  transform: translateX(-50%);
-  font-weight: 800;
-  font-size: 1.4rem;
-  color: var(--accent);
-  animation: pop 1.2s ease-out forwards;
-}
-@keyframes pop {
-  from { transform: translateX(-50%) scale(0.4); opacity: 0; }
-  20% { transform: translateX(-50%) scale(1.15); opacity: 1; }
-  to { transform: translateX(-50%) translateY(-1.5rem); opacity: 0; }
-}
-
-/* Бөмбөгний нумэн нислэг: гадна элемент хэвтээ (жигд), дотор нь босоо (дээш удааширч, доош хурдасна).
-   Хоёр хөдөлгөөн нийлээд парабол үүсгэнэ. Цагирагийн голд --dx-ээр хүрнэ. */
-.shot {
-  position: absolute;
-  bottom: calc(var(--ground-h) + 64px);
-  margin-left: -2rem; /* бөмбөгний гол цагирагийн голд таарна */
-  animation: shot-x 0.85s linear forwards;
-}
-@keyframes shot-x { to { transform: translateX(var(--dx)); } }
-.shot-ball {
-  width: 1.4rem;
-  height: 1.4rem;
-  border-radius: 50%;
-  background: #f97316; /* улбар шар зөвхөн цагираг ба бөмбөгөнд */
-  border: 0.15rem solid #7c2d12;
-  animation: shot-y 0.85s forwards;
-}
-@keyframes shot-y {
-  0% { transform: translateY(0); animation-timing-function: ease-out; }
-  60% { transform: translateY(calc((var(--rim) - 64px + 110px) * -1)); animation-timing-function: ease-in; }
-  85% { transform: translateY(calc((var(--rim) - 64px) * -1)); opacity: 1; }
-  100% { transform: translateY(calc((var(--rim) - 120px) * -1)); opacity: 0; }
-}
 .throwing .held-ball { visibility: hidden; }
 
 /* ===== Станц = сагсны цагираг. Бүх хэмжээ --k-аас (k=1 үед самбар 180px) ===== */
@@ -542,4 +504,85 @@ footer { border-top: 0.1rem solid var(--line); margin-top: 2rem; padding-top: 1r
 @keyframes toast {
   0%, 80% { opacity: 1; }
   100% { opacity: 0; }
+}
+
+/* ===== Шидэлт ===== */
+/* «Space: Шидэх» шошго: дүр шидэх бүсэд орвол толгой дээр нь гарна */
+.prompt {
+  position: absolute;
+  bottom: 105%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  padding: 0.5rem 1.1rem;
+  border-radius: 99rem;
+  border: 2px solid var(--accent);
+  background: var(--bg);
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.can-shoot .prompt { display: block; }
+.face-left .prompt { transform: translateX(-50%); }
+
+/* Нисэж буй бөмбөг: байрлалыг JS (Bézier) өгнө, голоор нь төвлөрүүлнэ */
+.ball {
+  position: absolute;
+  left: 0;
+  bottom: var(--ground-h);
+  width: 1.6rem;
+  height: 1.6rem;
+  margin: 0 0 -0.8rem -0.8rem;
+  border-radius: 50%;
+  border: 2px solid #7c2d12;
+  background:
+    linear-gradient(0deg, transparent 46%, #7c2d12 46% 54%, transparent 54%),
+    linear-gradient(90deg, transparent 46%, #7c2d12 46% 54%, transparent 54%),
+    #f97316; /* улбар шар зөвхөн цагираг ба бөмбөгөнд */
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* POWER хэмжигч */
+.power {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--ground-h) - 9rem);
+  transform: translateX(-50%);
+  width: min(25rem, calc(100% - 2rem));
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  color: #ffffff;
+}
+.power-title { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.1em; }
+.power-note { font-size: 0.75rem; font-weight: 600; color: #c7d7f5; }
+.power-bar { position: relative; height: 1.25rem; border-radius: 0.6rem; background: rgba(255, 255, 255, 0.22); }
+.sweet { position: absolute; top: 0; bottom: 0; border-radius: 0.6rem; background: #60a5fa; }
+.marker {
+  position: absolute;
+  top: -0.4rem;
+  width: 0.5rem;
+  height: 2rem;
+  margin-left: -0.25rem;
+  border-radius: 0.25rem;
+  background: #ffffff;
+  border: 2px solid #0b1b3a;
+}
+
+/* «Гол! +3 XP» шошго самбарын дээр */
+.goal-pill {
+  position: absolute;
+  bottom: calc(var(--ground-h) + 404px * var(--k) + 0.75rem);
+  transform: translateX(-50%);
+  padding: 0.45rem 1rem;
+  border-radius: 99rem;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 0.85rem;
+  font-weight: 800;
+  white-space: nowrap;
+  animation: toast 2.2s ease-out forwards;
 }
